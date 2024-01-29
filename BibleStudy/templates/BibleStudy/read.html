@@ -87,7 +87,9 @@
     <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">Save</a>
 </div>
 <br><br>
-<p class="p" onclick="showPopup('5')">{{ data|safe }}</p>
+{% for verse in data %}
+  <p class="p" onclick="showPopup('5')">{{ verse.verse }}</p>
+{% endfor %}
 
 
 <script>
