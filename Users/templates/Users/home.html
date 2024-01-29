@@ -1,0 +1,104 @@
+{% extends 'Users/base.html' %}
+{% load static %}
+{% block content %}
+
+
+  <div class="content-container" style="background-image: url('{% static 'Users\5137843.jpg' %}');">
+      <div class="read-progress">
+        <div class="progress-text">
+          <h5 class="text-center">{{ progress }}<i class="bi bi-perent"></i></h5>
+        </div>
+    </div>
+    
+    
+
+    <div class="todays-word">
+      <h6>Todays Word.</h6>
+      <div class="chapter">{{ word.book }} {{ word.chapter }}:{{ word.verse }}</div>
+      <br>
+      <div class="verse">
+        {{ word.word }}
+      </div>
+      <br>
+      Day {{ word.date|date:"z" }} of 365
+
+    </div>
+
+
+
+
+
+    <div class="event-view">
+      <a href="{% url 'group-id' group.group_id %}" class="no-style">
+        <div class="event-card">
+          <h6><i class="bi bi-book"> </i>Bible Study</h6>
+          <hr class="centered-hr">
+          <div class="">
+            <br>
+            
+            <h5>{{ group }}</h5>
+            <h6>Members - {{ group.members.count }}</h6>
+         
+            <div >
+                {% for member in group.members.all %}
+                  <small class="text-muted">{{ member }}</small>
+                  <br>
+                {% endfor %}
+            </div>
+          
+            
+          </div>
+        </div>
+      </a>
+
+      <a href="{% url 'projects' %}" class="no-style">
+        <div class="event-card">
+          <h6><i class="bi bi-speaker"></i>Church Projects</h6>
+          <hr class="centered-hr">
+          <br>
+
+          <div class="">
+
+            <small>View current running church projects
+
+            </small>
+            <button class="btn btn-dark">View</button>
+
+
+
+          </div>
+
+
+
+        </div>
+      </a>
+
+      <a href="{% url 'charities' %}" class="no-style">
+        <div class="event-card">
+          <h6><i class="bi bi-graph-up-arrow"></i> Charities</h6>
+          <hr class="centered-hr">
+          <br>
+          <div class="">
+            <small>Subject Coverage.</small>
+            <br>
+            <p>View your progress on each subject you have learnt.</p>
+            <!-- <div class="progress">
+              <div class="progress-bar" role="progressbar" style="width: 25%;background-color: purple;"
+                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            </div> -->
+          </div>
+
+        </div>
+      </a>
+      
+
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+{% endblock %}

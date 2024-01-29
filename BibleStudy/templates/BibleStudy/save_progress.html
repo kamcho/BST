@@ -1,0 +1,44 @@
+{% extends 'Users/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<br>
+<br>
+<br><br>
+
+
+<div class="finish-content-container">
+    
+    <div class="container finish-view">
+        {% if not chapter %}
+    
+    
+        {% else %}
+        
+        <div class="finish-content">
+            <h5 class="">Finish Up.</h5>
+            <br>
+            <br>
+            <p>{{ chapter.book }} Chapter {{ chapter.order }}</p>
+        
+            <p>Make sure you have read and understood every aspect of this chapter.</p>
+        
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    <button class="btn btn-warning">Save Progress</button>
+                </form>
+        
+            </div>
+        </div>
+
+    
+    {% endif %}
+ 
+    </div>
+</div>
+
+
+{% endblock %}

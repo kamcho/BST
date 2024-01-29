@@ -1,0 +1,48 @@
+{% extends 'Users/base.html' %}
+
+{% block content %}
+
+<div class="content-container" >
+    <div class="container">
+        <br><br>
+        <div >
+            <div class="dropdown" >
+                <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Verses about {{ topic }}
+                </button>
+                <ul class="dropdown-menu" style="padding: 20px;">
+                <li><a href="{% url 'bookmarks' 'all' %}" class="no-style">All</a></li>
+                <li><a href="{% url 'bookmarks' 'Sin' %}" class="no-style">Sin</a></li>
+                <li><a href="{% url 'bookmarks' 'Marriage' %}" class="no-style">Marriage</a></li>
+                <li><a href="{% url 'bookmarks' 'Living' %}" class="no-style">Living</a></li>
+                <li><a href="{% url 'bookmarks' 'Life.Death' %}" class="no-style">Life/Death</a></li>
+                <li><a href="{% url 'bookmarks' 'Encouragement' %}" class="no-style">Encouragement</a></li>
+                <li><a href="{% url 'bookmarks' 'Thanks Giving' %}" class="no-style">Thanks Giving</a></li>
+                
+                
+                </ul>
+            </div>
+        </div><br>
+        {% for verse in verses %}
+        <h6 style="color: blueviolet;">{{ verse.verse }}</h6>
+        <p style="color:yellowgreen;">{{ verse.word }}</p>
+
+
+    {% endfor %}
+    </div>
+    
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

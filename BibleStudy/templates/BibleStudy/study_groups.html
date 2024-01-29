@@ -1,0 +1,54 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<div class="content-container">
+    <br><br><br>
+    <div class="input-group mb-3  container">
+        <input type="text" class="form-control" placeholder="Faith" aria-label="Server" name="chapter">
+
+        <button class="btn btn-secondary">Search</button>
+      </div>
+      
+    <div class="groups-view">
+        {% for group in groups %}
+        <a href="{% url 'group-id' group.group_id %}" class="no-style">
+            <div class="group-card">
+
+            
+            <br>
+                <div class="group-title">
+                    <h5 >{{ group }}</h5>
+                </div>
+
+                
+
+                <div class="group-leader">
+                    <p>gl {{ group.group_leader.personalprofile.f_name|title }} {{ group.group_leader.personalprofile.l_name.0|title }}
+                        {{ group.group_leader.personalprofile.surname|title }}
+                 </p>
+
+                </div>
+
+                    
+                 <div class="members">
+                    {% for member in group.members.all %}
+                        {{ member }}
+
+                    {% endfor %}
+                 </div>
+                 <div class="group-score">
+                    <button class="btn btn-secondary">100</button>
+                 </div>
+    
+                </div>
+        </a>
+            
+
+    {% endfor %}
+    </div>
+    
+
+</div>
+
+{% endblock %}

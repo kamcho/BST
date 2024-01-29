@@ -1,0 +1,54 @@
+{% extends 'Users/base.html' %}
+
+{% block content %}
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" name="title" value="{{ charity.title }}">
+            <label for="floatingInput">Title</label>
+          </div>
+          <div class="form-floating">
+            <input type="number" class="form-control" id="floatingPassword" value="{{ charity.target }}" name="target">
+            <label for="floatingPassword">Target</label>
+          </div>
+          <br>
+
+          <div class="form-floating">
+            <input type="date" class="form-control" id="floatingPassword" placeholder="12/12/2024" name="date">
+            <label for="floatingPassword">Ends On - {{ charity.closes_on }}</label>
+          </div>
+
+          <br>
+
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave description here" name="description" id="floatingTextarea">{{ charity.description }}</textarea>
+            <label for="floatingTextarea">Description</label>
+          </div>
+          <br>
+
+          <button class="btn btn-warning" style="color: white;" name="update">Update</button> <button class="btn btn-danger" style="color: white;" name="delete">Delete</button>
+
+
+
+
+    </form>
+
+
+
+
+
+</div>
+
+
+{% endblock %}

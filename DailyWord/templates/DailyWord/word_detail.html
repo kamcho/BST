@@ -1,0 +1,35 @@
+{% extends 'Users/base.html' %}
+
+{% block content %}
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+
+
+    <div>
+        <h5>{{ word.book }} {{ word.chapter }}:{{ word.verse }}</h5>
+
+
+        <p>
+            {{ word.word }}
+        </p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button class="btn btn-danger">DELETE</button>
+
+    </form>
+
+
+
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+
+
+<br><br><br><br>
+
+<div class="container">
+    <div class="accordion" id="accordionExample">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                {{ charity.title|title }} - {{ charity.target }}
+            </button>
+            </h2>
+            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <strong>Project: </strong> {{ charity.description }}
+                        <br><br>
+                        <div style="padding: 20px;">
+                            <p >Target  <strong style="padding-left: 70px;">{{ charity.target }}</strong></p>
+                   
+                            <p>Contributions  {{ totals }}</p>
+                            <hr style="width: 330px;">
+                            <p>Balance <strong style="padding-left: 70px;">{{ balance }}</strong></p>
+                        </div>
+                        
+                        {% if totals != 0 %}
+                        <div class="progress" style="width: 60%;color: black;" >
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ charity.target|divide:totals }}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{ charity.target|divide:totals }}%</div>
+                          </div>
+                        {% endif %}
+                        <br>
+                        <a class="btn btn-warning" href="">Balance {{ balance }}</a>
+                    </div>
+            </div>
+        </div>
+    
+    </div>
+<br>
+
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="floatingInput" name="phone" value="{{ user.personalprofile.phone }}" required>
+            <label for="floatingInput">Phone</label>
+          </div>
+          <div class="form-floating">
+            <input type="number" class="form-control" id="floatingPassword" placeholder="30,000" name="amount" required>
+            <label for="floatingPassword">Target</label>
+          </div>
+          <br>
+
+        <button class="btn btn-info">Donate</button>
+
+    </form>
+
+    <div style="padding: 10px;"></div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+
+<div class="content-container" >
+  <div class="container">
+    <br><br>
+    <div style="display: flex;">
+    <div class="dropdown">
+      <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ bible_id }}
+      </button>
+      <ul class="dropdown-menu dropdown-menu-dark">
+        {% for version in versions %}
+          <li value="{{ version }}"><a class="dropdown-item" href="{% url 'read' version book chapter %}">{{ version }}</a></li>
+        {% endfor %}
+        
+      </ul>
+    </div>
+
+    <div class="dropdown" style="padding-left: 10px;">
+      <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ book }}
+      </button>
+      <ul class="dropdown-menu dropdown-menu-dark">
+        {% for book_name in books %}
+          <li value="{{ book_name }}"><a class="dropdown-item" href="{% url 'read' bible_uid book_name chapter %}">{{ book_name }}</a></li>
+        {% endfor %}
+        
+      </ul>
+    </div>
+
+    <div class="dropdown" style="padding-left: 10px;">
+      <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ chapter }}
+      </button>
+      <ul class="dropdown-menu dropdown-menu-dark">
+        {% for chapter in chapters %}
+          <li value="{{ chapter }}"><a class="dropdown-item" href="{% url 'read' bible_uid book chapter.order %}">{{ chapter.order }}</a></li>
+        {% endfor %}
+        
+      </ul>
+    </div>
+    </div>
+    <br><br>
+    
+    <!-- <div class="accordion" id="accordionExample">
+
+      <div class="accordion-item">
+          <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+          <button class="accordion-button collapsed" style="  background-color:rgba(29, 25, 46, .99);color: white;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+              Select Chapter
+          </button>
+          </h2>
+          <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                  <div class="accordion-body" style="background-color: black;">
+                    <div class="chapter-select chapter-select-view">
+                      {% for chapter in count %}
+                      <a href="{% url 'read' bible_uid book chapter %}" class="no-style">
+                        <div class="chapter-button">
+                          <div class="chapter-text">
+                            {{ chapter }}
+                          </div>
+                        </div>
+                      </a>
+              
+                      {% endfor %}
+              
+                  </div>
+                  </div>
+          </div>
+      </div>
+  
+  </div> -->
+    <br>
+    
+
+    
+     
+
+    
+
+<div class="read-view">
+  <div class="text-center">
+    <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">Save</a>
+</div>
+<br><br>
+<p class="p" onclick="showPopup('5')">{{ data|safe }}</p>
+
+
+<script>
+    function showPopup(verseId) {
+        // You can customize the popup content and style
+        alert('Clicked Verse: ' + verseId);
+        // Alternatively, you can use a modal or other UI components for a more sophisticated popup
+        // Example using a simple modal library like SweetAlert:
+        // swal('Clicked Verse', verseId, 'info');
+    }
+</script>
+
+
+    
+
+</div>
+
+
+</div>
+</div>
+
+
+
+
+{% endblock %}

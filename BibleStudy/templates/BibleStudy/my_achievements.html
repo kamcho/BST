@@ -1,0 +1,56 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="content-container">
+
+
+
+    <div class="charities-view">
+        {% for achievement in achievements %}
+          <a  class="no-style">
+            <div class="charity-card">
+                    <img src="{% static 'Users/240_F_139317922_FAWtQJMMVOVvDeM2OVg0ofiwIvBUrrux.jpg' %}">
+
+               <div class="charity-text" style="padding-left: 10px;padding-right: 10px;">
+                <h6 style="color: purple;" >
+                  {{ achievement.achievement.name|title }}
+              </h6>
+              <p>{{ achievement.achievement.description }}</p>
+               </div>
+
+               <div class="text-center" style="font-size: 30px;color: orange;">
+                
+                <div class="btn btn-dark">{{ achievement.achievement.points }}</div>
+
+               </div>
+                
+                
+                
+                
+                  
+            </div>
+          </a>
+
+        {% endfor %}
+
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'Users/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+<br><br><br><br>
+
+<div class="container" >
+
+    <h5>Theme Verse</h5>
+    {{ theme.book }} {{ theme.chapter }}:{{ theme.verse }}
+    <br>
+    <div>
+        {{ theme.word }}
+    </div>
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <select class="form-select" aria-label="Default select example" name="book">
+                {% for book in books %}
+                    <option >{{book}}</option>
+                {% endfor %}
+                
+            </select>
+            <span class="input-group-text">Chapter</span>
+            <input type="number" class="form-control" placeholder="1" aria-label="Server" name="chapter">
+            <span class="input-group-text">Verse</span>
+            <input type="number" class="form-control" placeholder="1" aria-label="Server" name="verse">
+        </div>
+        {% if verse %}
+        
+        {% else %}
+        
+        {% endif %}
+        <div>
+            <button class="btn btn-warning" name="verify" style="color: white;">Set</button>
+
+        </div>
+        <br><br><br><br><br>
+    </form>
+
+    <h5>Messaging</h5>
+    <p>Do you want to receive motivational messages through SMS. Its free for Whatsapp and ksh 1 a day for SMS</p>
+
+    
+    <form method="post">
+        {% csrf_token %}
+        {% if user.messagingsettings.sms %}
+            <input type="checkbox" name="sms" checked>
+            <label>SMS</label>
+        {% else %}
+            <input type="checkbox" name="sms" >
+            <label>SMS</label>
+        {% endif %}
+        {% if user.messagingsettings.whatsapp %}
+            <input type="checkbox" name="whatsapp" checked>
+            <label>WhatsApp</label>
+        {% else %}
+            <input type="checkbox" name="whatsapp" >
+            <label>Whatsapp</label>
+        {% endif %}
+        
+        <br><br>
+        <button class="btn btn-danger" style="color: white;">SAVE</button>
+
+    </form>
+
+    
+</div>
+
+
+{% endblock %}

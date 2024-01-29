@@ -1,0 +1,37 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+
+<div class="content-container">
+    <div style="margin: 40px 4%;">
+        <a class="btn btn-dark">Favourite Bookmarks</a>
+    </div>
+      
+    <div class="groups-view">
+        {% for book in books %}
+        <a href="" class="no-style">
+            <div class="group-card">
+                {{ book.book__name }}
+
+                <div>
+                    {{ book.book__book_id|get_read_count }} % Have read this book
+                </div>
+
+                <div>
+                    {{ book.book__book_id|get_complete_count }}
+                </div>
+            </div>
+            
+
+        </a>
+        
+
+    {% endfor %}
+
+
+
+
+</div>
+
+{% endblock %}

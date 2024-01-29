@@ -1,0 +1,44 @@
+{% extends 'Users/base.html' %}
+
+{% block content %}
+
+
+<div class="group-container">
+    <div class="todays-word">
+        <h6>{{ group }}</h6>
+        <a class="btn btn-secondary" href="{% url 'add-member' group.group_id %}">Add</a>
+
+    
+
+    <h5>Group Pastor - {{ group.group_leader }}</h5>
+
+    <br>
+    <small>Members - {{ group.members.count }}</small>
+
+    </div>
+
+    <h4 style="color: white;" class="text-center">Members</h4>
+
+    <div class="members-view">
+        {% for member in group.members.all %}
+            <div class="user-card">
+                <div class="text-center">
+                    <div class="user-img">
+                        <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D">
+        
+                    </div>
+
+                <a class="no-style">{{ member }}</a>
+                </div>
+                
+
+            </div>
+        {% endfor %}
+        
+    </div>
+    
+
+</div>
+
+
+{% endblock %}

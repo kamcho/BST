@@ -1,0 +1,54 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="content-container">
+
+
+
+    <div class="charities-view">
+        {% for charity in charities %}
+          <a href="{% url 'charity-id' charity.id %}" class="no-style">
+            <div class="charity-card">
+                    <img src="{% static 'Users/240_F_139317922_FAWtQJMMVOVvDeM2OVg0ofiwIvBUrrux.jpg' %}">
+
+               <div class="charity-text">
+                <h6 style="color: purple;" >
+                  {{ charity.title|title }}
+              </h6>
+              <p>{{ charity.description }}</p>
+               </div>
+                
+                <div class="progress-btn">
+                  <div class="progress" style="width: 100%;color: black; margin: 0 auto;" >
+                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ charity.target|get_progress:charity.id }}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                
+                
+                  
+            </div>
+          </a>
+
+        {% endfor %}
+
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}
