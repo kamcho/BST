@@ -105,6 +105,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+     'mysql_db': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kevinnjoroge$biblia',
+        'USER': 'kevinnjoroge',
+        'PASSWORD': '141778215aA!',
+        'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
+        'PORT': '',
     }
 }
 

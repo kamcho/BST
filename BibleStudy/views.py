@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 import requests
 from django.contrib import messages
 from Users.models import MyUser
-from .models import StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
+from .models import BibleVersesKJV, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
 # Create your views here.
 
 uskey = 'd6ce6236fb09203ed8356c4b04c6bd78'
@@ -100,6 +100,7 @@ class Read(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         bible_id = self.kwargs['bible_id']
+        chapter = self.kwargs['chapter']
         bible_id = BibleVersions.objects.get(name=bible_id)
         context['versions'] = BibleVersions.objects.all().order_by('name')
         context['books'] = Books.objects.all().order_by('-order')
@@ -108,20 +109,12 @@ class Read(TemplateView):
         book_count = Books.objects.get(name=book)
         book_name = book_count.book_id
         
-        chapter = self.kwargs['chapter']
-        bookapi = get_matthew_3(bible_id.bible_id,book_name, chapter)
-        verse_count = bookapi[0]+1
-        context['data'] = bookapi[1]
-        count = list(range(1,book_count.chapters))
-        context['count'] = count
+        
+        verse = get_bible_verse_by_id(book_count.order, chapter)
+        context['data']  = verse
 
         try:
-            chapters = Chapters.objects.filter(book__name=book).order_by('order')
-            context['chapters'] = chapters
-            print(book,chapter ,'\n\n\n\n\n')
-            chapter_id = Chapters.objects.get(book__name=book, order=chapter)
-            print(book,chapter_id, chapter, '\n\n\n\n\n')
-            context['chapter_id'] = chapter_id.id
+            pass
         except Chapters.DoesNotExist:
 
             print('error\n\n\n')
@@ -147,33 +140,13 @@ class Read(TemplateView):
 
 
 
-def get_matthew_3(bible_id, book, chapter):
-    api_key = '1cfeb0d5fb47d89b7bb6cef9e8427f6a'  # Replace 'YOUR_API_KEY' with your actual API key from bibleapi.co
-    base_url = f'https://api.scripture.api.bible/v1/bibles/{bible_id}/chapters/{book}.{chapter}'
 
-    headers = {'api-key': '0427945137760de29cd975e25a5b6e36'}
-
+def get_bible_verse_by_id(book, chapter):
     try:
-        response = requests.get(base_url, headers=headers)
-        response.raise_for_status()  # Check for HTTP errors
-
-        data = response.json()
-      
-        
-
-        text_content = data['data']['content']
-        print(text_content)
-
-        count = (data['data']['verseCount'])
-        
-
- 
-        return count, text_content
-
-    except requests.exceptions.RequestException as err:
-
-        print(f"Error fetching Bible verse: {str(err)}")
-        return 10, 'NOT AVAILABLE. RELOAD'
+        verse = BibleVersesKJV.objects.using('mysql_db').get(book=book,chapter=chapter)
+        return verse
+    except BibleVersesKJV.DoesNotExist:
+        return None
 
 class SaveProgress(TemplateView):
     template_name = 'BibleStudy/save_progress.html'

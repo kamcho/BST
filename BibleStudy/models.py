@@ -4,6 +4,17 @@ from django.db import models
 from Users.models import MyUser
 
 # Create your models here.
+class BibleVersesKJV(models.Model):
+    id = models.AutoField(primary_key=True)
+    book = models.PositiveSmallIntegerField()
+    chapter = models.PositiveSmallIntegerField()
+    verse = models.PositiveSmallIntegerField()
+    text = models.TextField()
+
+    class Meta:
+        db_table = 'bible_verses_kjv'
+        managed = False
+
 
 class Books(models.Model):
     choices = (
