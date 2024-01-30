@@ -279,32 +279,33 @@ class TopicalBookMark(TemplateView):
     
 
 
-@require_POST
+
 
 def create_bookmark(request):
-    verse_id = request.POST.get('verse_id')
+    
     print('hello wrld \n\n\n\n\n')
+    book = request.POST.get('book')
+    chapter = request.POST.get('chapter')
+    verse = request.POST.get('verse_id')
+    user = request.POST.get('user')
 
-    if verse_id:
+    if verse:
         # Convert user_id to an integer
 
         # Check if the user is authenticated (you can modify this logic as needed)
-        if request.user.is_authenticated :
-            # Get the current logged-in user
-            user = request.user
+    
 
-            # Create a bookmark
-            bookmark = BookMarks.objects.create(
-                user=user,
-                verse=f"{request.POST.get('book', '')} {request.POST.get('chapter', '')}:{verse_id}",
-                word=request.POST.get('word', None),
-            )
+        # Create a bookmark
+        user = request.user
+        bookmark = BookMarks.objects.create(
+            user=user,
+            verse=f"{book} {chapter}:{verse}",
+            word='pass',
+        )
 
-            # Optionally, return additional data in the JSON response
-            return JsonResponse({'success': True, 'message': 'Bookmark created successfully'})
-        else:
-            # Handle the case when the user is not authenticated or user_id doesn't match
-            return JsonResponse({'success': False, 'message': 'User not authenticated or invalid user_id'})
+        # Optionally, return additional data in the JSON response
+        return JsonResponse({'success': True, 'message': 'Bookmark created successfully'})
+        
     else:
         # Handle the case when user_id or verse_id is not provided
         return JsonResponse({'success': False, 'message': 'user_id or verse_id not provided'})

@@ -80,13 +80,16 @@
     <span class="visually-hidden">Loading...</span>
   </div>
   <h6 style="color:fuchsia;"><i class="bi bi-bookmark"> </i>BookMark</h6>
-  <form method="post">
-    {% csrf_token %}
-    <input name="verse" id ='verse'>
+  
+    <input name="verse" id ='verse' style="display: none;">
     <p>Add <strong style="color: coral;">{{ book }} {{ chapter }}:<span id="clickedVerse"></span></strong> to bookmark.</p>
+    <div class="bookmark-btn">
+      <button  class="btn btn-info" id="saveBookmarkBtn">Save</button>
+      <button class="btn btn-danger" id="cancel">Cancel</button>
+    </div>
 
-    <button  class="btn btn-danger bookmark-btn" itemid="saveBookmarkBtn">Save</button>
-  </form>
+    
+
 
   <!-- Use a span to display the clicked verse ID dynamically -->
   
@@ -103,15 +106,63 @@
 
       // Set the value of the hidden input for the verse ID
       $('#clickedVerse').val(verseId);
+      $('#clickedVerse').text(verseId);
       $('#verse').val(verseId);
+      var x = event.pageX;
+      var y = event.pageY;
 
+      // Set the position of the bookmark card
+      $('#bookmark').css({
+          position: 'absolute',
+          top: y + 'px',
+          left: x + 'px',
+          display: 'block',
+      });
 
       // Show the bookmark form
       $('#bookmark').show();
   }
 
-        
+  $(document).ready(function () {
+        // Get the CSRF token using Django's template tag
+        var csrftoken = "{{ csrf_token }}";
+
+        $('#saveBookmarkBtn').on('click', function () {
+            // Get the values you want to send
+            var verseId = $('#clickedVerse').val();
+            var book = "{{ book }}";
+            var chapter = "{{ chapter }}";
+            var user = "{{ user }}";
+
+            // AJAX request
+            $.ajax({
+                url: '{% url "bookmark" %}',  // Replace with your actual URL
+                method: 'POST',
+                data: {
+                    'book': book,
+                    'chapter': chapter,
+                    'verse_id': verseId,
+                    'user': user,
+                    // Add more variables if needed
+                },
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                success: function (data) {
+                    // Handle success response
+                    console.log('Bookmark saved successfully');
+                    // Optionally, you can perform additional actions here
+                },
+                error: function (error) {
+                    // Handle error response
+                    console.error('Error saving bookmark:', error);
+                    // Optionally, you can display an error message or perform other actions
+                }
+            });
+        });
+    });
 </script>
+
 </div>
 
 

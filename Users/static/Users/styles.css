@@ -765,10 +765,11 @@ border-width: 13px solid green;
     width: 85%;
     height: 400px;
     margin: 30px auto 60px auto;
-    background-color:white;
+    background-color:rgb(255, 255, 255);
     height: 450px;
     border: 1px solid #ccc;
     overflow: hidden;
+    
    
 }
 
