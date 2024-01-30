@@ -163,7 +163,7 @@ class Read(TemplateView):
 
 def get_bible_verse_by_id(book, chapter):
     try:
-        verse = BibleVersesKJV.objects.using('mysql_db').filter(book=book,chapter=chapter)
+        verse = BibleVersesKJV.objects.filter(book=book,chapter=chapter)
         return verse
     except BibleVersesKJV.DoesNotExist:
         return None
