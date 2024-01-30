@@ -41,5 +41,4 @@ path('password-reset/', auth_views.PasswordResetView.as_view(template_name='User
 
 
 
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
