@@ -1,4 +1,5 @@
-from bs4 import BeautifulSoup
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 import requests
@@ -129,12 +130,31 @@ class Read(TemplateView):
     
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
-            bible_id = self.request.POST.get('bible')
+            verse_id = self.request.POST.get('verse')
             book = self.kwargs['book']
+            chapter = self.kwargs['chapter']
+            try:
+                print('try \n\n\n')
 
+                if verse_id:
+                
+                    user = self.request.user
+
+                # Create a bookmark
+                    bookmark = BookMarks.objects.create(
+                        user=user,
+                        verse=f"{book} {chapter}:{verse_id}",
+                        word='neno',
+                )
+                    
+                    messages.success(self.request, 'Success')
+            except Exception as e:
+                messages.success(self.request, (str(e)))
 
 
             return redirect(self.request.get_full_path())
+
+
 
 
 
@@ -256,6 +276,39 @@ class TopicalBookMark(TemplateView):
         context['verses'] = bm
 
         return context
+    
+
+
+@require_POST
+
+def create_bookmark(request):
+    verse_id = request.POST.get('verse_id')
+    print('hello wrld \n\n\n\n\n')
+
+    if verse_id:
+        # Convert user_id to an integer
+
+        # Check if the user is authenticated (you can modify this logic as needed)
+        if request.user.is_authenticated :
+            # Get the current logged-in user
+            user = request.user
+
+            # Create a bookmark
+            bookmark = BookMarks.objects.create(
+                user=user,
+                verse=f"{request.POST.get('book', '')} {request.POST.get('chapter', '')}:{verse_id}",
+                word=request.POST.get('word', None),
+            )
+
+            # Optionally, return additional data in the JSON response
+            return JsonResponse({'success': True, 'message': 'Bookmark created successfully'})
+        else:
+            # Handle the case when the user is not authenticated or user_id doesn't match
+            return JsonResponse({'success': False, 'message': 'User not authenticated or invalid user_id'})
+    else:
+        # Handle the case when user_id or verse_id is not provided
+        return JsonResponse({'success': False, 'message': 'user_id or verse_id not provided'})
+
 
 class MyBookMarks(TemplateView):
     template_name = 'BibleStudy/my_bookmarks.html'

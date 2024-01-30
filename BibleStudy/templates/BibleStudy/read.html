@@ -14,7 +14,7 @@
       </button>
       <ul class="dropdown-menu dropdown-menu-dark">
         {% for version in versions %}
-          <li value="{{ version }}"><a class="dropdown-item" href="{% url 'read' version book chapter %}">{{ version }}</a></li>
+          <li ><a class="dropdown-item" href="{% url 'read' version book chapter %}">{{ version }}</a></li>
         {% endfor %}
         
       </ul>
@@ -26,7 +26,7 @@
       </button>
       <ul class="dropdown-menu dropdown-menu-dark">
         {% for book_name in books %}
-          <li value="{{ book_name }}"><a class="dropdown-item" href="{% url 'read' bible_uid book_name chapter %}">{{ book_name }}</a></li>
+          <li ><a class="dropdown-item" href="{% url 'read' bible_uid book_name chapter %}">{{ book_name }}</a></li>
         {% endfor %}
         
       </ul>
@@ -38,7 +38,7 @@
       </button>
       <ul class="dropdown-menu dropdown-menu-dark">
         {% for chapter in chapters %}
-          <li value="{{ chapter }}"><a class="dropdown-item" href="{% url 'read' bible_uid book chapter.order %}">{{ chapter.order }}</a></li>
+          <li ><a class="dropdown-item" href="{% url 'read' bible_uid book chapter.order %}">{{ chapter.order }}</a></li>
         {% endfor %}
         
       </ul>
@@ -46,34 +46,7 @@
     </div>
     <br><br>
     
-    <!-- <div class="accordion" id="accordionExample">
 
-      <div class="accordion-item">
-          <h2 class="accordion-header" id="heading{{ forloop.counter }}">
-          <button class="accordion-button collapsed" style="  background-color:rgba(29, 25, 46, .99);color: white;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
-              Select Chapter
-          </button>
-          </h2>
-          <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
-                  <div class="accordion-body" style="background-color: black;">
-                    <div class="chapter-select chapter-select-view">
-                      {% for chapter in count %}
-                      <a href="{% url 'read' bible_uid book chapter %}" class="no-style">
-                        <div class="chapter-button">
-                          <div class="chapter-text">
-                            {{ chapter }}
-                          </div>
-                        </div>
-                      </a>
-              
-                      {% endfor %}
-              
-                  </div>
-                  </div>
-          </div>
-      </div>
-  
-  </div> -->
     <br>
     
 
@@ -87,20 +60,12 @@
     <a class="btn btn-info" >Save</a>
 </div>
 <br><br>
-{% for verse in data %}
-  <p class="p" onclick="showPopup('{{ verse.verse }}')">{{ verse.verse }} {{ verse.text }}</p>
-{% endfor %}
+  {% for verse in data %}
+    <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ verse.verse }} {{ verse.text }}</p>
+  {% endfor %}
+  
 
 
-<script>
-    function showPopup(verseId) {
-        // You can customize the popup content and style
-        alert('Clicked Verse: ' + verseId);
-        // Alternatively, you can use a modal or other UI components for a more sophisticated popup
-        // Example using a simple modal library like SweetAlert:
-        // swal('Clicked Verse', verseId, 'info');
-    }
-</script>
 
 
     
@@ -109,7 +74,46 @@
 
 
 </div>
+
+<div class="bookmark-card" id="bookmark" style="display: none;">
+  <div class="spinner-grow text-danger top-right" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <h6 style="color:fuchsia;"><i class="bi bi-bookmark"> </i>BookMark</h6>
+  <form method="post">
+    {% csrf_token %}
+    <input name="verse" id ='verse'>
+    <p>Add <strong style="color: coral;">{{ book }} {{ chapter }}:<span id="clickedVerse"></span></strong> to bookmark.</p>
+
+    <button  class="btn btn-danger bookmark-btn" itemid="saveBookmarkBtn">Save</button>
+  </form>
+
+  <!-- Use a span to display the clicked verse ID dynamically -->
+  
 </div>
+
+
+
+<script>
+  function showPopup(verseId) {
+      // ... your existing code
+      // Assuming you have the following context variables
+      var book = "{{ book }}";
+      var chapter = "{{ chapter }}";
+
+      // Set the value of the hidden input for the verse ID
+      $('#clickedVerse').val(verseId);
+      $('#verse').val(verseId);
+
+
+      // Show the bookmark form
+      $('#bookmark').show();
+  }
+
+        
+</script>
+</div>
+
 
 
 
