@@ -1,0 +1,50 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+    <div class="container">
+
+
+        <div class="accordion" id="accordionFlushExample">
+            {% for book in books %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ book.id }}" aria-expanded="false" aria-controls="flush-collapse{{ book.id }}">
+                            {{ book }}
+                        </button>
+                    </h2>
+                    <div id="flush-collapse{{ book.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="accordion-body">
+                                <div class="chapter-select">
+                                    {% with book|get_chapters as chapters %}
+                                        {% for chapter in chapters %}
+                                            <div class="chapter-button">
+                                                <div class="chapter-text">
+                                                    {{ chapter }}
+                                                </div>
+                                                
+                                            </div>
+                                        {% endfor %}
+                        
+                                    {% endwith %}
+                        
+                                </div>
+                            </div>                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        
+
+               <div style="display: table-cell;">
+.
+               </div>
+
+    </div>
+
+    
+{% endblock %}
+        

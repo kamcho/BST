@@ -1,0 +1,21 @@
+{% extends 'Users/base.html' %}
+
+{% block content %}
+
+<br><br><br><br>
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        {% for request in requests %}
+        <input name="clicked" value="{{ request.group }}" style="display: none;">
+        <p>{{ request.user }} wants to join {{ request.group }}</p> <button class="btn btn-dark">Approve</button>
+
+    {% endfor %}
+
+    </form>
+
+    
+
+</div>
+
+{% endblock %}

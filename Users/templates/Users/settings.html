@@ -8,7 +8,9 @@
 <div class="container" >
 
     <h5>Theme Verse</h5>
+    {% if theme %}
     {{ theme.book }} {{ theme.chapter }}:{{ theme.verse }}
+    {% endif %}
     <br>
     <div>
         {{ theme.word }}

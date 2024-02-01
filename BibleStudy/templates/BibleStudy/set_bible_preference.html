@@ -5,10 +5,11 @@
 
 <div class="container">
 
-<br><br><br><br><br><br>
+<br><br><br><br>
+{% if preference %}
 
-<div class="btn btn-dark">Default Bible - {{ preference.default_bible }}
-</div>
+<div class="btn btn-dark">Default Bible - {{ preference.default_bible }}</div>
+{% endif %}
 <br><br><br>
 <form method="post">
     {% csrf_token %}

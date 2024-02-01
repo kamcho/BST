@@ -95,8 +95,9 @@ class BibleVersions(models.Model):
 
 class UserPreference(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
-    default_bible = models.ForeignKey(BibleVersions, on_delete=models.CASCADE)
+    default_bible = models.ForeignKey(BibleVersions, null=True, on_delete=models.CASCADE)
     profile_visibility = models.BooleanField(default=True)
+    daily_target = models.PositiveIntegerField(default=5)
 
     def __str__(self):
         return str(self.user)
@@ -111,8 +112,22 @@ class StudyGroups(models.Model):
     def __str__(self):
         return str(self.group_name)
     
+class JoinRequests(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    group = models.ForeignKey(StudyGroups, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.user)
+    
+    class Meta:
+        unique_together = ('user', 'group')
+
+
+    
 
 class Achievements(models.Model):
+    identifier = models.PositiveIntegerField(default=12)
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=300)
     points = models.PositiveIntegerField()
@@ -126,8 +141,20 @@ class MyAchievements(models.Model):
 
     def __str__(self):
         return str(self.user)
-
-
+    
+    class Meta:
+        unique_together = ('user', 'achievement')
     
 
+
+class CBR(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    date = models.DateField(auto_now=True)
+    read_count = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return str(self.user)
+    
+    class Meta:
+        unique_together = ('user','date')
     

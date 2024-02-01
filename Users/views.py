@@ -11,7 +11,7 @@ from django.db.models import Count
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import TemplateView
 import requests
-from BibleStudy.models import Books, Chapters, StudyGroups, progress, Chapters
+from BibleStudy.models import BibleVersesKJV, Books, Chapters, StudyGroups, UserPreference, progress, Chapters
 from Communication.models import MessagingSettings
 from DailyWord.models import DailyMessage
 from django.db.models import Sum
@@ -71,7 +71,7 @@ class RegisterView(TemplateView):
                             # Log the user in
                             login(self.request, user)
                             # Redirect to a success page
-                            return redirect('redirect')
+                            return redirect('edit-profile')
                         else:
                             return redirect('login')
 
@@ -121,12 +121,18 @@ class MyProfile(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(MyProfile, self).get_context_data(**kwargs)
         user = self.request.user
-        group = StudyGroups.objects.get(members=user)
-        context['group'] = group
+        try:
+            group = StudyGroups.objects.get(members=user)
+            context['group'] = group
+            theme = UserTheme.objects.get(user=user)
+            context['theme'] = theme
+        except StudyGroups.DoesNotExist:
+            messages.error(self.request, 'You are currently not in any group. Please wait as we find one for you !')
+        except UserTheme.DoesNotExist:
+            messages.info(self.request, 'Set your theme verse.')
         read_percentage = progress.objects.filter(user=user)
         chapters_count = read_percentage.aggregate(total=Count('chapter'))['total']
-        theme = UserTheme.objects.get(user=user)
-        context['theme'] = theme
+        
         if chapters_count:
             chapters = Chapters.objects.all().count()
             prog = (chapters_count / chapters) * 100
@@ -151,10 +157,12 @@ class MyProfile(LoginRequiredMixin, TemplateView):
                         new_phone_number = self.request.POST.get('phone-number')
                         l_name = self.request.POST.get('last-name').lower()
                         surname = self.request.POST.get('surname').lower()
+                        gender = self.request.POST.get('gender')
                         if new_phone_number:
                             profile.phone = new_phone_number
                         profile.f_name = f_name
                         profile.l_name = l_name
+                        profile.gender = gender
                         profile.surname = surname
                         profile.save()
                         messages.success(self.request, 'Profile has been successfully Updated!')
@@ -249,9 +257,10 @@ class LoginRedirect(LoginRequiredMixin, TemplateView):
             role = user.role
             profile = self.request.user.personalprofile
             f_name = profile.f_name
-        except ObjectDoesNotExist as e:
+        except PersonalProfile.DoesNotExist as e:
             profile = PersonalProfile.objects.create(user=user)
             f_name = profile.f_name
+        
 
         except Exception as e:
             error_message = str(e)  # Get the error message as a string
@@ -271,10 +280,17 @@ class LoginRedirect(LoginRequiredMixin, TemplateView):
                 }
             )
         finally:
+            try:
+                bible = UserPreference.objects.get(user=user)
+
+            except UserPreference.DoesNotExist:
+                bible = None
 
             # If a user has not updated their profile redirect them to profile editing page
             if f_name == '':
                 return redirect('edit-profile')
+            elif f_name is not  '' and not bible:
+                return redirect('set-bible-preference')
             else:
                 if role == 'Member':
                     return redirect('student-home')
@@ -291,11 +307,12 @@ class LoginRedirect(LoginRequiredMixin, TemplateView):
                     return redirect('logout')
 
 
-def finish_profile_setup(user, f_name, l_name, surname, phone):
+def finish_profile_setup(user, f_name, l_name, surname, phone, gender):
  
     profile = PersonalProfile.objects.get(user=user)
     profile.f_name = f_name
     profile.l_name = l_name
+    profile.gender = gender
     if phone:
         profile.phone = phone
     profile.surname = surname
@@ -325,8 +342,6 @@ class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         except:
             context['base_html'] = 'Users/base.html'
             messages.error(self.request, 'Not logged in')
-        user = SocialAccount.objects.get(user=self.request.user)
-        context['iam'] = user
 
 
         return context
@@ -337,6 +352,7 @@ class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
             l_name = request.POST.get('l_name').lower()
             surname = request.POST.get('surname').lower()
             phone = request.POST.get('phone')
+            gender = request.POST.get('gender')
             user = self.request.user  # get user from session.
 
             try:
@@ -345,13 +361,13 @@ class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
                     messages.error(self.request, 'You can only use the admin interface')
                     return redirect('logout')
                 if f_name and l_name and surname:
-                    finish_profile_setup(user=user, f_name=f_name, l_name=l_name, surname=surname, phone=phone)
+                    finish_profile_setup(user=user, f_name=f_name, l_name=l_name, surname=surname, phone=phone, gender=gender)
 
 
             # if no profile matching query is found, create it and update it
             except PersonalProfile.DoesNotExist as e:
                 PersonalProfile.objects.create(user=user)
-                finish_profile_setup(user=user, f_name=f_name, l_name=l_name, surname=surname, phone=phone)
+                finish_profile_setup(user=user, f_name=f_name, l_name=l_name, surname=surname, phone=phone, gender=gender)
 
             except IntegrityError:
                 messages.error(self.request, 'A user with this phone number already exists !! If this number belongs to you contact @support')
@@ -381,15 +397,10 @@ class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
             # Finally reroute a user based on their role
             finally:
-
-                if request.user.role == 'Member':
-                    return redirect('student-home')
-                
-                elif request.user.role in ['Supervisor', 'Finance']:
-                    return redirect('supervisor-home')
-                else:
-                    messages.error(request, 'Role not found')
-                    return redirect(request.get_full_path())
+                try:
+                    pref = UserPreference.objects.get(user=user)
+                except:
+                    return redirect('set-bible-preference')
             
         else:
             return redirect(request.get_full_path())
@@ -433,8 +444,11 @@ class Home(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         """
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        group = StudyGroups.objects.get(members=user)
-        context['group'] = group
+        try:
+            group = StudyGroups.objects.get(members=user)
+            context['group'] = group
+        except StudyGroups.DoesNotExist:
+            messages.error(self.request, 'You have not yet been assigned a bible study group yet!')
         word = DailyMessage.objects.filter().last()
         context['word'] = word
         read_percentage = progress.objects.filter(user=user)
@@ -450,7 +464,7 @@ class Home(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     def test_func(self):
         try:
             role = self.request.user.role
-            return role == 'Member'        
+            return role        
         except:
             return False
 
@@ -464,11 +478,14 @@ class Settings(TemplateView):
         user = self.request.user
         books = Books.objects.all().order_by('order')
         context['books'] = books
-        theme = UserTheme.objects.get(user=user)
-        context['theme'] = theme
+        try:
+            theme = UserTheme.objects.get(user=user)
+            context['theme'] = theme
+        except:
+            pass
         
 
-        return context
+        return context 
     
     def post(self,*args, **kwargs):
         if self.request.method == 'POST':
@@ -518,21 +535,7 @@ class Settings(TemplateView):
 
 def get_theme_verse(book, chapter, verse):
     book = Books.objects.get(name=book)
-    verse = f'{book.book_id}.{chapter}.{verse}'
+    verse = BibleVersesKJV.objects.get(book=book.order, chapter=chapter, verse=verse)
 
-
-    base_url = f'https://api.scripture.api.bible/v1/bibles/65eec8e0b60e656b-01/verses/{verse}'
-
-    headers = {'api-key': '0427945137760de29cd975e25a5b6e36'}
-
-    try:
-        response = requests.get(base_url, headers=headers)
-        response.raise_for_status()  # Check for HTTP errors
-
-        data = response.json()
-        data = data['data']['content']
-        soup = BeautifulSoup(data, 'html.parser')
-        text_content = soup.get_text(separator=' ', strip=True)
-        return text_content
-    except:
-        return False
+    return verse.text
+    

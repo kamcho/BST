@@ -1,11 +1,16 @@
+import datetime as datetime
+from itertools import groupby
+from operator import attrgetter
+from django.db.models import F, Window
+from django.db.models.functions import DenseRank
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 import requests
+from django.db.models import Count
 from django.contrib import messages
-from Users.models import MyUser
-from .models import BibleVersesKJV, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
+from Users.models import MyUser, PersonalProfile
+from .models import CBR, Achievements, BibleVersesKJV, JoinRequests, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
 # Create your views here.
 
 uskey = 'd6ce6236fb09203ed8356c4b04c6bd78'
@@ -76,24 +81,49 @@ class SetBiblePreference(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        preference = UserPreference.objects.get(user=user)
         bibles = BibleVersions.objects.all()
         context['bibles'] = bibles
-        context['preference'] = preference
+        try:
+            preference = UserPreference.objects.get(user=user)
+            
+            context['preference'] = preference
+        except UserPreference.DoesNotExist:
+            pass
+        
+        
         return context
 
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
             bible = self.request.POST.get('bible')
-            bible = BibleVersions.objects.get(bible_id=bible)
-            preference = self.get_context_data().get('preference')
-            preference.default_bible = bible
-            preference.save()
+            user = self.request.user
+            try:
+                bible = BibleVersions.objects.get(bible_id=bible)
+                preference = self.get_context_data().get('preference')
+                preference.default_bible = bible
+                preference.save()
+                messages.success(self.request, 'Success!')
+                
+            except AttributeError:
+                preference = UserPreference.objects.create(user=user, default_bible=bible)
+                messages.success(self.request, 'Success!')
 
 
 
-            return redirect(self.request.get_full_path())
+
+
+
+            return redirect('student-home')
         
+
+class Biblia(TemplateView):
+    template_name = 'BibleStudy/biblia.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['books'] = Books.objects.all().order_by('order')
+
+        return context
 
 class Read(TemplateView):
     template_name = 'BibleStudy/read.html'
@@ -111,11 +141,12 @@ class Read(TemplateView):
         book_name = book_count.book_id
         
         
-        verse = get_bible_verse_by_id(book_count.order, chapter)
-        context['data']  = verse
+        # verse = get_bible_verse_by_id(book_count.order, chapter)
+        context['data']  = ['verse',1,2,3,4,5]
 
         try:
-            pass
+            chapter_id = Chapters.objects.get(book__name=book, order=chapter)
+            context['chapter_id'] = chapter_id.id
         except Chapters.DoesNotExist:
 
             print('error\n\n\n')
@@ -128,33 +159,7 @@ class Read(TemplateView):
         
         return context
     
-    def post(self, *args, **kwargs):
-        if self.request.method == 'POST':
-            verse_id = self.request.POST.get('verse')
-            book = self.kwargs['book']
-            chapter = self.kwargs['chapter']
-            try:
-                print('try \n\n\n')
-
-                if verse_id:
-                
-                    user = self.request.user
-
-                # Create a bookmark
-                    bookmark = BookMarks.objects.create(
-                        user=user,
-                        verse=f"{book} {chapter}:{verse_id}",
-                        word='neno',
-                )
-                    
-                    messages.success(self.request, 'Success')
-            except Exception as e:
-                messages.success(self.request, (str(e)))
-
-
-            return redirect(self.request.get_full_path())
-
-
+    
 
 
 
@@ -181,20 +186,80 @@ class SaveProgress(TemplateView):
     
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
+            user = self.request.user
             chapter = self.get_context_data().get('chapter')
             try:
-                prog = progress.objects.get(book=chapter.book)
+                prog = progress.objects.get(user=user, book=chapter.book)
                 prog.chapter.add(chapter)
             except progress.DoesNotExist:
-                user = self.request.user
+                
                 prog = progress.objects.create(user=user, book=chapter.book)
                 prog.chapter.add(chapter)
+
+            award_points(user)
+            create_achievement(user)
 
 
             return redirect('study-progress')
             
+def award_points(user):
+    
+    date = datetime.date.today()
+    cbr, created = CBR.objects.get_or_create(user=user, date=date)
+    cbr.read_count = cbr.read_count + 1
+    cbr.save()
+
+    try:
+        preference = UserPreference.objects.get(user=user)
+    except UserPreference.DoesNotExist:
+        bible = BibleVersions.objects.filter(language='English').first()
+        preference = UserPreference.objects.create(user=user, default_bible=bible)
+
+    target = preference.daily_target
+    if target == cbr.read_count:
+        profile = PersonalProfile.objects.get(user=user)
+        profile.points = profile.points + 100
+        profile.save()
+
+    return None
 
 
+def create_achievement(user):
+    print('Myuser',user)
+    total_chapters = progress.objects.filter(user=user).values('chapter').annotate(num_chapters=Count('chapter')).aggregate(total=Count('chapter'))
+    raw_percent = (total_chapters['total'] / 10) * 100
+    try:
+        percent = round(raw_percent)
+        print(percent)
+        
+        if percent > 12 and percent < 25:            
+            achievement = Achievements.objects.get(identifier__gte=12, identifier__lt=25)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
+        elif percent > 24 and percent < 50:
+            achievement = Achievements.objects.get(identifier__gte=24, identifier__lt=50)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
+        elif percent > 49 and percent < 75:
+            achievement = Achievements.objects.get(identifier__gte=49, identifier__lt=75)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
+        elif percent > 74 and percent < 90:
+            achievement = Achievements.objects.get(identifier__gte=74, identifier__lt=90)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
+        elif percent > 89 and percent < 100:
+            achievement = Achievements.objects.get(identifier__gte=89, identifier__lt=100)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
+        elif raw_percent == 100:
+            achievement = Achievements.objects.get(identifier=raw_percent)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
+        
+        try:
+            points = PersonalProfile.objects.get(user=user)
+            points.points += achievement.points
+            points.save()
+        except:
+            pass
+    except Exception as e:
+        print(str(e))
+    return None
 
 class StudyProgress(TemplateView):
     template_name = 'BibleStudy/study_progress.html'
@@ -202,8 +267,13 @@ class StudyProgress(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         books = Books.objects.all().order_by('order')
-        bible = UserPreference.objects.get(user=self.request.user)
-        context['bible'] = bible
+        try:
+            bible = UserPreference.objects.get(user=self.request.user)
+            context['bible'] = bible
+        except UserPreference.DoesNotExist:
+            bible = BibleVersions.objects.filter(language='English').first()
+            context['default_bible'] = bible
+            
         context['books'] = books
 
         return context
@@ -243,6 +313,8 @@ class UsersAchievements(TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         achievements = MyAchievements.objects.filter(user=user)
+        if not achievements:
+            messages.info(self.request, 'Begin to study the bible to unlock achievements!')
         context['achievements'] = achievements
 
         return context
@@ -318,6 +390,107 @@ class MyBookMarks(TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context['verses'] = BookMarks.objects.filter(user=user)
+
+        return context
+
+
+class GroupRequests(TemplateView):
+    template_name = 'BibleStudy/requests_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['requests'] = JoinRequests.objects.all().order_by('date')
+
+        return context
+    
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            user = self.request.user
+            clicked = self.request.POST.get('clicked')
+            group = StudyGroups.objects.get(group_name=clicked)
+            group.members.add(user)
+            messages.success(self.request, 'Success')
+
+            return redirect(self.request.get_full_path())
+
+
+
+class RequestStudyGroup(TemplateView):
+    template_name = 'BibleStudy/request_group.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['groups'] = StudyGroups.objects.annotate(num_members=Count('members')).filter(num_members__lt=8)
+        return context
+    
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            group = self.request.POST.get('group')
+            group = StudyGroups.objects.get(group_name=group)
+            user = self.request.user
+            try:
+                join_request = JoinRequests.objects.create(user=user, group=group)
+                messages.success(self.request, 'We have received your request, Please wait for approval.')
+            except Exception as e :
+                messages.info(self.request, f'We already received your request, Please wait for approval.!!')
+
+            return redirect('student-home')
+
+
+def assign_group(user):
+    # Assuming 'user' is the user for whom you want to assign a group
+    user_gender = user.personalprofile.gender  # Assuming you have a 'PersonalProfile' associated with the user
+
+    # Get all StudyGroups with less than 8 members
+    eligible_groups = StudyGroups.objects.annotate(num_members=Count('members')).filter(num_members__lt=8)
+
+    # If there are eligible groups, find the one with the least members of the user's gender
+    if eligible_groups.exists():
+        sorted_groups = sorted(eligible_groups, key=lambda group: group.members.filter(personalprofile__gender=user_gender).count())
+        selected_group = sorted_groups[0]
+
+        # Add the user to the selected group
+        selected_group.members.add(user)
+
+
+
+class LeadersBoard(TemplateView):
+    template_name = 'BibleStudy/leadersboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profiles = list(PersonalProfile.objects.all().order_by('-points'))
+
+# Iterate through the profiles and assign ranks
+        profiles = list(PersonalProfile.objects.all().order_by('-points'))
+
+# Initialize variables
+        ranked_profiles = []
+        current_rank = 0
+
+        # Group profiles by points
+        for points, group in groupby(profiles, key=attrgetter('points')):
+            points_group = list(group)
+
+            # Assign the same rank to profiles with the same points
+            for profile in points_group:
+                profile.rank = current_rank + 1
+
+            # Skip the following rank
+            current_rank += len(points_group)
+
+            # Append profiles to the result list
+            ranked_profiles.extend(points_group)
+
+
+
+        context['profiles'] = ranked_profiles
+        current_user = self.request.user  # Replace with your actual way of getting the current user
+
+# Find the rank of the current user
+        current_user_profile = next((profile for profile in ranked_profiles if profile.user == current_user), None)
+        current_user_rank = current_user_profile.rank if current_user_profile else None
+        context['rank'] = current_user_rank
 
         return context
 

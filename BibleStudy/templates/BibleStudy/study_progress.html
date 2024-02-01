@@ -24,11 +24,15 @@
     </form>
     <div class="books-view">
         {% for book in books %}
-            <a href="{% url 'read' bible.default_bible book book.order|get_next_chapter  %}" class="no-style">
+        {% if bible %}
+            <a href="{% url 'read' bible.default_bible book user|get_next_chapter:book.order  %}" class="no-style">
+        {% else %}
+            <a href="{% url 'read' default_bible book user|get_next_chapter:book.order  %}" class="no-style">
+        {% endif %}
                 <div class="progress-card">
                     <h5>{{ book }}</h5>
                     
-                    {% with book.order|get_study_progress as progress %}
+                    {% with user|get_study_progress:book.order as progress %}
                     {% if progress %}
                     <div class="progress-canvas">
                         <canvas id="doughnutChart{{ forloop.counter }}" width="100" height="100" ></canvas>
@@ -56,7 +60,7 @@
                     {% endif %}
                     
                 <div style="color: rgb(185, 0, 176);">
-                    NEXT CHAPTER: {{ book.order|get_next_chapter }}
+                    NEXT CHAPTER: {{ user|get_next_chapter:book.order }}
                 </div>
                 {% endwith %}
                 </div>

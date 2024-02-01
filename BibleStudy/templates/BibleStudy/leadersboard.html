@@ -1,0 +1,59 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <button class="btn btn-secondary">My Rank - {{ rank }}</button>
+    <br><br>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th><h6>Rank</h6></th>
+             <th><h6>User</h6></th>
+            <th><h6>Names</h6></th>
+            <th><h6>Points</h6></th>
+          </tr>
+        </thead>
+        <tbody>
+       
+
+        
+
+        {% for profile in profiles %}
+          <tr>
+              <td><h6>{{ profile.rank }}</h6></td>
+              <td><img src="{{ profile.profile_pic.url }}" style="height: 30px;width: 30px; border-radius: 50%;"></td>
+              {% if profile.user != user %}
+                {% if  profile.f_name %}
+                <td>{{ profile.f_name|title }} {{ profile.l_name.0|title }}  {{ profile.surname|title }}</td>
+                {% else %}
+                <td>{{ profile }}</td>
+                {% endif %}
+              {% else %}
+                {% if  profile.f_name %}
+                    <td style="color: orangered;">{{ profile.f_name|title }} {{ profile.l_name.0|title }}  {{ profile.surname|title }}</td>
+                {% else %}
+                    <td style="color: orangered;">{{ profile }}</td>
+                {% endif %}
+
+              {% endif %}
+              <td style="font-family:monospace !important">{{ profile.points }}</td>
+          </tr>
+        {% endfor %}
+        
+        </tbody>
+     </table>
+
+
+
+</div>
+
+{% endblock %}

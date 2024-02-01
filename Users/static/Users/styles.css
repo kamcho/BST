@@ -3,7 +3,7 @@
 
     padding: 0;
     margin: 0;
-    font-family: 'Courier New', Courier, monospace !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 
@@ -549,7 +549,7 @@ nav{
     min-height: 100vh;
     height: auto;
     position: absolute;
-    top: 60px;
+    top: 57px;
     
     /* top: 50px; */
 }
@@ -801,10 +801,10 @@ border-width: 13px solid green;
 }
 
 .chapter-select{
-  display: grid;
-  grid-template-columns: repeat(15, .1fr);
+  display: flex;
+  
   row-gap: 3px;
-  column-gap: 3px;
+  column-gap: 5px;
   width: 100%;
 }
 .chapter-select-view{
@@ -818,15 +818,14 @@ border-width: 13px solid green;
 
 }
 .chapter-button{
-  background-color:orangered;
+  background-color:rgba(29, 25, 46, .8);
   color: white;
   border-radius: 5px;
   width: 30px;
   height: 30px;
 }
 .chapter-text{
-  margin: 5px auto;
-  padding-top: 3px;
+  margin: 2px auto;
   text-align: center;
 }
 
@@ -896,6 +895,18 @@ border-width: 13px solid green;
     text-align: center;
       
 }
+.progress-template{
+  display: grid;
+  grid-template-columns: repeat(3,.6fr);
+  height: 350px;
+  margin: 60px auto;
+}
+.progress-template-card{
+  width: 95%;
+  height: 250px;
+}
+
+
 .progress-card:hover{
   height: 300px;
   width: 100%;

@@ -29,11 +29,33 @@
 
 
     <div class="event-view">
+      {% if group %}
       <a href="{% url 'group-id' group.group_id %}" class="no-style">
         <div class="event-card">
           <h6><i class="bi bi-book"> </i>Bible Study</h6>
           <hr class="centered-hr">
-          <div class="">
+ 
+            <h5>{{ group }}</h5>
+            <h6>Members - {{ group.members.count }}</h6>
+         
+            <div >
+                {% for member in group.members.all %}
+                  <small class="text-muted">{{ member }}</small>
+                  <br>
+                {% endfor %}
+            </div>   
+          </div>
+            
+       
+      </a>
+      {% else %}
+      <a  class="no-style">
+        <div class="event-card">
+          <h6><i class="bi bi-book"> </i>Bible Study</h6>
+          <hr class="centered-hr">
+          
+            {% if group %}
+            <div class=""></div>
             <br>
             
             <h5>{{ group }}</h5>
@@ -48,8 +70,16 @@
           
             
           </div>
+
+            {% else %}
+            <br>
+              Please wait as we find a suitable study group for you.
+            {% endif %}
+            
         </div>
       </a>
+        {% endif %}
+        
 
       <a href="{% url 'projects' %}" class="no-style">
         <div class="event-card">
@@ -79,9 +109,8 @@
           <hr class="centered-hr">
           <br>
           <div class="">
-            <small>Subject Coverage.</small>
-            <br>
-            <p>View your progress on each subject you have learnt.</p>
+
+            <p>View charitable activities happening around you.</p>
             <!-- <div class="progress">
               <div class="progress-bar" role="progressbar" style="width: 25%;background-color: purple;"
                 aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>

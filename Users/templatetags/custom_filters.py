@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 from django import template
-from django.db.models import Sum
+from django.db.models import Sum, Count
 import requests
-from BibleStudy.models import progress, Chapters
+from BibleStudy.models import Books, progress, Chapters
 from Users.models import MyUser
 from Payments.models import CharityPayments, ProjectPayments
 register = template.Library()
@@ -53,9 +53,9 @@ def get_project_progress(total, project_id):
     
 
 @register.filter
-def get_study_progress(book):
+def get_study_progress(user, book):
     try:
-        prog = progress.objects.get(book__order=book)
+        prog = progress.objects.get(user=user, book__order=book)
         chapters_covered = prog.chapter.count()
         percentage = (chapters_covered / prog.chapter.first().book.chapters) * 100
 
@@ -73,11 +73,15 @@ def get_study_progress(book):
 #         return str(self.user)
 
 @register.filter
-def get_next_chapter(book):
+def get_next_chapter(user, book):
     try:
-        read = progress.objects.get(book__order=book)
+        read = progress.objects.get(user=user, book__order=book)
+        book_id = Books.objects.get(order=book)
+        chapter_count = book_id.chapters
         read_chapters = read.chapter.all()
         chapters = Chapters.objects.filter(book__order=book).exclude(id__in=read_chapters).order_by('order').first()
+        if chapters.order == chapter_count:
+            return 'Completed'
         if chapters:
             return chapters.order
         else:
@@ -127,6 +131,12 @@ def get_read_count(book_id):
 
     return round(read_count)
 
+@register.filter
+def get_chapters(book):
+    chapters = Chapters.objects.filter(book__name=book).count()
+    chapters = [i for i in range(1, chapters + 1)]
+
+    return chapters
 
 @register.filter
 def get_complete_count(book_id):
@@ -138,3 +148,28 @@ def get_complete_count(book_id):
     read_count = (total / users) * 100
 
     return round(read_count)
+
+@register.filter
+def get_read_percent(user,location):
+    print(location)
+    if location == 'bible':
+        total_chapters = progress.objects.filter(user=user).values('chapter').annotate(num_chapters=Count('chapter')).aggregate(total=Count('chapter'))
+        percent = (total_chapters['total'] / 1189) * 100
+        if percent < 1 and percent > 0:
+            percent = 1
+    elif location == 'OT':
+        total_chapters = progress.objects.filter(user=user, book__location='OT').values('chapter').annotate(num_chapters=Count('chapter')).aggregate(total=Count('chapter'))
+        percent = (total_chapters['total'] / 39) * 100
+        if percent < 1 and percent > 0:
+            percent = 1
+    else:
+        total_chapters = progress.objects.filter(user=user, book__location='NT').values('chapter').annotate(num_chapters=Count('chapter')).aggregate(total=Count('chapter'))
+        percent = (total_chapters['total'] / 27) * 100
+        if percent < 1 and percent > 0:
+            percent = 1
+
+
+
+    return round(percent)
+        
+    

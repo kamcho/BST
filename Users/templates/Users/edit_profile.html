@@ -9,30 +9,41 @@
 <br>
 <br>
     <form method="post">
-      <h2>meee{{ iam.extra_data }}</h2>
         {% csrf_token %}
             <div class="mb-3">
               <label  class="form-label">First Name</label>
-              <input type="text" class="form-control" name="f_name" placeholder="John">
+              <input type="text" class="form-control" name="f_name" placeholder="{{ user.personalprofile.f_name }}" >
             </div>
 
             <div class="mb-3">
               <label  class="form-label">Last Name</label>
-              <input type="text" class="form-control" name="l_name"  placeholder="Doe">
+              <input type="text" class="form-control" name="l_name"  placeholder="{{ user.personalprofile.l_name }}" >
             </div>
 
 
             <div class="mb-3">
               <label  class="form-label">Surname</label>
-              <input type="text" class="form-control" name="surname" placeholder="Senior">
+              <input type="text" class="form-control" name="surname" placeholder="{{ user.personalprofile.surname }}" >
             </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Male">
+              <label class="form-check-label" for="inlineRadio1">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Female">
+              <label class="form-check-label" for="inlineRadio2">Female</label>
+            </div>
+            
 
             <div class="mb-3">
               <label  class="form-label">Phone</label>
               <input type="text" class="form-control" name="phone" placeholder="2547123456789">
             </div>
-
-            <button class="btn btn-warning">Save</button>
+            {% if user.personalprofile.l_name %}
+              <button class="btn btn-info">NEXT</button>
+            {% else %}
+              <button class="btn btn-warning">Save</button>
+            {% endif %}
     </form>
 
 

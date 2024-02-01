@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="content-container">
-    <br><br><br>
+    <br><br>
     <div class="input-group mb-3  container">
         <input type="text" class="form-control" placeholder="Faith" aria-label="Server" name="chapter">
 
@@ -23,22 +23,23 @@
 
                 
 
-                <div class="group-leader">
-                    <p>gl {{ group.group_leader.personalprofile.f_name|title }} {{ group.group_leader.personalprofile.l_name.0|title }}
+                <div class="group-leadr">
+                    {% if group.group_leader.personalprofile.f_name|title %}
+                    <p>{{ group.group_leader.personalprofile.f_name|title }} {{ group.group_leader.personalprofile.l_name.0|title }}
                         {{ group.group_leader.personalprofile.surname|title }}
                  </p>
+                 {% else %}
+                    <p>{{ group.group_leader }}</p>
+                 {% endif %}
 
                 </div>
 
                     
                  <div class="members">
-                    {% for member in group.members.all %}
-                        {{ member }}
-
-                    {% endfor %}
+                   
                  </div>
                  <div class="group-score">
-                    <button class="btn btn-secondary">100</button>
+                    <button class="btn btn-secondary">{{ group.members.count }}</button>
                  </div>
     
                 </div>

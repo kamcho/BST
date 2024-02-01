@@ -173,10 +173,11 @@ class PersonalProfile(models.Model):
     dob = models.DateField(auto_now=True)
     l_name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30, blank=True)
-    profile_pic = models.FileField(upload_to='ProfilePics/', null=True)
+    profile_pic = models.FileField(upload_to='ProfilePics/', default='ProfilePics/realistic-black-background-with-realistic-elements_23-2149156849.avif')
     google_pic = models.CharField(max_length=300,null=True)
     gender = models.CharField(max_length=10, blank=True)
     phone = models.CharField(max_length=15, null=True)
+    points = models.PositiveIntegerField(default=50)
 
     def __str__(self):
         return self.user.email
