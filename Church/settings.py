@@ -104,18 +104,13 @@ WSGI_APPLICATION = 'Church.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # },
-
-     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kevinnjoroge$biblia',
-        'USER': 'kevinnjoroge',
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bibliake',    # Replace with your actual database name
+        'USER': 'postgres',
         'PASSWORD': '141778215aA!',
-        'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
-        'PORT': '',
+        'HOST': 'bible-study.c5s2qwqc2jwx.eu-north-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
