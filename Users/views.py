@@ -158,12 +158,14 @@ class MyProfile(LoginRequiredMixin, TemplateView):
                         l_name = self.request.POST.get('last-name').lower()
                         surname = self.request.POST.get('surname').lower()
                         gender = self.request.POST.get('gender')
+                        dob = self.request.POST.get('dob')
                         if new_phone_number:
                             profile.phone = new_phone_number
                         profile.f_name = f_name
                         profile.l_name = l_name
                         profile.gender = gender
                         profile.surname = surname
+                        profile.dob = dob
                         profile.save()
                         messages.success(self.request, 'Profile has been successfully Updated!')
 
@@ -307,12 +309,13 @@ class LoginRedirect(LoginRequiredMixin, TemplateView):
                     return redirect('logout')
 
 
-def finish_profile_setup(user, f_name, l_name, surname, phone, gender):
+def finish_profile_setup(user, f_name, l_name, surname, phone, gender, dob):
  
     profile = PersonalProfile.objects.get(user=user)
     profile.f_name = f_name
     profile.l_name = l_name
     profile.gender = gender
+    profile.dob = dob
     if phone:
         profile.phone = phone
     profile.surname = surname
@@ -320,7 +323,7 @@ def finish_profile_setup(user, f_name, l_name, surname, phone, gender):
     return None
 
 
-class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class FinishSetup(LoginRequiredMixin, TemplateView):
     """
         User's profile edit Page, mainly for first time account users
     """
@@ -329,15 +332,7 @@ class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         try:
-            if self.request.user.role == 'Student':
-                # get the current logged in user(learner) current grade and associated Subjects
-                context['base_html'] = 'Users/base.html'
-            elif self.request.user.role == 'Guardian':
-                context['base_html'] = 'Guardian/baseg.html'
-            elif self.request.user.role == 'Teacher':
-                context['base_html'] = 'Teacher/teachers_base.html'
-            elif self.request.user.role == 'Supervisor':
-                context['base_html'] = 'Supervisor/base.html'
+            pass
 
         except:
             context['base_html'] = 'Users/base.html'
@@ -353,6 +348,8 @@ class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
             surname = request.POST.get('surname').lower()
             phone = request.POST.get('phone')
             gender = request.POST.get('gender')
+            dob = request.POST.get('dob')
+            print(dob, '\n\n\n\n')
             user = self.request.user  # get user from session.
 
             try:
@@ -361,17 +358,17 @@ class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
                     messages.error(self.request, 'You can only use the admin interface')
                     return redirect('logout')
                 if f_name and l_name and surname:
-                    finish_profile_setup(user=user, f_name=f_name, l_name=l_name, surname=surname, phone=phone, gender=gender)
+                    finish_profile_setup(user=user, f_name=f_name, l_name=l_name, surname=surname, phone=phone, gender=gender, dob=dob)
 
 
             # if no profile matching query is found, create it and update it
             except PersonalProfile.DoesNotExist as e:
-                PersonalProfile.objects.create(user=user)
-                finish_profile_setup(user=user, f_name=f_name, l_name=l_name, surname=surname, phone=phone, gender=gender)
+                PersonalProfile.objects.create(user=user, dob=dob)
+                finish_profile_setup(user=user, f_name=f_name, l_name=l_name, surname=surname, phone=phone, gender=gender, dob=dob)
 
             except IntegrityError:
                 messages.error(self.request, 'A user with this phone number already exists !! If this number belongs to you contact @support')
-                return redirect(request.get_full_path())
+            
 
 
 
@@ -399,6 +396,8 @@ class FinishSetup(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
             finally:
                 try:
                     pref = UserPreference.objects.get(user=user)
+
+                    return redirect('students-home')
                 except:
                     return redirect('set-bible-preference')
             

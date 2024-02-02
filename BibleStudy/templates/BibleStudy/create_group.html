@@ -1,0 +1,22 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+    <div class="container">
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="surname">Group Name(Keep it Biblical)</label>
+                <input id="surname"  name="name" class="form-control" placeholder="Zion" required>
+            </div>
+            <br>
+    
+            <button class="btn btn-danger"><i class="bi bi-plus"> </i>Create</button>
+    
+        </form>
+        
+    </div>
+
+{%  endblock %}

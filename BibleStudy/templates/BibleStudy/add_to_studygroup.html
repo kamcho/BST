@@ -15,8 +15,21 @@
                 {% for user in users %}
                     <option value="{{ user.email }}">{{ user.email }}</option>
                 {% endfor %}
-                
             </select>
+      
+                {% if  group.group_leader %}
+
+                {% else %}
+                <br><br>
+                    <div>
+                        <p>Add as Group Leader <input type="checkbox" name="pastor" style="padding-left: 70px;"></p>
+                    
+                
+                    
+                </div>
+                {% endif %}
+                
+            
         </div>
         <br>
     

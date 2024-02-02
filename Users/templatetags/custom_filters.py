@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from django import template
 from django.db.models import Sum, Count
 import requests
-from BibleStudy.models import Books, progress, Chapters
+from BibleStudy.models import BibleVersesKJV, Books, progress, Chapters
 from Users.models import MyUser
 from Payments.models import CharityPayments, ProjectPayments
 register = template.Library()
@@ -78,17 +78,20 @@ def get_next_chapter(user, book):
         read = progress.objects.get(user=user, book__order=book)
         book_id = Books.objects.get(order=book)
         chapter_count = book_id.chapters
+        
         read_chapters = read.chapter.all()
         chapters = Chapters.objects.filter(book__order=book).exclude(id__in=read_chapters).order_by('order').first()
-        if chapters.order == chapter_count:
-            return 'Completed'
+        print(book_id.name,chapter_count,read.chapter.count(), chapters.order)
+        if read.chapter.count() == chapter_count :
+            return 'True'
         if chapters:
             return chapters.order
         else:
             return 1
-    except Exception as e:
-        
+    except:
         return 1
+    
+
     
 
 @register.simple_tag
@@ -172,4 +175,10 @@ def get_read_percent(user,location):
 
     return round(percent)
         
-    
+@register.filter
+def get_book_verse(book, chapter):
+    try:
+        verses = BibleVersesKJV.objects.filter(book=book,chapter=chapter)
+        return verses
+    except BibleVersesKJV.DoesNotExist:
+        return None

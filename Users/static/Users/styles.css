@@ -550,6 +550,7 @@ nav{
     height: auto;
     position: absolute;
     top: 57px;
+    background-color: black;
     
     /* top: 50px; */
 }
@@ -579,7 +580,7 @@ nav{
     height: 250px;
     padding: 30px;
     margin: 125px auto;
-    background-color:white;
+    background-color:rgb(255, 255, 255);
    
     max-width: 400px;
     top: 30px;
@@ -817,6 +818,9 @@ border-width: 13px solid green;
   overflow:hidden;
 
 }
+.chapter-section{
+  margin: 40px auto;
+}
 .chapter-button{
   background-color:rgba(29, 25, 46, .8);
   color: white;
@@ -825,8 +829,9 @@ border-width: 13px solid green;
   height: 30px;
 }
 .chapter-text{
-  margin: 2px auto;
+  margin: auto auto;
   text-align: center;
+  padding-top: 2.5px;
 }
 
 
@@ -881,10 +886,9 @@ border-width: 13px solid green;
 
 }
 .progress-card{
-  border-radius: 5px;
+  border-radius: 15px;
     width: 95%;
-    min-width: 200px;
-    height: 220px;
+    height: 250px;
     padding: 10px;
     margin: 30px auto;
     background-color:white;
@@ -908,13 +912,13 @@ border-width: 13px solid green;
 
 
 .progress-card:hover{
-  height: 300px;
-  width: 100%;
+  background-color: orangered;
+  color: white !important;
   
 }
 .progress-canvas{
   width:150px;
-  height: 150px;
+  height: 70%;
   margin: auto auto;
 }
 .read-view{

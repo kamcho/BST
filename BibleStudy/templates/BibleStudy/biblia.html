@@ -20,12 +20,14 @@
                                 <div class="chapter-select">
                                     {% with book|get_chapters as chapters %}
                                         {% for chapter in chapters %}
+                                        <a href="{% url 'read-biblia' book chapter %}" class="no-style">
                                             <div class="chapter-button">
-                                                <div class="chapter-text">
+                                                <div class="chapter-text" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
                                                     {{ chapter }}
                                                 </div>
                                                 
                                             </div>
+                                        </a>
                                         {% endfor %}
                         
                                     {% endwith %}

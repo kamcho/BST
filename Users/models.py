@@ -170,7 +170,7 @@ class PersonalProfile(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
     f_name = models.CharField(max_length=30)
     ref_id = models.CharField(max_length=100, blank=True)
-    dob = models.DateField(auto_now=True)
+    dob = models.DateField()
     l_name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30, blank=True)
     profile_pic = models.FileField(upload_to='ProfilePics/', default='ProfilePics/realistic-black-background-with-realistic-elements_23-2149156849.avif')

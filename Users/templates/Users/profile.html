@@ -158,6 +158,12 @@
               <label for="surname">Surname</label>
               <input id="surname"  name="surname" class="form-control" value="{{ user.personalprofile.surname }}" required>
             </div>
+            <br>
+            <div class="form-group">
+              <label  class="form-label">Date Of Birth {{  user.personalprofile.dob }}</label>
+              <input type="date" class="form-control" name="dob" value="{{  user.personalprofile.dob }}" >
+            </div>
+            <br>
             <div class="form-group">
               <label for="phone-number">Phone Number</label>
               <input type="tel" name="phone-number" class="form-control" id="phone-number" placeholder="{{ user.personalprofile.phone }}" >

@@ -1,0 +1,40 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+    <div class="container">
+
+        {% for chapter in chapters %}
+            
+            <div  id="{{ chapter.order }}" class="chapter-section">
+                
+                <h6 style="font-family: 'Exo 2', sans-serif;" class="text-muted">{{ chapter.book }}</h6>
+                <h5 style="font-family: 'Arial Narrow Bold', sans-serif;">{{ chapter.order }}</h5>
+                {% for verse in chapter.book|get_book_verse:chapter.order %}
+                    <p>{{ verse.verse }} {{ verse.text }}</p>
+                {% endfor %}
+                
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Replace "20" with the actual id of your div
+            var fcs = '{{ focus }}'
+            var element = document.getElementById(fcs);
+    
+            if (element) {
+            var navbarHeight = 70; // Replace with the actual height of your navbar
+            var offsetTop = element.offsetTop - navbarHeight;
+
+            window.scrollTo({ top: offsetTop, behavior: "instant" });
+            }
+        });
+    </script>
+
+{% endblock %}

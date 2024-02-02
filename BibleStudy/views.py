@@ -31,6 +31,25 @@ def get_bible_names():
         print(f"Failed to fetch Bible names. Status code: {response.status_code}")
         return None
 
+
+class CreateStudyGroups(TemplateView):
+    template_name = 'BibleStudy/create_group.html'
+
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            name = self.request.POST.get('name').lower()
+            try:
+                group = StudyGroups.objects.create(group_name=name)
+
+                return redirect('group-id', group.group_id)
+            except :
+                messages.error(self.request, f'A group with name {name} already exists! Try another name.')
+
+                return redirect(self.request.get_full_path())
+
+
+
+
 class BibleStudyGroups(TemplateView):
     template_name = 'BibleStudy/study_groups.html'
 
@@ -55,11 +74,24 @@ class AddToGroup(TemplateView):
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
             user = self.request.POST.get('user')
-            user = MyUser.objects.get(email=user)
-            group = self.get_context_data().get('group')
-            group.members.add(user)
-            messages.success(self.request, f'Succesfully added {user} to {group.group_name} Bible Study.')
+            leader = self.request.POST.get('pastor')
+            if  leader:
+                user = MyUser.objects.get(email=user)
+                group = self.get_context_data().get('group')
+                group.group_leader = user
+                group.members.add(user)
+                group.save()
+                messages.success(self.request, f'Succesfully made {user} as {group.group_name} group leader.')
+                
 
+            else:
+                user = MyUser.objects.get(email=user)
+                group = self.get_context_data().get('group')
+                group.members.add(user)
+                messages.success(self.request, f'Succesfully added {user} to {group.group_name} Bible Study.')
+                
+
+            
             return redirect('group-id',group.group_id)
 
 
@@ -116,7 +148,7 @@ class SetBiblePreference(TemplateView):
             return redirect('student-home')
         
 
-class Biblia(TemplateView):
+class BookSelect(TemplateView):
     template_name = 'BibleStudy/biblia.html'
 
     def get_context_data(self, **kwargs):
@@ -124,6 +156,27 @@ class Biblia(TemplateView):
         context['books'] = Books.objects.all().order_by('order')
 
         return context
+    
+class Biblia(TemplateView):
+    template_name = 'BibleStudy/read_biblia.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book = self.kwargs['book']
+        chapter = self.kwargs['chapter']
+        chapters = Chapters.objects.filter(book__name=book)
+        context['chapters'] = chapters
+        context['focus'] = chapter
+
+        return context
+
+def get_book_verse(book, chapter):
+    try:
+        verses = BibleVersesKJV.objects.filter(book=book,chapter=chapter)
+        return verses
+    except BibleVersesKJV.DoesNotExist:
+        return None
+
 
 class Read(TemplateView):
     template_name = 'BibleStudy/read.html'
@@ -141,8 +194,8 @@ class Read(TemplateView):
         book_name = book_count.book_id
         
         
-        # verse = get_bible_verse_by_id(book_count.order, chapter)
-        context['data']  = ['verse',1,2,3,4,5]
+        verse = get_bible_verse_by_id(book_count.order, chapter)
+        context['data']  = verse
 
         try:
             chapter_id = Chapters.objects.get(book__name=book, order=chapter)

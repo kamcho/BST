@@ -24,11 +24,51 @@
     </form>
     <div class="books-view">
         {% for book in books %}
-        {% if bible %}
-            <a href="{% url 'read' bible.default_bible book user|get_next_chapter:book.order  %}" class="no-style">
-        {% else %}
-            <a href="{% url 'read' default_bible book user|get_next_chapter:book.order  %}" class="no-style">
-        {% endif %}
+        {% with user|get_next_chapter:book.order as next_chapter %}
+            {%  if next_chapter == 'True' %}
+                {% if bible %}
+                    <a href="{% url 'read' bible.default_bible book 1  %}" class="no-style" >
+                {% else %}
+                    <a href="{% url 'read' default_bible book 1  %}" class="no-style" >
+                {% endif %}
+                        <div class="progress-card" style="background-color: orangered; color: white !important;">
+                            <h5>{{ book }}</h5>
+                        
+                            {% with user|get_study_progress:book.order as progress %}
+                                    <div class="progress-canvas">
+                                        <canvas id="doughnutChart{{ forloop.counter }}" width="100" height="100" ></canvas>
+                                    </div>
+                                    
+                                    <script>
+                                        var ctx{{ forloop.counter }} = document.getElementById('doughnutChart{{ forloop.counter }}').getContext('2d');
+                                        var doughnutChart{{ forloop.counter }} = new Chart(ctx{{ forloop.counter }}, {
+                                            type: 'doughnut',
+                                            data: {
+                                            
+                                                datasets: [{
+                                                    data: [{{ progress }}, {{ progress|add:'-100'  }}],
+                                                    backgroundColor: ['#36A2EB', '#FF6384'],
+                                                }]
+                                            },
+                                        });
+                                    </script>
+                             
+                    
+                                <div style="">
+                                    <small class="">CHAPTER COMPLETE </small>
+                                    
+                                </div>
+                            {% endwith %}
+                </div>
+                
+        </a>
+
+            {% else %}
+            {% if bible %}
+                <a href="{% url 'read' bible.default_bible book user|get_next_chapter:book.order  %}" class="no-style">
+            {% else %}
+                <a href="{% url 'read' default_bible book user|get_next_chapter:book.order  %}" class="no-style">
+            {% endif %}
                 <div class="progress-card">
                     <h5>{{ book }}</h5>
                     
@@ -59,12 +99,16 @@
                         
                     {% endif %}
                     
-                <div style="color: rgb(185, 0, 176);">
-                    NEXT CHAPTER: {{ user|get_next_chapter:book.order }}
+                <div style="">
+                    NEXT CHAPTER: {{ next_chapter }}
                 </div>
                 {% endwith %}
                 </div>
+                
         </a>
+            {% endif %}
+
+        {% endwith %}
     {% endfor %}
 
         
