@@ -66,9 +66,7 @@
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" style="color:black;">
               {% if user.is_authenticated %}
 
-                <li>
-                  <a class="btn btn-danger" href="{% url 'request-group' %}" ><i class="bi bi-house" > </i>Request Group</a>
-                </li>
+                
                 <li>
                   <a class="nav-link" href="{% url 'create-group' %}" ><i class="bi bi-send" > </i>Create Group</a>
               </li>
