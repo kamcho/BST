@@ -23,6 +23,7 @@ class Books(models.Model):
     )
     name = models.CharField(max_length=100)
     book_id = models.CharField(max_length=30)
+    abbreviation = models.CharField(max_length=30, null=True)
     location = models.CharField(max_length=15, choices=choices, default='NT')
     order = models.PositiveIntegerField()
     chapters = models.PositiveIntegerField()
