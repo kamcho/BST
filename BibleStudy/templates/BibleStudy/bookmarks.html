@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="content-container" >
+<div class="content-container" style="background-color: rgb(25,22 ,32)!important;">
     <div class="container">
         <br><br>
         <div >
@@ -11,21 +11,21 @@
                 Verses about {{ topic }}
                 </button>
                 <ul class="dropdown-menu" style="padding: 20px;">
-                <li><a href="{% url 'bookmarks' 'all' %}" class="no-style">All</a></li>
-                <li><a href="{% url 'bookmarks' 'Sin' %}" class="no-style">Sin</a></li>
-                <li><a href="{% url 'bookmarks' 'Marriage' %}" class="no-style">Marriage</a></li>
-                <li><a href="{% url 'bookmarks' 'Living' %}" class="no-style">Living</a></li>
-                <li><a href="{% url 'bookmarks' 'Life.Death' %}" class="no-style">Life/Death</a></li>
-                <li><a href="{% url 'bookmarks' 'Encouragement' %}" class="no-style">Encouragement</a></li>
-                <li><a href="{% url 'bookmarks' 'Thanks Giving' %}" class="no-style">Thanks Giving</a></li>
+                <li><a href="{% url 'bookmarks' 'all' %}" class="dropdown-item">All</a></li>
+                <li><a href="{% url 'bookmarks' 'Sin' %}" class="dropdown-item">Sin</a></li>
+                <li><a href="{% url 'bookmarks' 'Marriage' %}" class="dropdown-item">Marriage</a></li>
+                <li><a href="{% url 'bookmarks' 'Living' %}" class="dropdown-item">Living</a></li>
+                <li><a href="{% url 'bookmarks' 'Life.Death' %}" class="dropdown-item">Life/Death</a></li>
+                <li><a href="{% url 'bookmarks' 'Encouragement' %}" class="dropdown-item">Encouragement</a></li>
+                <li><a href="{% url 'bookmarks' 'Thanks Giving' %}" class="dropdown-item">Thanks Giving</a></li>
                 
                 
                 </ul>
             </div>
         </div><br>
         {% for verse in verses %}
-        <h6 style="color: blueviolet;">{{ verse.verse }}</h6>
-        <p style="color:yellowgreen;">{{ verse.word }}</p>
+        <h6 style="color: rgb(226, 43, 43); font-family: Dekko; font-size: 23px;">{{ verse.verse }}</h6>
+        <p style="color:rgb(255, 255, 255); font-size: 25px; font-family: cursive;">{{ verse.word }}</p>
 
 
     {% endfor %}

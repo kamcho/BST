@@ -3,14 +3,15 @@
 {% block content %}
 
 <br><br><br><br>
-    <div class="container">
+<div class="content-container" style="background: #132743 !important;">
+    <div class="container" style="background: #132743 !important;margin: 30px auto;">
 
 
-        <div class="accordion" id="accordionFlushExample">
+        <div class="accordion" id="accordionFlushExample" style="background: #132743 !important;">
             {% for book in books %}
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse{{ book.id }}" aria-expanded="false" aria-controls="flush-collapse{{ book.id }}">
+                <div class="accordion-item" style="background: #132743 !important;border: .1px solid #2e78df;">
+                    <h2 class="accordion-header" >
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" style="background: #1f1827ce !important; color: white;" data-bs-target="#flush-collapse{{ book.id }}" aria-expanded="false" aria-controls="flush-collapse{{ book.id }}">
                             {{ book }}
                         </button>
                     </h2>
@@ -47,6 +48,6 @@
 
     </div>
 
-    
+</div>
 {% endblock %}
         

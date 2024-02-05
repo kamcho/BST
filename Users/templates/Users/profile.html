@@ -3,50 +3,48 @@
 {% load custom_filters %}
 
 {% block content %}
-
-<div class="container">
-        <br>
-        <br>
-        <br>
+<div class="content-container">
+<div   style="width: 88%; margin: 55px auto;">
+       
         <div class="profile">
             
         </div>
         <br>
         <div class="profile-card">
+          <div>
+            <h5>{{ user.personalprofile.f_name|title }} {{ user.personalprofile.l_name|title }} {{ user.personalprofile.surname|title }}</h5>
+            <button class="btn btn-info">{{ user.role }}</button>
+          </div>
+
+          <div class="pointer">
+            <div>
+              <small>POINTS</small><h1 style="font-size: 60px;">{{ user.personalprofile.points }}</h1>
+            </div>
+          </div>
+
           
           <div>
             {% if user.personalprofile.profile_pic %}
-              <img src="{{ user.personalprofile.profile_pic.url }}" width="300" height="300" style="border-radius: 1%;">
+            <div class="profile-pic">
+              <img src="{{ user.personalprofile.profile_pic.url }}" class="profile-pic">
+            </div>
+              
             {% else %}
-              <img src="{{ user.personalprofile.google_pic }}" width="300" height="300" style="border-radius: 2px;">
+            <div class="profile-pic">
+              <img src="{{ user.personalprofile.google_pic }}" class="profile-pic">
+            </div>
+              
             {% endif %}
           </div>
+            
+          
 
-          <div >
-            {% if user.personalprofile.f_name != '' %}
-              <p>{{ user.personalprofile.surname }}  {{ user.personalprofile.l_name }}.  {{ user.personalprofile.f_name }} </p>
-            {% else %}
-              <p>{{ user }}</p>
-            {% endif %}
-            <button class="btn btn-info">{{ user.role }}</button>
-            <br><br>
-            <h5>{{ user.personalprofile.points }} Points</h5>
-            {% if group %}
-              <p>Study Group - {{ group }}</p>
-            {% endif %}
-            <p>Overall Percentage {{ progress }}%</p>
-            {% if theme %}
-            <p><strong style="color: coral;">{{ theme.book }} {{ theme.chapter }}:{{ theme.verse }}</strong> {{ theme.word }}</p>
-            {% else %}
-            <a class="btn btn-danger" href="{% url 'settings' %}">Set Theme</a>
-            {% endif %}
-
-          </div>
+          
           
 
         </div>
 
-        <div class="progress-template">
+        <div class="progress-template" >
           <div class="progress-template-card">
             <h6 class="text-center">Whole Bible</h6>
             <div class="progress-canvas">
@@ -131,7 +129,7 @@
 
 <br>
 
-  <div class="accordion" id="changePhoneNumberAccordion">
+  <div class="accordion" id="changePhoneNumberAccordion" style="width: 80%;margin: auto auto;">
     <div class="accordion-item">
       <h2 class="accordion-header" id="changePhoneNumberHeader">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#changePhoneNumberCollapse" aria-expanded="true" aria-controls="changePhoneNumberCollapse">
@@ -161,7 +159,7 @@
             <br>
             <div class="form-group">
               <label  class="form-label">Date Of Birth {{  user.personalprofile.dob }}</label>
-              <input type="date" class="form-control" name="dob" value="{{  user.personalprofile.dob }}" >
+              <input type="date" class="form-control" name="dob" value="{{  user.personalprofile.dob }}" required>
             </div>
             <br>
             <div class="form-group">
@@ -221,5 +219,6 @@
     
 
 
+</div>
 </div>
 {% endblock %}
