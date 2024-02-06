@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import JoinRequests, StudyGroups, CBR, TopicalBookMarks, BibleVersions, UserPreference, Books, Chapters, progress, BookMarks, Achievements, MyAchievements
+from .models import JoinRequests, StudyGroups, CBR, TopicalBookMarks, BibleVersions, UserPreference, Books, Chapters, progress, BookMarks, Achievements, MyAchievements, KingJamesVersionI
 # Register your models here.
 admin.site.register(StudyGroups)
 admin.site.register(BibleVersions)
@@ -13,3 +13,4 @@ admin.site.register(BookMarks)
 admin.site.register(TopicalBookMarks)
 admin.site.register(CBR)
 admin.site.register(JoinRequests)
+admin.site.register(KingJamesVersionI)

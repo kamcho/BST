@@ -2,6 +2,9 @@ import datetime as datetime
 from itertools import groupby
 from operator import attrgetter
 from django.db.models import F, Window
+import requests
+from bs4 import BeautifulSoup
+from django.utils.safestring import mark_safe
 from django.db.models.functions import DenseRank
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
@@ -10,7 +13,7 @@ import requests
 from django.db.models import Count
 from django.contrib import messages
 from Users.models import MyUser, PersonalProfile
-from .models import CBR, Achievements, BibleVersesKJV, JoinRequests, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
+from .models import CBR, Achievements, KingJamesVersionI, JoinRequests, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
 # Create your views here.
 
 uskey = 'd6ce6236fb09203ed8356c4b04c6bd78'
@@ -146,7 +149,47 @@ class SetBiblePreference(TemplateView):
 
 
             return redirect('student-home')
-        
+def get_all_books():
+    
+    books = Books.objects.all()
+    print(books)
+    for book in books:
+        post_chapter(book)
+    
+
+def post_chapter(book):
+    base_url = 'https://api.scripture.api.bible/v1/bibles'
+    endpoint = f'{base_url}/de4e12af7f28f599-02/books/{book.book_id}/chapters'
+
+    headers = {
+        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
+    }
+    try:
+        response = requests.get(endpoint, headers=headers)
+        response.raise_for_status()  # Raise an exception for bad requests
+
+        # Assuming the API returns data in JSON format
+        books_data = response.json()['data']
+        # print(books_data)
+        for data in books_data:
+            try:
+                data = int(data['number'])
+                # print(data)
+                chapter = Chapters.objects.create(book=book, order=data)
+
+            except:
+                print('intro')
+
+        # Extract books from the response
+        books = books_data
+    
+
+        return None
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        return None
+
 
 class BookSelect(TemplateView):
     template_name = 'BibleStudy/biblia.html'
@@ -154,28 +197,35 @@ class BookSelect(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['books'] = Books.objects.all().order_by('order')
+        # get_all_books()
 
         return context
     
+
+
 class Biblia(TemplateView):
     template_name = 'BibleStudy/read_biblia.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book = self.kwargs['book']
+        book = Books.objects.get(name=book)
+        context['book'] = book.book_id
         chapter = self.kwargs['chapter']
         chapters = Chapters.objects.filter(book__name=book)
         context['chapters'] = chapters
         context['focus'] = chapter
+        
+        
 
 
         return context
 
 def get_book_verse(book, chapter):
     try:
-        verses = BibleVersesKJV.objects.filter(book=book,chapter=chapter)
+        verses = KingJamesVersionI.objects.filter(book=book,chapter=chapter)
         return verses
-    except BibleVersesKJV.DoesNotExist:
+    except KingJamesVersionI.DoesNotExist:
         return None
 
 
@@ -521,7 +571,6 @@ class LeadersBoard(TemplateView):
 # Initialize variables
         ranked_profiles = []
         current_rank = 0
-        get_all_books()
 
         # Group profiles by points
         for points, group in groupby(profiles, key=attrgetter('points')):
@@ -573,28 +622,23 @@ def create_books_from_api(api_response):
 
         print(f"Book '{book}' created successfully!")
 
-def get_all_books():
-    base_url = 'https://api.scripture.api.bible/v1/bibles'
-    endpoint = f'{base_url}/de4e12af7f28f599-02/books'
+# def get_verses():
+#     base_url = 'https://api.scripture.api.bible/v1/bibles'
+#     endpoint = f'{base_url}/de4e12af7f28f599-02/chapters/GEN.1'
 
-    headers = {
-        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
-    }
+#     headers = {
+#         'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
+#     }
+    
+#     try:
+#         response = requests.get(endpoint, headers=headers)
+#         response.raise_for_status()
 
-    try:
-        response = requests.get(endpoint, headers=headers)
-        response.raise_for_status()  # Raise an exception for bad requests
+#         # Assuming the API returns data in JSON format
+#         books_data = response.json()['data']['content']
+#         return books_data
 
-        # Assuming the API returns data in JSON format
-        books_data = response.json()['data']
-
-        # Extract books from the response
-        books = books_data
-        create_books_from_api(books)
-
-        return books
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        return None
+#     except requests.exceptions.RequestException as e:
+#         print(f"Error: {e}")
+#         return None
 

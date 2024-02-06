@@ -4,16 +4,19 @@ from django.db import models
 from Users.models import MyUser
 
 # Create your models here.
-class BibleVersesKJV(models.Model):
-    id = models.AutoField(primary_key=True)
+class KingJamesVersionI(models.Model):
+
     book = models.PositiveSmallIntegerField()
     chapter = models.PositiveSmallIntegerField()
     verse = models.PositiveSmallIntegerField()
     text = models.TextField()
 
+    def __str__(self):
+        return str(self.verse)
+    
     class Meta:
-        db_table = 'bible_verses_kjv'
-        managed = False
+        unique_together = ('book','chapter','verse')
+
 
 
 class Books(models.Model):
@@ -21,15 +24,17 @@ class Books(models.Model):
         ('NT', 'NT'),
         ('OT', 'OT')
     )
-    name = models.CharField(max_length=100)
-    book_id = models.CharField(max_length=30)
+    name = models.CharField(max_length=100, unique=True)
+    book_id = models.CharField(max_length=30, unique=True)
     abbreviation = models.CharField(max_length=30, null=True)
-    location = models.CharField(max_length=15, choices=choices, default='NT')
-    order = models.PositiveIntegerField()
+    location = models.CharField(max_length=15, choices=choices)
+    order = models.PositiveIntegerField(unique=True)
     chapters = models.PositiveIntegerField()
 
     def __str__(self):
         return str(self.name)
+    
+
 
 class Chapters(models.Model):
     book = models.ForeignKey(Books, related_name='book', on_delete=models.CASCADE)
@@ -37,6 +42,8 @@ class Chapters(models.Model):
 
     def __str__(self):
         return str(self.book) + ' ' + str(self.order)
+    class Meta:
+        unique_together = ('book','order')
     
 class progress(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
@@ -45,6 +52,8 @@ class progress(models.Model):
 
     def __str__(self):
         return str(self.user)
+    class Meta:
+        unique_together = ('user','book')
     
 class TopicalBookMarks(models.Model):
     choices = (

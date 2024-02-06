@@ -6,7 +6,10 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
+.edit{
+  width: 80%;
+  margin: auto auto;
+}
 /* REGISTER */
 
 .form {
@@ -399,19 +402,23 @@
  
 
 .todays-word h6{
-  color: aqua;
+  color: coral;
   font-size: 30px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: cursive;
 
 }
 .chapter{
-  color: #ec0de1;
+  color: #fff6ff;
   font-size: 28px;
+  font-family: Dekko;
 
   
 }
 .verse{
   margin: auto auto;
+  font-family: Dekko;
+  font-size: 23px;
+  color: #ffffff;
 }
 .dashed-heading {
   position: relative;
@@ -558,10 +565,9 @@ nav{
     min-height: 100vh;
     height: auto;
     position: absolute;
-    top: 57px;
+    top: 59px;
     background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%);
     
-    /* top: 50px; */
 }
 
 
@@ -608,11 +614,10 @@ nav{
 .table-container{
     
     width: 90%;
-    margin:  auto;
-    top: 800px;
-    position: relative;
+    margin: 10px auto;
     
     bottom: 50px;
+    max-width: 1000px;
 
 }
 .table{
@@ -820,10 +825,9 @@ border-width: 13px solid green;
 }
 
 .chapter-select{
-  display: flex;
-  
-  row-gap: 3px;
-  column-gap: 5px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+  gap: 10px;
   width: 100%;
 }
 .chapter-select-view{
@@ -919,7 +923,7 @@ border-width: 13px solid green;
 }
 .progress-template{
   display: grid;
-  grid-template-columns: repeat(3,.6fr);
+  grid-template-columns: repeat(3,1fr);
   height: 350px;
   width: 80% !important;
   margin: 60px auto;
@@ -933,7 +937,7 @@ border-width: 13px solid green;
 }
 .progress-template-card{
   width: 95%;
-  height: 250px;
+  height: 260px;
   margin: auto auto;
 }
 
@@ -1016,6 +1020,12 @@ border-width: 13px solid green;
         grid-template-columns: 60% 40%;
         width: 700px;
       }
+      .progress-template{
+        width: 700px !important;
+      }
+      .edit{
+        width: 700px !important;
+      }
 
     }
     @media (max-width: 1050px) {
@@ -1065,6 +1075,9 @@ border-width: 13px solid green;
     display: inline;
 
   }
+  .progress-template{
+    grid-template-columns: repeat(2, .5fr);
+  }
   
   .charity-card{
     width: 65%;
@@ -1072,7 +1085,13 @@ border-width: 13px solid green;
   .profile-card{
     width: 600px;
   }
- 
+ .progress-template{
+  width: 600px !important;
+  height: 550px;
+ }
+ .edit{
+  width: 600px !important;
+ }
 }
 
 @media (max-width: 650px) {
@@ -1092,6 +1111,15 @@ border-width: 13px solid green;
 
         margin: 0 auto;
       
+    }
+    .progress-template{
+      display: inline;
+      height: auto;
+      width: auto;
+    }
+    .edit{
+      width: 95% !important;
+      margin: 20px auto;
     }
 
 

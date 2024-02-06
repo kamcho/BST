@@ -15,18 +15,15 @@ import json
 @receiver(user_signed_up)
 def update_user_profile(request, sociallogin, **kwargs):
     # sociallogin.user is the user instance
-    print("request","\n\n\n\n\n")
     user = sociallogin.user
     print(user)
     try:
         personal_profile, created = PersonalProfile.objects.get_or_create(user=user)
         personal_profile.f_name = sociallogin.account.extra_data.get('given_name', '')
         personal_profile.surname = sociallogin.account.extra_data.get('family_name', '')
-        print(sociallogin.account.extra_data.get('picture', ''),'\n\n\n')
         personal_profile.google_pic = sociallogin.account.extra_data.get('picture', '')
         personal_profile.save()
 
-        print(personal_profile)
 
     except Exception as e:
         print(str(e))

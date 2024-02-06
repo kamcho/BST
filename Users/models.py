@@ -136,18 +136,7 @@ class Supervisor(MyUser):
     class Meta:
         proxy = True
 
-# class FinanceManager(BaseUserManager):
-#     def get_queryset(self, *args, **kwargs):
-#         result = super().get_queryset(*args, **kwargs)
-#         return result.filter(role=MyUser.Role.Finance)
 
-
-# class Finance(MyUser):
-#     base_role = MyUser.Role.Finance
-#     partner = FinanceManager()
-
-#     class Meta:
-#         proxy = True
 
 class UserTheme(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
@@ -173,7 +162,7 @@ class PersonalProfile(models.Model):
     dob = models.DateField(null=True)
     l_name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30, blank=True)
-    profile_pic = models.FileField(upload_to='ProfilePics/', default='ProfilePics/realistic-black-background-with-realistic-elements_23-2149156849.avif')
+    profile_pic = models.FileField(upload_to='ProfilePics/')
     google_pic = models.CharField(max_length=300,null=True)
     gender = models.CharField(max_length=10, blank=True)
     phone = models.CharField(max_length=15, null=True)

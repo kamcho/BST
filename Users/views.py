@@ -11,7 +11,7 @@ from django.db.models import Count
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import TemplateView
 import requests
-from BibleStudy.models import BibleVersesKJV, Books, Chapters, StudyGroups, UserPreference, progress, Chapters
+from BibleStudy.models import KingJamesVersionI, Books, Chapters, StudyGroups, UserPreference, progress, Chapters
 from Communication.models import MessagingSettings
 from DailyWord.models import DailyMessage
 from django.db.models import Sum
@@ -534,7 +534,7 @@ class Settings(TemplateView):
 
 def get_theme_verse(book, chapter, verse):
     book = Books.objects.get(name=book)
-    verse = BibleVersesKJV.objects.get(book=book.order, chapter=chapter, verse=verse)
+    verse = KingJamesVersionI.objects.get(book=book.order, chapter=chapter, verse=verse)
 
     return verse.text
     

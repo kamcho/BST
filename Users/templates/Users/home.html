@@ -4,18 +4,20 @@
 <!-- background-image: url('{% static 'Users\5137843.jpg' %}'); -->
 
   <div class="content-container" >
+    {% if progress %}
       <div class="read-progress">
         <div class="progress-text">
           <h5 class="text-center">{{ progress }}<i class="bi bi-perent"></i></h5>
         </div>
-    </div>
+      </div>
+    {% endif %}
     
     
 
     <div class="todays-word">
       <h6>Todays Word.</h6>
       <div class="chapter">{{ word.book }} {{ word.chapter }}:{{ word.verse }}</div>
-      <br>
+     
       <div class="verse">
         {{ word.word }}
       </div>
