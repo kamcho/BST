@@ -20,4 +20,4 @@ def add_verse():
             text=text
        
         )
-# add_verse()
+add_verse()
