@@ -18,5 +18,6 @@ def add_verse():
             chapter=chapter,
             verse=verse,
             text=text
+       
         )
-add_verse()
+# add_verse()
