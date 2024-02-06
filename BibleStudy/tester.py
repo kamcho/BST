@@ -1,27 +1,22 @@
-import requests
-from bs4 import BeautifulSoup
-from django.utils.safestring import mark_safe
-def get_verses():
-    base_url = 'https://api.scripture.api.bible/v1/bibles'
-    endpoint = f'{base_url}/de4e12af7f28f599-02/books/GEN/chapters'
+import json
 
-    headers = {
-        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
-    }
-    
-    try:
-        response = requests.get(endpoint, headers=headers)
-        response.raise_for_status()
+from BibleStudy.models import KingJamesVersionI
 
-        # Assuming the API returns data in JSON format
-        books_data = response.json()
-        print(books_data)
-        
+# Read JSON file
+def add_verse():
+    with open('D:\CMS\Church\BibleStudy\kjv.json') as json_file:
+        data = json.load(json_file)
 
-        return books_data
+    # Iterate over the 'row' items in the JSON data
+    for item in data['resultset']['row']:
+        # Extract values from the 'field' list
+        id,book, chapter, verse, text = item['field']
+        print(book,chapter, verse, text)
 
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        return None
-
-get_verses()
+        KingJamesVersionI.objects.create(
+            book=book,
+            chapter=chapter,
+            verse=verse,
+            text=text
+        )
+add_verse()

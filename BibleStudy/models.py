@@ -12,7 +12,7 @@ class KingJamesVersionI(models.Model):
     text = models.TextField()
 
     def __str__(self):
-        return str(self.verse)
+        return str(self.book) + ' ' + str(self.chapter) + ' ' + str(self.verse) 
     
     class Meta:
         unique_together = ('book','chapter','verse')
