@@ -236,6 +236,11 @@ def get_book_verse(book, chapter):
     except KingJamesVersionI.DoesNotExist:
         return None
 
+def get_bible_verse_by_id(book, chapter):
+    verses = KingJamesVersionI.objects.filter(book=book, chapter=chapter)
+
+    return verses
+
 
 class Read(TemplateView):
     template_name = 'BibleStudy/read.html'
@@ -278,12 +283,7 @@ class Read(TemplateView):
 
 
 
-def get_bible_verse_by_id(book, chapter):
-    try:
-        verse = BibleVersesKJV.objects.filter(book=book,chapter=chapter)
-        return verse
-    except BibleVersesKJV.DoesNotExist:
-        return None
+
 
 class SaveProgress(TemplateView):
     template_name = 'BibleStudy/save_progress.html'
