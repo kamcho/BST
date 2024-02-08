@@ -1,7 +1,7 @@
 import datetime as datetime
 from itertools import groupby
 import json
-from .tester import add_verse
+# from .tester import add_verse
 from operator import attrgetter
 from django.db.models import F, Window
 import requests
@@ -217,7 +217,7 @@ class Biblia(TemplateView):
         chapters = Chapters.objects.filter(book__name=book)
         context['chapters'] = chapters
         context['focus'] = chapter
-        add_verse()
+        # add_vers_e()
         
         
 
