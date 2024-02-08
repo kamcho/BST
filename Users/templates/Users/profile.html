@@ -136,7 +136,7 @@
       </h2>
       <div id="changePhoneNumberCollapse" class="accordion-collapse" aria-labelledby="changePhoneNumberHeader" data-bs-parent="#changePhoneNumberAccordion">
         <div class="accordion-body">
-          <form method="post">
+          <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
               <label for="first-name">First Name</label>
@@ -154,10 +154,14 @@
               <label for="surname">Surname</label>
               <input id="surname"  name="surname" class="form-control" value="{{ user.personalprofile.surname }}" required>
             </div>
+            <div class="form-group">
+              <label for="photo">Profile Pic ({{ user.personalprofile.profile_pic }})</label>
+              <input id="photo" type="file"  name="photo" class="form-control" >
+            </div>
             <br>
             <div class="form-group">
               <label  class="form-label">Date Of Birth {{  user.personalprofile.dob }}</label>
-              <input type="date" class="form-control" name="dob" value="{{  user.personalprofile.dob }}" required>
+              <input type="date" class="form-control" name="dob" value="{{  user.personalprofile.dob }}" >
             </div>
             <br>
             <div class="form-group">

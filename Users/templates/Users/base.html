@@ -56,21 +56,20 @@
             <div class="offcanvas-title" id="offcanvasNavbarLabel" style="margin: 5px auto;">
               {% if user.personalprofile.profile_pic %}
                 <img src="{{ user.personalprofile.profile_pic.url }}" width="100" height="100" style="border-radius: 50%;">
-              {% else %}
+              {% elif user.personalprofile.google_pic %}
                 <img src="{{ user.personalprofile.google_pic }}" width="100" height="100" style="border-radius: 50%;">
-
+              {% else %}
+              <img src="{% static 'Users/istockphoto-1337144146-612x612.jpg' %}" width="100" height="100" >
               {% endif %}
             </div>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" style="color:black;">
-              {% if user.is_authenticated %}
+              
 
                 
-                <li>
-                  <a class="nav-link" href="{% url 'create-group' %}" ><i class="bi bi-send" > </i>Create Group</a>
-              </li>
+                
 
 
                 <li>
@@ -86,37 +85,7 @@
           <li>
             <a class="nav-link" href="{% url 'biblia' %}" ><i class="bi bi-book" > </i>Bible</a>
         </li>
-          <li>
-            <a class="nav-link" href="{% url 'update-profile' %}" ><i class="bi bi-person" > </i>Profile</a>
-        </li>
-        <li>
-          <a class="nav-link" href="{% url 'study-progress' %}" ><i class="bi bi-bar-chart" > </i>C.B.R</a>
-      </li>
-      <li>
-        <a class="nav-link" href="{% url 'charities' %}" ><i class="bi bi-bag-heart" > </i>Charities</a>
-    </li>
-    <li>
-      <a class="nav-link" href="{% url 'projects' %}" ><i class="bi bi-house-add" > </i>Projects</a>
-  </li>
-        <li>
-          <a class="nav-link" href="{% url 'set-bible-preference' %}" ><i class="bi bi-bookmark-heart" > </i>Set Preference</a>
-      </li>
-      <li>
-        <a class="nav-link" href="{% url 'my-bookmarks' %}" ><i class="bi bi-bookmark-plus" > </i>BookMarks</a>
-    </li>
-    <li>
-      <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
-    </li>
-    <li>
-      <a class="nav-link" href="{% url 'achievements' %}" ><i class="bi bi-trophy" > </i>My Achievements</a>
-  </li>
-  <li>
-    <a class="nav-link" href="{% url 'book-analytics' %}" ><i class="bi bi-bar-chart-line" > </i>BookAlytics</a>
-  </li>
-     
-        <li>
-          <a class="nav-link" href="{% url 'settings' %}" ><i class="bi bi-gear" > </i>Settings</a>
-      </li>
+
       {% if user.role == 'Supervisor' %}
 
       <li>
@@ -138,6 +107,9 @@
         <a class="nav-link" href="{% url 'create-charity' %}" ><i class="bi bi-bag-heart" > </i>Create Charity</a>
     </li>
     <li>
+      <a class="nav-link" href="{% url 'create-group' %}" ><i class="bi bi-send" > </i>Create Group</a>
+  </li>
+    <li>
       <a class="nav-link" href="{% url 'study-groups' %}" ><i class="bi bi-people" > </i>Study Groups</a>
   </li>
 
@@ -150,17 +122,7 @@
 
         
 
-       <li>
-           <a class="nav-link" href="">
-            <button  style="background-color:purple;" class="btn  position-relative">
-              Messages
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                <!-- {{ messages.count }}+ -->
-                <span class="visually-hidden">unread messages</span>
-              </span>
-            </button>
-            </a>
-       </li>
+     
        
       
 
@@ -169,12 +131,45 @@
 
 
 
+         
+
+          {% if user.is_authenticated %}
+          <li>
+            <a class="nav-link" href="{% url 'update-profile' %}" ><i class="bi bi-person" > </i>Profile</a>
+        </li>
+        <li>
+          <a class="nav-link" href="{% url 'study-progress' %}" ><i class="bi bi-bar-chart" > </i>C.B.R</a>
+      </li>
+      <li>
+        <a class="nav-link" href="{% url 'charities' %}" ><i class="bi bi-bag-heart" > </i>Charities</a>
+    </li>
+    <li>
+      <a class="nav-link" href="{% url 'projects' %}" ><i class="bi bi-house-add" > </i>Projects</a>
+  </li>
+        <li>
+          <a class="nav-link" href="{% url 'set-bible-preference' %}" ><i class="bi bi-bookmark-heart" > </i>Set Preference</a>
+      </li>
+      <li>
+        <a class="nav-link" href="{% url 'my-bookmarks' %}" ><i class="bi bi-bookmark-plus" > </i>BookMarks</a>
+    </li>
+    
+    <li>
+      <a class="nav-link" href="{% url 'achievements' %}" ><i class="bi bi-trophy" > </i>My Achievements</a>
+  </li>
+  <li>
+    <a class="nav-link" href="{% url 'book-analytics' %}" ><i class="bi bi-bar-chart-line" > </i>BookAlytics</a>
+  </li>
+     
+        <li>
+          <a class="nav-link" href="{% url 'settings' %}" ><i class="bi bi-gear" > </i>Settings</a>
+      </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}" ><i class="bi bi-box-arrow-left" > </i>Sign out</a>
           </li>
-
-
         {% else %}
+        <li>
+          <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}" ><i class="bi bi-box-arrow-right" > </i>Sign In</a>
         </li>

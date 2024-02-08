@@ -11,7 +11,7 @@ from django.db.models import Count
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import TemplateView
 import requests
-from BibleStudy.models import KingJamesVersionI, Books, Chapters, StudyGroups, UserPreference, progress, Chapters
+from BibleStudy.models import BibleVersions, KingJamesVersionI, Books, Chapters, StudyGroups, UserPreference, progress, Chapters
 from Communication.models import MessagingSettings
 from DailyWord.models import DailyMessage
 from django.db.models import Sum
@@ -78,7 +78,7 @@ class RegisterView(TemplateView):
                             
 
                     except IntegrityError as e:
-                        messages.error(request, str(e))
+                        messages.error(request, f'A user with the email {email} already exists!')
                 else:
                     messages.error(request, 'The passwords did not match!')
             else:
@@ -158,6 +158,7 @@ class MyProfile(LoginRequiredMixin, TemplateView):
                         l_name = self.request.POST.get('last-name').lower()
                         surname = self.request.POST.get('surname').lower()
                         gender = self.request.POST.get('gender')
+                        uploaded_file = self.request.FILES.get('photo')
                         dob = self.request.POST.get('dob')
                         if new_phone_number:
                             profile.phone = new_phone_number
@@ -165,7 +166,10 @@ class MyProfile(LoginRequiredMixin, TemplateView):
                         profile.l_name = l_name
                         profile.gender = gender
                         profile.surname = surname
-                        profile.dob = dob
+                        if uploaded_file:
+
+                            profile.profile_pic = uploaded_file
+                        # profile.dob = dob
                         profile.save()
                         messages.success(self.request, 'Profile has been successfully Updated!')
 
@@ -179,25 +183,25 @@ class MyProfile(LoginRequiredMixin, TemplateView):
 
                 except Exception as e:
                     # Handle any unhandled errors
-                    messages.error(self.request, 'Sorry, there was an issue updating your profile. Please try again.')
+                    messages.error(self.request, f'{str(e)}')
                     error_message = str(e)  # Get the error message as a string
                     error_type = type(e).__name__
 
-                    logger.critical(
-                        error_message,
-                        exc_info=True,  # Include exception info in the log message
-                        extra={
-                            'app_name': __name__,
-                            'url': self.request.get_full_path(),
-                            'school': settings.SCHOOL_ID,
-                            'error_type': 'DatabaseError',
-                            'user': self.request.user,
-                            'level': 'Critical',
-                            'model': 'Database Error',
-                        }
-                    )
+                #     logger.critical(
+                #         error_message,
+                #         exc_info=True,  # Include exception info in the log message
+                #         extra={
+                #             'app_name': __name__,
+                #             'url': self.request.get_full_path(),
+                #             'school': settings.SCHOOL_ID,
+                #             'error_type': 'DatabaseError',
+                #             'user': self.request.user,
+                #             'level': 'Critical',
+                #             'model': 'Database Error',
+                #         }
+                #     )
 
-                # Add a learner to a guardians watch list
+                # # Add a learner to a guardians watch list
             elif 'attachment' in self.request.POST:
                 try:
                     if self.request.user.role == 'Guardian':
@@ -430,7 +434,7 @@ def rout(request):
         return redirect('logout')
 
 
-class Home(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
+class Home(TemplateView):
     """
     Home view for the Student's dashboard.
     Displays the user's progress and related information.
@@ -443,19 +447,25 @@ class Home(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
         """
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        try:
-            group = StudyGroups.objects.get(members=user)
-            context['group'] = group
-        except StudyGroups.DoesNotExist:
-            messages.error(self.request, 'You have not yet been assigned a bible study group yet!')
+        if user.is_authenticated:
+            try:
+                
+                group = StudyGroups.objects.get(members=user)
+                context['group'] = group
+            except StudyGroups.DoesNotExist:
+                if user.is_authenticated:
+                    messages.error(self.request, 'You have not yet been assigned a bible study group yet!')
+                else:
+                    messages.error(self.request, 'Sign In/Up to join a bible study group')
+            read_percentage = progress.objects.filter(user=user)
+            chapters_count = read_percentage.aggregate(total=Count('chapter'))['total']
+            if chapters_count:
+                chapters = Chapters.objects.all().count()
+                prog = (chapters_count / chapters) * 100
+                context['progress'] = round(prog)
         word = DailyMessage.objects.filter().last()
         context['word'] = word
-        read_percentage = progress.objects.filter(user=user)
-        chapters_count = read_percentage.aggregate(total=Count('chapter'))['total']
-        if chapters_count:
-            chapters = Chapters.objects.all().count()
-            prog = (chapters_count / chapters) * 100
-            context['progress'] = round(prog)
+        
 
 
         return context
@@ -469,14 +479,26 @@ class Home(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     
         
-class Settings(TemplateView):
+class Settings(LoginRequiredMixin, TemplateView):
     template_name = 'Users/settings.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        books = Books.objects.all().order_by('order')
-        context['books'] = books
+        bibles = BibleVersions.objects.all()
+        context['bibles'] = bibles
+        try:
+            setting = MessagingSettings.objects.get(user=user)
+            context['settings'] = setting
+        except:
+            pass
+
+        try:
+            preference = UserPreference.objects.get(user=user)
+            
+            context['preference'] = preference
+        except UserPreference.DoesNotExist:
+            pass
         try:
             theme = UserTheme.objects.get(user=user)
             context['theme'] = theme
@@ -510,23 +532,38 @@ class Settings(TemplateView):
                     'books':self.get_context_data().get('books'),
                     'theme':user_theme
                 }
-                return render(self.request, self.template_name, context)
+                
+            
+            elif 'biblia' in self.request.POST:
+                bible = self.request.POST.get('bible')
+                user = self.request.user
+                try:
+                    bible = BibleVersions.objects.get(bible_id=bible)
+                    preference = self.get_context_data().get('preference')
+                    preference.default_bible = bible
+                    preference.save()
+                    messages.success(self.request, 'Success!')
+                    
+                except AttributeError:
+                    preference = UserPreference.objects.create(user=user, default_bible=bible)
+                    messages.success(self.request, 'Success!')
+
             else:
                 user = self.request.user
-                sms = self.request.POST.get('sms')
+                # sms = self.request.POST.get('sms')
                 tasapp = self.request.POST.get('whatsapp')
                 try:
                     messaging = MessagingSettings.objects.get(user=user)
                 except MessagingSettings.DoesNotExist:
                     messaging = MessagingSettings.objects.create(user=user)
-                sms = bool(sms)
+                # sms = bool(sms)
                 tasapp = bool(tasapp)
 
-                messaging.sms = sms
+                # messaging.sms = sms
                 messaging.whatsapp = tasapp
                 messaging.save()
 
-                return redirect(self.request.get_full_path())
+            return redirect(self.request.get_full_path())
 
 
             

@@ -6,70 +6,128 @@
 <br><br><br><br>
 
 <div class="container" >
-
-    <h5>Theme Verse</h5>
-    {% if theme %}
-    {{ theme.book }} {{ theme.chapter }}:{{ theme.verse }}
-    {% endif %}
-    <br>
-    <div>
-        {{ theme.word }}
-    </div>
-    <br>
-    <form method="post">
-        {% csrf_token %}
-        <div class="input-group mb-3">
-            <select class="form-select" aria-label="Default select example" name="book">
-                {% for book in books %}
-                    <option >{{book}}</option>
-                {% endfor %}
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Set Theme Verse
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+               
+                {% if theme %}
+                {{ theme.book }} {{ theme.chapter }}:{{ theme.verse }}
+                {% endif %}
                 
-            </select>
-            <span class="input-group-text">Chapter</span>
-            <input type="number" class="form-control" placeholder="1" aria-label="Server" name="chapter">
-            <span class="input-group-text">Verse</span>
-            <input type="number" class="form-control" placeholder="1" aria-label="Server" name="verse">
+                <div>
+                    {{ theme.word }}
+                </div>
+                <br>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input- mb-3">
+                        <select class="form-select" aria-label="Default select example" name="book">
+                            {% for book in books %}
+                                <option >{{book}}</option>
+                            {% endfor %}
+                            
+                        </select>
+                        <br>
+                        <input type="number" class="form-control" placeholder="1" aria-label="Server" name="chapter">
+                        <br>
+                        <input type="number" class="form-control" placeholder="1" aria-label="Server" name="verse">
+                    </div>
+                    {% if verse %}
+                    
+                    {% else %}
+                    
+                    {% endif %}
+                    <div>
+                        <button class="btn btn-warning" name="verify" style="color: white;">Set</button>
+            
+                    </div>
+                    <br><br>
+                </form>
+            
+            </div>
+          </div>
         </div>
-        {% if verse %}
-        
-        {% else %}
-        
-        {% endif %}
-        <div>
-            <button class="btn btn-warning" name="verify" style="color: white;">Set</button>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Set Bible Preference
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                {% if preference %}
 
+                <div class="btn btn-dark">Default Bible - {{ preference.default_bible }}</div>
+                {% endif %}
+                <br><br>
+                <form method="post">
+                    {% csrf_token %}
+                    <div>
+                        <select class="form-select" aria-label="Default select example" id="bible" name="bible" required>
+                            {% for bible in bibles %}
+                                <option value="{{ bible.bible_id }}">{{ bible.name }} ({{ bible.language }})</option>
+                            {% endfor %}
+                            
+                        </select>
+                    </div>
+                    <br>
+                
+                    <button class="btn btn-info" style="color: white;" name="biblia">Save</button>
+                </form>
+                
+            </div>
+          </div>
         </div>
-        <br><br><br><br><br>
-    </form>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Messaging
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <h5>Receive daily word on whatsapp.</h5>
+                    <br>
+                    
+                    <div class="form-check">
+                        {% if settings.whatsapp %}
+                        <input class="form-check-input" type="checkbox"  id="flexCheckDefault" name="whatsapp" checked>
+                        {% else %}
+                        <input class="form-check-input" type="checkbox"  id="flexCheckDefault" name="whatsapp">
+                        {% endif %}
+                        <label class="form-check-label" for="flexCheckDefault">
+                            
+                            
+                            Receive Messages
+                            
+                        </label>
+                      </div>
+                    <br><br>
 
-    <!-- <h5>Messaging</h5>
-    <p>Do you want to receive motivational messages through SMS. Its free for Whatsapp and ksh 1 a day for SMS</p>
-
+                    <button class="btn btn-danger">Save</button>
+                
+                </form>
+                
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
     
-    <form method="post">
-        {% csrf_token %}
-        {% if user.messagingsettings.sms %}
-            <input type="checkbox" name="sms" checked>
-            <label>SMS</label>
-        {% else %}
-            <input type="checkbox" name="sms" >
-            <label>SMS</label>
-        {% endif %}
-        {% if user.messagingsettings.whatsapp %}
-            <input type="checkbox" name="whatsapp" checked>
-            <label>WhatsApp</label>
-        {% else %}
-            <input type="checkbox" name="whatsapp" >
-            <label>Whatsapp</label>
-        {% endif %}
-        
-        <br><br>
-        <button class="btn btn-danger" style="color: white;">SAVE</button>
-
-    </form> -->
-
     
-</div>
+
+
+
+
+
 
 
 {% endblock %}

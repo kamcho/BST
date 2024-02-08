@@ -1,6 +1,7 @@
 import datetime as datetime
 from itertools import groupby
-import json
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # from .tester import add_verse
 from operator import attrgetter
 from django.db.models import F, Window
@@ -198,8 +199,9 @@ class BookSelect(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['books'] = Books.objects.all().order_by('order')
-        # get_all_books()
+        books = Books.objects.all().order_by('order')
+        context['books'] = books
+        print(books)
 
         return context
     
@@ -368,7 +370,7 @@ def create_achievement(user):
         print(str(e))
     return None
 
-class StudyProgress(TemplateView):
+class StudyProgress(LoginRequiredMixin,TemplateView):
     template_name = 'BibleStudy/study_progress.html'
 
     def get_context_data(self, **kwargs):
@@ -490,7 +492,7 @@ def create_bookmark(request):
         return JsonResponse({'success': False, 'message': 'user_id or verse_id not provided'})
 
 
-class MyBookMarks(TemplateView):
+class MyBookMarks(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/my_bookmarks.html'
 
     def get_context_data(self, **kwargs):
@@ -595,9 +597,10 @@ class LeadersBoard(TemplateView):
         current_user = self.request.user  # Replace with your actual way of getting the current user
 
 # Find the rank of the current user
-        current_user_profile = next((profile for profile in ranked_profiles if profile.user == current_user), None)
-        current_user_rank = current_user_profile.rank if current_user_profile else None
-        context['rank'] = current_user_rank
+        if current_user:
+            current_user_profile = next((profile for profile in ranked_profiles if profile.user == current_user), None)
+            current_user_rank = current_user_profile.rank if current_user_profile else None
+            context['rank'] = current_user_rank
 
         return context
 

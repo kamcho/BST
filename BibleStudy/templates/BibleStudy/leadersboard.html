@@ -14,7 +14,11 @@
 
 <div class="table-container">
   <br><br>
+    {% if rank %}
     <button class="btn btn-secondary">My Rank - {{ rank }}</button>
+    {% else %}
+    <a href="{% url 'login' %}"><button class="btn btn-secondary">Login To See Your Rank</button></a>
+    {% endif %}
     <br><br>
 
     <table class="table">
@@ -27,31 +31,50 @@
           </tr>
         </thead>
         <tbody>
-       
+          {% if user.is_authenticated %}
+          <tr>
+            <td><h6>{{ rank }}</h6></td>
+            {% if profile.profile_pic %}
+            <td><img src="{{ profile.profile_pic.url }}" style="height: 30px;width: 30px; border-radius: 50%;"></td>
+            {% else %}
+            <td><i style="height: 30px;width: 30px; border-radius: 50%;" class="bi bi-person"></i></td>
+            {% endif %}
+           
+          
+              {% if  profile.f_name %}
+                  <td style="color: orangered;">{{ profile.f_name|title }} {{ profile.l_name.0|title }}  {{ profile.surname|title }}</td>
+              {% else %}
+                  <td style="color: orangered;">{{ profile }}</td>
+              {% endif %}
 
+        
+            <td style="font-family:monospace !important;color: coral;">{{ profile.points }}</td>
+        </tr>
+        {% endif %}
         
 
         {% for profile in profiles %}
           <tr>
               <td><h6>{{ profile.rank }}</h6></td>
+              {% if profile.profile_pic %}
               <td><img src="{{ profile.profile_pic.url }}" style="height: 30px;width: 30px; border-radius: 50%;"></td>
-              {% if profile.user != user %}
+              {% else %}
+              <td><i style="height: 30px;width: 30px; border-radius: 50%;" class="bi bi-person"></i></td>
+              {% endif %}
+            
                 {% if  profile.f_name %}
                 <td>{{ profile.f_name|title }} {{ profile.l_name.0|title }}  {{ profile.surname|title }}</td>
                 {% else %}
                 <td>{{ profile }}</td>
                 {% endif %}
-              {% else %}
-                {% if  profile.f_name %}
-                    <td style="color: orangered;">{{ profile.f_name|title }} {{ profile.l_name.0|title }}  {{ profile.surname|title }}</td>
-                {% else %}
-                    <td style="color: orangered;">{{ profile }}</td>
-                {% endif %}
+              
+             
 
-              {% endif %}
+        
               <td style="font-family:monospace !important">{{ profile.points }}</td>
           </tr>
         {% endfor %}
+        
         
         </tbody>
      </table>

@@ -14,7 +14,7 @@ db_params = {
 # Replace the above placeholders with your actual database connection details
 
 # JSON file path
-json_file_path = 'Church\BibleStudy\kjv.json'
+json_file_path = 'D:\CMS\Church\BibleStudy\kjv.json'
 
 def connect_to_database():
     # Connect to the PostgreSQL database
