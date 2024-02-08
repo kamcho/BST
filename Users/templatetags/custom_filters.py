@@ -185,23 +185,6 @@ def get_book_verse(book, chapter):
     
 @register.filter
 def get_verses(book,chapter):
-    base_url = 'https://api.scripture.api.bible/v1/bibles'
-    endpoint = f'{base_url}/de4e12af7f28f599-02/chapters/{book}.{chapter}'
+    verses = KingJamesVersionI.objects.filter(book=book, chapter=chapter)
 
-    headers = {
-        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
-    }
-    
-    try:
-        response = requests.get(endpoint, headers=headers)
-        response.raise_for_status()
-
-        # Assuming the API returns data in JSON format
-        books_data = response.json()
-        books_dat = books_data['data']['content']
-
-        return books_dat
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        return str(e)
+    return verses

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Biblia, BookSelect, CreateStudyGroups, GroupDetails, GroupRequests, LeadersBoard, RequestStudyGroup, create_bookmark, TopicalBookMark, SetBiblePreference, Read, BooksAnalytics, MyBookMarks, StudyProgress, AddToGroup, SaveProgress, UsersAchievements, BibleStudyGroups
+from .views import Biblia, BookSelect, ContactUs, CreateStudyGroups, GroupDetails, GroupRequests, LeadersBoard, RequestStudyGroup, create_bookmark, TopicalBookMark, SetBiblePreference, Read, BooksAnalytics, MyBookMarks, StudyProgress, AddToGroup, SaveProgress, UsersAchievements, BibleStudyGroups
 from . import views
 urlpatterns = [
 
@@ -21,6 +21,7 @@ urlpatterns = [
     path('Biblia/', BookSelect.as_view(), name='biblia'),
     path('Biblia/<str:book>/<str:chapter>', Biblia.as_view(), name='read-biblia'),
     path('CreateGroup/', CreateStudyGroups.as_view(), name='create-group'),
+    path('Contact-Us/', ContactUs.as_view(), name='contact-us'),
 
 
 

@@ -13,7 +13,11 @@
                     <span class="visually-hidden">Loading...</span>
                   </div></h6>
                 <h4 style="font-family: cursive;">{{ chapter.order }}</h4>
-                <p>{{ book|get_verses:chapter.order|safe }}</p>
+                {% with book|get_verses:chapter.order as verses %}</p>
+                    {% for verse in verses %}
+                        <p>{{ verse.verse }}{{ verse.text }}</p>
+                    {% endfor %}
+                {% endwith %}
               
                 
             </div>

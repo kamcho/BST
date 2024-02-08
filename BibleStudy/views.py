@@ -1,7 +1,8 @@
 import datetime as datetime
 from itertools import groupby
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+import psycopg2
+from django.db import models, connection
 # from .tester import add_verse
 from operator import attrgetter
 from django.db.models import F, Window
@@ -201,6 +202,8 @@ class BookSelect(TemplateView):
         context = super().get_context_data(**kwargs)
         books = Books.objects.all().order_by('order')
         context['books'] = books
+               
+ 
         print(books)
 
         return context
@@ -214,7 +217,7 @@ class Biblia(TemplateView):
         context = super().get_context_data(**kwargs)
         book = self.kwargs['book']
         book = Books.objects.get(name=book)
-        context['book'] = book.book_id
+        context['book'] = book.order
         chapter = self.kwargs['chapter']
         chapters = Chapters.objects.filter(book__name=book)
         context['chapters'] = chapters
@@ -498,7 +501,10 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context['verses'] = BookMarks.objects.filter(user=user)
+        verses = BookMarks.objects.filter(user=user)
+        context['verses'] = verses
+        if not verses:
+            messages.info(self.request, 'You do not have any bookmarked verses.')
 
         return context
 
@@ -648,3 +654,7 @@ def create_books_from_api(api_response):
 #         print(f"Error: {e}")
 #         return None
 
+
+
+class ContactUs(TemplateView):
+    template_name = 'BibleStudy/contact_us.html'
