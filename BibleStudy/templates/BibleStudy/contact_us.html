@@ -1,13 +1,93 @@
 {% extends 'Users/base.html' %}
-
+{% load static %}
 {% block content %}
 
 <div class="content-container" style="background-color: rgb(25,22 ,32)!important;">
     <div class="container">
+        <br><br>
+        <div style="color: white;">
 
+            <h5 style="font-family: cursive;">About Us.</h5>
+          
+            <p>Welcome to <strong style="color: coral;font-family: Dekko;font-size: 23px;">Jesus.Word</strong>, 
+                your online destination for transformative Bible teachings.
+                We are an African community dedicated to making the Word of God known to all.
+                Our mission is to provide accessible, inspiring,
+                and enriching Bible guidance that foster spiritual growth and understanding.
+                Join us on this journey of exploration and discovery. Together, 
+                let's delve into the timeless wisdom of the Scriptures and experience
+                 the joy of connecting with God's Word.
+                  Whether you're a seasoned believer or a seeker taking your first steps, 
+                  <strong style="color: coral;">Jesus.Word</strong> is here to guide you on your spiritual path.
+            </p>
+    
+        </div>
+        
+        <br>
+        <div style="color: white;">
+            
+            <h5 style="font-family: cursive;">Our Mission.</h5>
+            
+            <p>
+                At <strong style="color: coral;">Jesus.Word</strong>, our mission is to foster a vibrant and inclusive online community dedicated to the exploration and deepening of spiritual insights through the study of the Bible. We aim to provide a dynamic platform that empowers individuals from diverse backgrounds to engage in meaningful discussions, gain a deeper understanding of biblical teachings, and cultivate a sense of connection with others on their spiritual journey. Our commitment is to facilitate accessible and enriching Bible study experiences, fostering personal growth, and nurturing a sense of unity and shared discovery within our global community.
+            </p>
+    
+        </div>
+        <br><br>
 
-
+       
 </div>
+
+
+<div>
+    .
+</div>
+
+
+<div class="accordion container" id="changePhoneNumberAccordion" >
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="changePhoneNumberHeader">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#changePhoneNumberCollapse" aria-expanded="true" aria-controls="changePhoneNumberCollapse">
+          <small>Contact-Us</small>
+        </button>
+      </h2>
+      <div id="changePhoneNumberCollapse" class="accordion-collapse" aria-labelledby="changePhoneNumberHeader" data-bs-parent="#changePhoneNumberAccordion">
+        <div class="accordion-body">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="first-name">Full Name*<small style="color: crimson;">(required)</small></label>
+              <input  name="names" id="first-name" class="form-control" placeholder="John Doe" required>
+            </div>
+           
+            
+            <div class="form-group">
+              <label for="surname">About</label>
+              <input id="surname"  name="about" class="form-control" placeholder="How do i get this system for my church" required>
+            </div>
+            
+           
+            <br>
+            <div class="form-group">
+              <label for="phone-number">Message*<small style="color: crimson;">(required)</small></label>
+              <textarea  name="message" class="form-control" rows="6"  required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="phone-number">Phone Number<small style="color: crimson;"></small></label>
+                <input type="text" name="phone-number" class="form-control" id="phone-number" placeholder="0742124431"  required>
+              </div>
+              <div class="form-group">
+                <label for="phone-number">Email<small style="color: crimson;">(required)</small></label>
+                <input type="text" name="email" class="form-control" id="phone-number" placeholder="johndoe@gmail.com"  required>
+              </div>
+
+              <br>
+            <button type="submit" class="btn btn-primary" name="profile">Send</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

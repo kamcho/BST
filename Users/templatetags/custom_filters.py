@@ -81,14 +81,15 @@ def get_next_chapter(user, book):
         
         read_chapters = read.chapter.all()
         chapters = Chapters.objects.filter(book__order=book).exclude(id__in=read_chapters).order_by('order').first()
-        print(book_id.name,chapter_count,read.chapter.count(), chapters.order)
+        # print(book_id.name,chapter_count,read.chapter.count(), chapters.order)
         if read.chapter.count() == chapter_count :
             return 'True'
         if chapters:
             return chapters.order
         else:
             return 1
-    except:
+    except Exception as e:
+        print(str(e))
         return 1
     
 

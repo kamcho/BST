@@ -45,7 +45,7 @@
 
 
 
-    <nav class="navbar navbar-dark fixed-top" id="top-bar" style="background-color:rgba(29, 25, 46, .8);">
+    <nav class="navbar navbar-dark fixed-top" id="top-bar" style="background-color:rgba(29, 25, 46, .8) !important;">
       <div class="container-fluid">
         <a class="zara no-style"  href="#">Jesus.Said</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -84,6 +84,12 @@
           </li>
           <li>
             <a class="nav-link" href="{% url 'biblia' %}" ><i class="bi bi-book" > </i>Bible</a>
+        </li>
+        <li>
+          <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headphones" > </i>Contact-Us</a>
+      </li>
+        <li>
+          <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
         </li>
 
       {% if user.role == 'Supervisor' %}
@@ -158,12 +164,7 @@
             <a class="nav-link" href="{% url 'logout' %}" ><i class="bi bi-box-arrow-left" > </i>Sign out</a>
           </li>
         {% else %}
-        <li>
-          <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headphones" > </i>Settings</a>
-      </li>
-        <li>
-          <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
-        </li>
+       
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}" ><i class="bi bi-box-arrow-right" > </i>Sign In</a>
         </li>

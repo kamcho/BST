@@ -1,5 +1,8 @@
 import datetime as datetime
 from itertools import groupby
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 import psycopg2
 from django.db import models, connection
@@ -16,6 +19,7 @@ from django.views.generic import TemplateView
 import requests
 from django.db.models import Count
 from django.contrib import messages
+from Communication.models import Inbox
 from Users.models import MyUser, PersonalProfile
 from .models import CBR, Achievements, KingJamesVersionI, JoinRequests, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
 # Create your views here.
@@ -194,10 +198,10 @@ def post_chapter(book):
         print(f"Error: {e}")
         return None
 
-
+@method_decorator(cache_page(60 * 500), name='dispatch')
 class BookSelect(TemplateView):
     template_name = 'BibleStudy/biblia.html'
-
+  
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         books = Books.objects.all().order_by('order')
@@ -209,7 +213,7 @@ class BookSelect(TemplateView):
         return context
     
 
-
+@method_decorator(cache_page(60 * 500), name='dispatch')
 class Biblia(TemplateView):
     template_name = 'BibleStudy/read_biblia.html'
 
@@ -446,6 +450,7 @@ class BooksAnalytics(TemplateView):
 
         return context
     
+@method_decorator(cache_page(60 * 500), name='dispatch')
 class TopicalBookMark(TemplateView):
     template_name = 'BibleStudy/bookmarks.html'
 
@@ -472,6 +477,7 @@ def create_bookmark(request):
     chapter = request.POST.get('chapter')
     verse = request.POST.get('verse_id')
     user = request.POST.get('user')
+    # text = KingJamesVersionI.objects.get(book)
 
     if verse:
         # Convert user_id to an integer
@@ -484,7 +490,7 @@ def create_bookmark(request):
         bookmark = BookMarks.objects.create(
             user=user,
             verse=f"{book} {chapter}:{verse}",
-            word='pass',
+            word='text',
         )
 
         # Optionally, return additional data in the JSON response
@@ -658,3 +664,19 @@ def create_books_from_api(api_response):
 
 class ContactUs(TemplateView):
     template_name = 'BibleStudy/contact_us.html'
+
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            names = self.request.POST.get('names')
+            phone = self.request.POST.get('phone-number')
+            mail = self.request.POST.get('mail')
+            about = self.request.POST.get('about')
+            message = self.request.POST.get('message')
+            if self.request.user.is_authenticated:
+                user = self.request.user
+            else:
+                user = None
+            inbox = Inbox.objects.create(user=user, names=names, phone=phone,
+                                          email=mail, about=about, message=message)
+            messages.success(self.request, 'We have received your message, we will get back to you ASAP!')
+            return redirect(self.request.get_full_path())

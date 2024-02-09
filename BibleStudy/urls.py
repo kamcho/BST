@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import Biblia, BookSelect, ContactUs, CreateStudyGroups, GroupDetails, GroupRequests, LeadersBoard, RequestStudyGroup, create_bookmark, TopicalBookMark, SetBiblePreference, Read, BooksAnalytics, MyBookMarks, StudyProgress, AddToGroup, SaveProgress, UsersAchievements, BibleStudyGroups
 from . import views
+from django.views.decorators.cache import cache_page
+
 urlpatterns = [
 
     path('<str:group_id>/Info/', GroupDetails.as_view(), name='group-id'),

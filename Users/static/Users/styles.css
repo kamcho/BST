@@ -888,6 +888,55 @@ border-width: 13px solid green;
   text-align: center;
   margin: 55px 30px;
 }
+.comments{
+  grid-template-columns: repeat(3, .6fr);
+  display: grid;
+  margin: 0 auto !important;
+  column-gap: 30px;
+  width: 95%;
+
+  overflow-y: visible;
+  overflow-wrap: break-word;
+}
+
+.comment{
+  width: 300px;
+  height: 230px;
+  margin: 0 auto;
+  color: white;
+  border: 1px solid wheat;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  
+  position: relative;
+  border-radius: 20px;
+}
+.comment-sec{
+  position: absolute;
+  top: -40px;
+  right: 29px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 1px solid rgb(255, 255, 255);
+  margin: 0;
+  padding: 0%;
+  
+}
+.said{
+  padding-top: 49px;
+  color: coral;
+}
+.comment-pic{
+  margin: 0 auto;
+ 
+ 
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid coral;
+}
 .books-bg{
   background-color: #00204a;
   min-height: 100vh;
@@ -1037,6 +1086,18 @@ border-width: 13px solid green;
 
 
     }
+    @media (max-width: 950px) {
+      /* .comments{
+        grid-template-columns: repeat(2, .7fr);
+        row-gap: 60px;
+        width: 90%;
+      } */
+      /* .comment{
+        width: 95%;
+      } */
+      
+
+    }
 
     @media (max-width: 800px) {
       .books-view{
@@ -1099,6 +1160,15 @@ border-width: 13px solid green;
   
     .quiz-form{
         margin:60px auto;
+    }
+    .comment-sec{
+      display: none;
+    }
+    .comment{
+      padding: 10px !important;
+    }
+    .said{
+      padding: 0%;
     }
     .content-container{
         height: fit-content;

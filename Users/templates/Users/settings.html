@@ -86,6 +86,39 @@
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+              Daily Chapter Target
+            </button>
+          </h2>
+          <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                
+              <button type="button" class="btn btn-primary">
+                Daily Target  <span class="badge text-bg-danger">{{ user.userpreference.daily_target }}</span>
+              </button>
+               
+                <br><br>
+                <form method="post">
+                    {% csrf_token %}
+                    <div>
+                      <div class="input_container">
+                        <label class="input_label" for="password_field">Password</label>
+                        
+                        <input title="Input title" name="target" type="number" class="input_field" id="password_field" min="3" max="10" required>
+                      </div>
+                            
+                        </select>
+                    </div>
+                    <br>
+                
+                    <button class="btn btn-info" style="color: white;" name="daily-target">Save</button>
+                </form>
+                
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
               Messaging
             </button>
@@ -125,7 +158,17 @@
     
 
 
-
+      <script>
+        function validateInput(input) {
+            if (input.value < 1) {
+                input.setCustomValidity('Please enter a positive value.');
+            } else if (input.value > 10) {
+                input.setCustomValidity('Please enter a value less than or equal to 10.');
+            } else {
+                input.setCustomValidity('');
+            }
+        }
+    </script>
 
 
 

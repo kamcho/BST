@@ -1,4 +1,6 @@
 from allauth.socialaccount.models import SocialAccount
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from bs4 import BeautifulSoup
 from django.contrib import messages
@@ -47,6 +49,8 @@ class StaticViewSitemap(Sitemap):
 
     def location(self, item):
         return reverse(item)
+    
+@method_decorator(cache_page(60 * 500), name='dispatch')
 class RegisterView(TemplateView):
     template_name = "Users/register.html"
 
@@ -88,7 +92,7 @@ class RegisterView(TemplateView):
 
 
 
-
+@method_decorator(cache_page(60 * 500), name='dispatch')
 class Login(TemplateView):
     template_name = 'Users/login.html'
 
@@ -546,6 +550,19 @@ class Settings(LoginRequiredMixin, TemplateView):
                     
                 except AttributeError:
                     preference = UserPreference.objects.create(user=user, default_bible=bible)
+                    messages.success(self.request, 'Success!')
+
+            elif 'daily-target' in self.request.POST:
+                target = self.request.POST.get('target')
+                try:
+                    
+                    preference = self.get_context_data().get('preference')
+                    preference.daily_target = target
+                    preference.save()
+                    messages.success(self.request, 'Success!')
+                    
+                except AttributeError:
+                    preference = UserPreference.objects.create(user=user, daily_target=target)
                     messages.success(self.request, 'Success!')
 
             else:
