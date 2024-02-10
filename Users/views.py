@@ -28,9 +28,7 @@ from django.urls import reverse
 
 # views.py
 # views.py
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+
 from .models import MyUser, PersonalProfile, UserTheme
 
 from django.contrib.auth.hashers import make_password
