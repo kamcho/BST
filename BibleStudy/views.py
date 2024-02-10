@@ -197,6 +197,28 @@ def post_chapter(book):
         print(f"Error: {e}")
         return None
 
+def get__post_books(bible_id):
+    base_url = 'https://api.scripture.api.bible/v1/bibles'
+    endpoint = f'{base_url}/06125adad2d5898a-01/books'
+
+    headers = {
+        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
+    }
+    
+    try:
+        response = requests.get(endpoint, headers=headers)
+        response.raise_for_status()
+        response = response.json()
+        books = response['data']
+        count = 1
+        for book in books:
+            Books.objects.create(name=book['name'], order=count, book_id=book['id'],
+                                  abbreviation=book['abbreviation'],location='OT', chapters=0)
+            
+            count+=1
+           
+    except Exception as e:
+        print(str(e))
 @method_decorator(cache_page(60 * 500), name='dispatch')
 class BookSelect(TemplateView):
     template_name = 'BibleStudy/biblia.html'
@@ -212,7 +234,7 @@ class BookSelect(TemplateView):
         return context
     
 
-@method_decorator(cache_page(60 * 500), name='dispatch')
+# @method_decorator(cache_page(60 * 500), name='dispatch')
 class Biblia(TemplateView):
     template_name = 'BibleStudy/read_biblia.html'
 
@@ -227,6 +249,7 @@ class Biblia(TemplateView):
         chapters = Chapters.objects.filter(book__name=book)
         context['chapters'] = chapters
         context['focus'] = chapter
+        get__post_books()
         # add_vers_e()
         
         
