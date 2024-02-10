@@ -197,7 +197,7 @@ def post_chapter(book):
         print(f"Error: {e}")
         return None
 
-def get__post_books(bible_id):
+def get__post_books():
     base_url = 'https://api.scripture.api.bible/v1/bibles'
     endpoint = f'{base_url}/06125adad2d5898a-01/books'
 
