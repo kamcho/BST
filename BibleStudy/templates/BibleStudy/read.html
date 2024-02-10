@@ -60,9 +60,9 @@
     <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">Save</a>
 </div>
 <br><br>
-  {% for verse in data %}
-    <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ verse.verse }} {{ verse.text }}</p>
-  {% endfor %}
+
+    <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ data|safe }}</p>
+  
   
 
 
@@ -75,95 +75,84 @@
 
 </div>
 
-<div class="bookmark-card" id="bookmark" style="display: none;">
-  <div class="spinner-grow text-danger top-right" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <h6 style="color:fuchsia;"><i class="bi bi-bookmark"> </i>BookMark</h6>
-  
-    <input name="verse" id ='verse' style="display: none;">
-    <p>Add <strong style="color: coral;">{{ book }} {{ chapter }}:<span id="clickedVerse"></span></strong> to bookmark.</p>
-    <div class="bookmark-btn">
-      <button  class="btn btn-info" id="saveBookmarkBtn">Save</button>
-      <button class="btn btn-danger" id="cancel">Cancel</button>
-    </div>
-
-    
-
-
-  <!-- Use a span to display the clicked verse ID dynamically -->
-  
-</div>
 
 
 
 <script>
-  function showPopup(verseId) {
-      // ... your existing code
-      // Assuming you have the following context variables
-      var book = "{{ book }}";
-      var chapter = "{{ chapter }}";
+  // Get all elements with class 'v'
+  var verses = document.querySelectorAll('.v');
 
-      // Set the value of the hidden input for the verse ID
-      $('#clickedVerse').val(verseId);
-      $('#clickedVerse').text(verseId);
-      $('#verse').val(verseId);
-      var x = event.pageX;
-      var y = event.pageY;
+  // Add click event listener to each element
+  verses.forEach(function (verse) {
+      verse.addEventListener('click', function () {
+          // Show a browser alert with data-number content
+          showAlert(verse.getAttribute('data-number'));
 
-      // Set the position of the bookmark card
-      $('#bookmark').css({
-          position: 'absolute',
-          top: y + 'px',
-          left: x + 'px',
-          display: 'block',
+          // Send AJAX request
+          sendAjaxRequest(verse.getAttribute('data-number'));
       });
+  });
 
-      // Show the bookmark form
-      $('#bookmark').show();
+  // Function to show a browser alert
+  function showAlert(content) {
+      alert('Verse: ' + content);
   }
 
-  $(document).ready(function () {
-        // Get the CSRF token using Django's template tag
-        var csrftoken = "{{ csrf_token }}";
+  // Function to send an AJAX request
+  function sendAjaxRequest(dataNumber) {
+      // URL for creating a bookmark
+      var url =  '{% url "bookmark" %}';
 
-        $('#saveBookmarkBtn').on('click', function () {
-            // Get the values you want to send
-            var verseId = $('#clickedVerse').val();
-            var book = "{{ book }}";
-            var chapter = "{{ chapter }}";
-            var user = "{{ user }}";
-            
-            $('#bookmark').hide();
+      // Data to be sent in the request
+      var data = {
+          verse_id: dataNumber,
+          user:'{{ user }}',
+          book:'{{ book }}',
+          chapter:'{{ chapter }}',
+          user:'{{ user }}',
+          // Add more variables as needed
+      };
 
-            // AJAX request
-            $.ajax({
-                url: '{% url "bookmark" %}',  // Replace with your actual URL
-                method: 'POST',
-                data: {
-                    'book': book,
-                    'chapter': chapter,
-                    'verse_id': verseId,
-                    'user': user,
-                    // Add more variables if needed
-                },
-                headers: {
-                    'X-CSRFToken': csrftoken
-                },
-                success: function (data) {
-                    // Handle success response
-                    console.log('Bookmark saved successfully');
-                    // Optionally, you can perform additional actions here
-                },
-                error: function (error) {
-                    // Handle error response
-                    console.error('Error saving bookmark:', error);
-                    // Optionally, you can display an error message or perform other actions
-                }
-            });
-        });
-    });
+      // Send a POST request with the data using jQuery
+      $.ajax({
+          url: url,
+          type: 'POST',
+          headers: {
+              'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token in the header
+          },
+          data: data,
+          success: function(response) {
+              console.log('Bookmark created:', response);
+          },
+          error: function(error) {
+              console.error('Error creating bookmark:', error);
+          }
+      });
+  }
+
+  // Function to get CSRF token from cookies
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Check if the cookie name matches with the provided name
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
 </script>
+
+
+
+
+
+
 
 </div>
 

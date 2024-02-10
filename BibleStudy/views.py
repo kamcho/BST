@@ -2,7 +2,7 @@ import datetime as datetime
 from itertools import groupby
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
-
+from .tester import get_verses
 from django.contrib.auth.mixins import LoginRequiredMixin
 import psycopg2
 from django.db import models, connection
@@ -220,6 +220,8 @@ class Biblia(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book = self.kwargs['book']
+        
+        # context['data'] = get_verses()
         book = Books.objects.get(name=book)
         context['book'] = book.order
         chapter = self.kwargs['chapter']
@@ -245,7 +247,7 @@ def get_bible_verse_by_id(book, chapter):
 
     return verses
 
-
+@method_decorator(cache_page(60 * 500), name='dispatch')
 class Read(TemplateView):
     template_name = 'BibleStudy/read.html'
 
@@ -260,10 +262,11 @@ class Read(TemplateView):
         book = self.kwargs['book']
         book_count = Books.objects.get(name=book)
         book_name = book_count.book_id
+        context['data'] = get_verses(bible_id.bible_id, book_name,chapter)
         
         
-        verse = get_bible_verse_by_id(book_count.order, chapter)
-        context['data']  = verse
+        # verse = get_bible_verse_by_id(book_count.order, chapter)
+        # context['data']  = verse
 
         try:
             chapter_id = Chapters.objects.get(book__name=book, order=chapter)
@@ -477,6 +480,7 @@ def create_bookmark(request):
     chapter = request.POST.get('chapter')
     verse = request.POST.get('verse_id')
     user = request.POST.get('user')
+    print(verse)
     # text = KingJamesVersionI.objects.get(book)
 
     if verse:

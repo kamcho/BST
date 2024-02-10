@@ -898,6 +898,10 @@ border-width: 13px solid green;
   overflow-y: visible;
   overflow-wrap: break-word;
 }
+.v{
+  color: chocolate;
+  padding-right: 5px;
+}
 
 .comment{
   width: 300px;
