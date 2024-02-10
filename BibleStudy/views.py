@@ -227,6 +227,7 @@ class BookSelect(TemplateView):
         context = super().get_context_data(**kwargs)
         books = Books.objects.all().order_by('order')
         context['books'] = books
+        get__post_books()
                
  
         print(books)
@@ -249,7 +250,7 @@ class Biblia(TemplateView):
         chapters = Chapters.objects.filter(book__name=book)
         context['chapters'] = chapters
         context['focus'] = chapter
-        get__post_books()
+        
         # add_vers_e()
         
         
