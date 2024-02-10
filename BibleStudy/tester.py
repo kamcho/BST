@@ -40,10 +40,10 @@ def get__post_books(bible_id):
         response = response.json()
         books = response['data']
         count = 1
-        for book in books:
-            Books.objects.create(name=book['name'],order=count book_id=book['id'], abbreviation=book['abbreviation'],location='OT', chapters=0)
+        # for book in books:
+        #     Books.objects.create(name=book['name'],order=count book_id=book['id'], abbreviation=book['abbreviation'],location='OT', chapters=0)
             
-            count+=1
+        #     count+=1
            
     except Exception as e:
         print(str(e))
