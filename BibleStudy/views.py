@@ -4,7 +4,6 @@ from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from .tester import get_verses
 from django.contrib.auth.mixins import LoginRequiredMixin
-import psycopg2
 from django.db import models, connection
 # from .tester import add_verse
 from operator import attrgetter
