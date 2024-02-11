@@ -284,10 +284,7 @@ class BookSelect(TemplateView):
         context = super().get_context_data(**kwargs)
         books = Books.objects.all().order_by('order')
         context['books'] = books
-        get__post_books()
-               
- 
-        print(books)
+        
 
         return context
     
@@ -327,7 +324,7 @@ def get_bible_verse_by_id(book, chapter):
 
     return verses
 
-@method_decorator(cache_page(60 * 500), name='dispatch')
+# @method_decorator(cache_page(60 * 500), name='dispatch')
 class Read(TemplateView):
     template_name = 'BibleStudy/read.html'
 

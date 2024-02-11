@@ -5,11 +5,11 @@
 <br><br><br><br>
 
 <div class="content-container" >
-  <div class="container">
+  <div class="read-container">
     <br><br>
-    <div style="display: flex;">
+    <div class="group-button">
     <div class="dropdown">
-      <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="max-width: 300px;overflow: hidden;">
         {{ bible_id }}
       </button>
       <ul class="dropdown-menu dropdown-menu-dark">
@@ -28,7 +28,7 @@
         {% for book_name in books %}
           <li ><a class="dropdown-item" href="{% url 'read' bible_uid book_name chapter %}">{{ book_name }}</a></li>
         {% endfor %}
-        
+        f
       </ul>
     </div>
 
@@ -57,7 +57,17 @@
 
 <div class="read-view">
   <div class="text-center">
-    <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">Save</a>
+    {% save_passes_test user book chapter as status %}
+      {% if status == None %}
+      <button class="btn btn-secondary" href="#" disabled>Book Complete</button>
+      {% elif status == True %}
+        <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">Save</a>
+      {% elif status == "Saved" %}
+        <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">Already Saved</a>
+      {% else %}
+        <button class="btn btn-danger" href="#" disabled>To Save Progress Follow Order</button>
+      {% endif %}
+  
 </div>
 <br><br>
 

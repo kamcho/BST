@@ -188,3 +188,38 @@ def get_verses(book,chapter):
     verses = KingJamesVersionI.objects.filter(book=book, chapter=chapter)
 
     return verses
+
+@register.simple_tag
+def save_passes_test(user, book, chapter):
+    try:
+        print(user, book, chapter)
+        try:
+            prog = progress.objects.get(user=user, book__name=book, chapter__order=chapter)
+
+            return "Saved"
+        except:
+            
+            prog = progress.objects.get(user=user, book__name=book)
+            last_chapter = prog.chapter
+            is_complete = prog.book.chapters
+            
+            
+            if is_complete == last_chapter.count():
+
+                return None
+            
+            
+            elif True:
+                if (last_chapter.count() + 1) == int(chapter):
+                    print('True')
+                    return True
+                else:
+                    print('False')
+                    return False
+                
+        
+            
+       
+
+    except progress.DoesNotExist:
+        return True

@@ -5,6 +5,16 @@
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+.group-button{
+  display: flex;
+  /* grid-template-columns: auto auto auto; */
+  column-gap: 15px;
+ 
+}
+.read-container{
+  width: 90%;
+  margin: 0 auto;
+}
 .Btn {
   display: flex;
   align-items: center;
@@ -1246,6 +1256,12 @@ border-width: 13px solid green;
     display: inline;
 
   }
+  .group-button{
+    grid-template-columns: repeat(2,.6fr);
+    display: grid !important;
+    row-gap: 30px;
+    column-gap: 5px;
+  }
   .progress-template{
     grid-template-columns: repeat(2, .5fr);
   }
@@ -1270,6 +1286,13 @@ border-width: 13px solid green;
   
     .quiz-form{
         margin:60px auto;
+    }
+    .group-button{
+      display: inline !important;
+      
+    }
+    .group-button div{
+      padding-top: 20px;
     }
     .comment-sec{
       display: none;
