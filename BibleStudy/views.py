@@ -271,8 +271,8 @@ def get__post_books():
     books = Books.objects.all().order_by('order')
     for book in bible_books:
         book_id = books.get(order=book['order'])
-        book_id.chapters = book['order']
-        book.save()
+        book_id.chapters = book['chapters']
+        book_id.save()
 
 @method_decorator(cache_page(60 * 500), name='dispatch')
 class BookSelect(TemplateView):
