@@ -199,26 +199,33 @@ def post_chapter(book):
 
 def get__post_books():
     base_url = 'https://api.scripture.api.bible/v1/bibles'
-    endpoint = f'{base_url}/06125adad2d5898a-01/books'
-
-    headers = {
-        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
-    }
     
-    try:
-        response = requests.get(endpoint, headers=headers)
-        response.raise_for_status()
-        response = response.json()
-        books = response['data']
-        count = 1
-        for book in books:
-            Books.objects.create(name=book['name'], order=count, book_id=book['id'],
-                                  abbreviation=book['abbreviation'],location='OT', chapters=0)
+    books = Books.objects.all().order_by('order')
+    for book in books:
+        endpoint = f'{base_url}/06125adad2d5898a-01/books/{ book.book_id }/chapters'
+
+        headers = {
+            'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
+        }
+    
+        try:
+            response = requests.get(endpoint, headers=headers)
+            response.raise_for_status()
+            response = response.json()
+            chapters = response['data']
             
-            count+=1
-           
-    except Exception as e:
-        print(str(e))
+            for chapter in chapters:
+                try:
+                    number = int(chapter['number'])
+                    obj = Chapters.objects.create(book=book, order=number)
+
+                except:
+                    pass
+                
+            
+        except Exception as e:
+            print(str(e))
+
 @method_decorator(cache_page(60 * 500), name='dispatch')
 class BookSelect(TemplateView):
     template_name = 'BibleStudy/biblia.html'
@@ -227,7 +234,7 @@ class BookSelect(TemplateView):
         context = super().get_context_data(**kwargs)
         books = Books.objects.all().order_by('order')
         context['books'] = books
-        # get__post_books()
+        get__post_books()
                
  
         print(books)
