@@ -26,7 +26,6 @@ def get_progress(total, charity_id):
     contributions = CharityPayments.objects.filter(charity__id=charity_id)
     try:
         totals = contributions.aggregate(totals=Sum('amount'))['totals']
-        print('\n\n\n\n\n', totals)
         if totals != 0:
             percentage = (totals / total)*100
             percentage = round(percentage)
@@ -41,7 +40,6 @@ def get_project_progress(total, project_id):
     contributions = ProjectPayments.objects.filter(project__id=project_id)
     try:
         totals = contributions.aggregate(totals=Sum('amount'))['totals']
-        print('\n\n\n\n\n', totals)
         if totals != 0:
             percentage = (totals / total)*100
             percentage = round(percentage)
@@ -58,6 +56,7 @@ def get_study_progress(user, book):
         prog = progress.objects.get(user=user, book__order=book)
         chapters_covered = prog.chapter.count()
         percentage = (chapters_covered / prog.chapter.first().book.chapters) * 100
+        print(percentage)
 
         return round(percentage)
     except :
@@ -81,15 +80,15 @@ def get_next_chapter(user, book):
         
         read_chapters = read.chapter.all()
         chapters = Chapters.objects.filter(book__order=book).exclude(id__in=read_chapters).order_by('order').first()
-        # print(book_id.name,chapter_count,read.chapter.count(), chapters.order)
         if read.chapter.count() == chapter_count :
             return 'True'
         if chapters:
+            print(chapters)
             return chapters.order
         else:
             return 1
     except Exception as e:
-        print(str(e))
+        # print(str(e))
         return 1
     
 
