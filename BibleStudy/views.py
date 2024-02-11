@@ -271,6 +271,8 @@ def get__post_books():
     books = Books.objects.all().order_by('order')
     for book in bible_books:
         book_id = books.get(order=book['order'])
+        if int(book['order']) > 39:
+            book_id.location = 'NT'
         book_id.chapters = book['chapters']
         book_id.save()
 
