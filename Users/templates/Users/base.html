@@ -85,12 +85,7 @@
           <li>
             <a class="nav-link" href="{% url 'biblia' %}" ><i class="bi bi-book" > </i>Bible</a>
         </li>
-        <li>
-          <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headphones" > </i>Contact-Us</a>
-      </li>
-        <li>
-          <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
-        </li>
+        
 
       {% if user.role == 'Supervisor' %}
 
@@ -119,40 +114,19 @@
 
   {% endif %}
 
-  
-    
-
-        
-
-     
-       
-      
-
-
-        
-
-
-
-         
-
           {% if user.is_authenticated %}
+          <li>
+            <a class="nav-link btn btn-secondary" href="{% url 'study-progress' %}" style="color: white;">
+              
+              C.B.R
+            </a>
+        </li>
           <li>
             <a class="nav-link" href="{% url 'update-profile' %}" ><i class="bi bi-person" > </i>Profile</a>
         </li>
-        <li>
-          <a class="nav-link" href="{% url 'study-progress' %}" ><div class="loading">
-            <svg height="48px" width="64px">
-                <polyline id="back" points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24"></polyline>
-              <polyline id="front" points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24"></polyline>
-              <polyline id="front2" points="0.157 23.954, 14 23.954, 21.843 48, 43 0, 50 24, 64 24"></polyline>
-            </svg>
-            C.B.R
-          </div></a>
-      </li>
+        
       
-        <li>
-          <a class="nav-link" href="{% url 'set-bible-preference' %}" ><i class="bi bi-bookmark-heart" > </i>Set Preference</a>
-      </li>
+       
       <li>
         <a class="nav-link" href="{% url 'my-bookmarks' %}" ><i class="bi bi-bookmark-plus" > </i>BookMarks</a>
     </li>
@@ -167,6 +141,12 @@
         <li>
           <a class="nav-link" href="{% url 'settings' %}" ><i class="bi bi-gear" > </i>Settings</a>
       </li>
+      <li>
+        <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
+      </li>
+      <li>
+        <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headset" > </i>Contact-Us</a>
+    </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}" ><button class="Btn">
   
@@ -179,6 +159,12 @@
             </a>
           </li>
         {% else %}
+        <li>
+          <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
+        </li>
+        <li>
+          <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headset" > </i>Contact-Us</a>
+      </li>
        
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}" ><i class="bi bi-box-arrow-right" > </i>Sign In</a>
@@ -190,6 +176,8 @@
           <a class="nav-link" href="{% url 'password-reset' %}"><i class="bi bi-x-octagon" > </i>Reset Password</a>
         </li>
         {% endif %}
+        
+        
 
         
 

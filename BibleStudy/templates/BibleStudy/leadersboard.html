@@ -35,20 +35,20 @@
           <tr>
             <td><h6>{{ rank }}</h6></td>
             {% if profile.profile_pic %}
-            <td><img src="{{ profile.profile_pic.url }}" style="height: 30px;width: 30px; border-radius: 50%;"></td>
+            <td><img src="{{ profile.profile_pic.url }}" style="height: 60px;width: 60px; border-radius: 50%;"></td>
             {% else %}
-            <td><i style="height: 30px;width: 30px; border-radius: 50%;" class="bi bi-person"></i></td>
+            <td style="height: 60px;"><i style="height: 80px;width: 80px; border-radius: 50%;" class="bi bi-person"></i></td>
             {% endif %}
            
           
-              {% if  profile.f_name %}
-                  <td style="color: orangered;">{{ profile.f_name|title }} {{ profile.l_name.0|title }}  {{ profile.surname|title }}</td>
+              {% if  user.personalprofile.f_name %}
+                  <td style="color: orangered; font-size: 22px;font-family: cursive;">{{ user.personalprofile.f_name|title }} {{ user.personalprofile.l_name.0|title }}  {{ user.personalprofile.surname|title }}</td>
               {% else %}
-                  <td style="color: orangered;">{{ profile }}</td>
+                  <td style="color: orangered;font-size: 23px;font-family: cursive;">{{ user }}</td>
               {% endif %}
 
         
-            <td style="font-family:monospace !important;color: coral;">{{ profile.points }}</td>
+            <td style="color: coral;font-size: 22px;font-family: cursive;">{{ user.personalprofile.points }}</td>
         </tr>
         {% endif %}
         

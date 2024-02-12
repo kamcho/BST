@@ -588,7 +588,7 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        verses = BookMarks.objects.filter(user=user)
+        verses = BookMarks.objects.filter(user=user).order_by('-id')
         context['verses'] = verses
         if not verses:
             messages.info(self.request, 'You do not have any bookmarked verses.')

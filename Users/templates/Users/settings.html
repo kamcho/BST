@@ -13,7 +13,7 @@
               Set Theme Verse
             </button>
           </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
                
                 {% if theme %}
@@ -90,7 +90,7 @@
               Daily Chapter Target
             </button>
           </h2>
-          <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div id="collapse4" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body">
                 
               <button type="button" class="btn btn-primary">
@@ -102,7 +102,7 @@
                     {% csrf_token %}
                     <div>
                       <div class="input_container">
-                        <label class="input_label" for="password_field">Password</label>
+                        <label class="input_label" for="password_field">Enter Target</label>
                         
                         <input title="Input title" name="target" type="number" class="input_field" id="password_field" min="3" max="10" required>
                       </div>
