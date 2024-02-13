@@ -26,8 +26,8 @@ def process_number(input_str):
 
 def generate_access_token():
     
-    consumer_key = "aSG8gGG7GWSGapToKz8ySyALUx9zIdbBr1CHldVhyOLjJsCz"
-    consumer_secret = "o8qwdbzapgcvOd1lsBOkKGCL4JwMQyG9ZmKlKC7uaLIc4FsRJFbzfV10EAoL0P6u"
+    consumer_key = "aSG8gGG7GWSGapToKz8ySyALwec9zIdbBr1CHldVhyOLjJsCz"
+    consumer_secret = "o8qwdbzapgcvOd1lsBOkrfsL4JwMQyG9ZmKlKC7uaLIc4FsRJFbzfV10EAoL0P6u"
     
 
     # make a get request using python requests liblary
@@ -46,7 +46,7 @@ def generate_access_token():
 def generate_mpesa_password(timestamp):
     paybill = "174379"
 
-    consumer_key = 'fa0e41448ce844d1a7a37553cee8bf22b61fec894e1ce3e9c0e32b1c6953b6d9'
+    consumer_key = 'fa0e41448ce844d1a7a37553cee8bf22b61fec894e1ce3e9c0e32b1c69b6d9'
     concatenated_string = f"{paybill}{consumer_key}{timestamp}"
     base64_encoded = base64.b64encode(concatenated_string.encode()).decode('utf-8')
     password = str(base64_encoded)
