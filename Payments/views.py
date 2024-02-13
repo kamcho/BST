@@ -10,7 +10,9 @@ import requests
 from Charities.models import Charity, ChurchProjects
 from .models import CharityPayments, InitiatedPayments, ProjectPayments
 # Create your views here.
-
+stk_push_url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest'
+access_token_url = 'https://api.safaricom.co.ke/oauth/v1/generate'
+transaction_status_url = 'https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query'
 def process_number(input_str):
     if input_str.startswith('0'):
         # Remove the leading '0' and replace it with '254'
@@ -24,12 +26,12 @@ def process_number(input_str):
 
 def generate_access_token():
     
-    consumer_key = "lLznf101l98HUQTtb4AmPNQyneUiZvhb"
-    consumer_secret = "6GaI08s5QvEHHfRV"
-    api_URL = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+    consumer_key = "aSG8gGG7GWSGapToKz8ySyALUx9zIdbBr1CHldVhyOLjJsCz"
+    consumer_secret = "o8qwdbzapgcvOd1lsBOkKGCL4JwMQyG9ZmKlKC7uaLIc4FsRJFbzfV10EAoL0P6u"
+    
 
     # make a get request using python requests liblary
-    response = requests.get(api_URL, auth=HTTPBasicAuth(consumer_key, consumer_secret))
+    response = requests.get(access_token_url, auth=HTTPBasicAuth(consumer_key, consumer_secret))
 
     # return access_token from response
     if response.status_code == 200:
@@ -44,12 +46,12 @@ def generate_access_token():
 def generate_mpesa_password(timestamp):
     paybill = "174379"
 
-    consumer_key = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+    consumer_key = 'fa0e41448ce844d1a7a37553cee8bf22b61fec894e1ce3e9c0e32b1c6953b6d9'
     concatenated_string = f"{paybill}{consumer_key}{timestamp}"
     base64_encoded = base64.b64encode(concatenated_string.encode()).decode('utf-8')
     password = str(base64_encoded)
 
-    return str(base64_encoded)
+    return password
 
 def initiate_payment(phone, amount, user, object_id, purpose):
     phone=process_number(phone)
@@ -64,21 +66,21 @@ def initiate_payment(phone, amount, user, object_id, purpose):
     }
     phone = '254742134431'
     payload = {
-         "BusinessShortCode": 174379,
-    "Password": password,
-    "Timestamp": timestamp,
-    "TransactionType": "CustomerPayBillOnline",
-    "Amount": 1,
-    "PartyA": phone,
-    "PartyB": 174379,
-    "PhoneNumber": phone,
-    "CallBackURL": "https://mydomain.com/path",
-    "AccountReference": "CompanyXLTD",
-    "TransactionDesc": "Payment of X" 
+        "BusinessShortCode": 4161900,
+        "Password": password,
+        "Timestamp": timestamp,
+        "TransactionType": "CustomerPayBillOnline",
+        "Amount": 1,
+        "PartyA": phone,
+        "PartyB": 174379,
+        "PhoneNumber": phone,
+        "CallBackURL": "https://mydomain.com/path",
+        "AccountReference": "Word.Saves",
+        "TransactionDesc": "Payment TO Creamsons Analytics" 
 
     }
 
-    response = requests.request("POST", 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', headers = headers, json = payload)
+    response = requests.request("POST", stk_push_url, headers = headers, json = payload)
     
     if response.status_code == 200:
         data = json.loads(response.text)

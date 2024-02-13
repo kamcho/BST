@@ -153,7 +153,7 @@ def get_complete_count(book_id):
     return round(read_count)
 
 @register.filter
-def get_read_percent(user,location):
+def get_read_percent(user, location):
     print(location)
     if location == 'bible':
         total_chapters = progress.objects.filter(user=user).values('chapter').annotate(num_chapters=Count('chapter')).aggregate(total=Count('chapter'))
@@ -162,7 +162,8 @@ def get_read_percent(user,location):
             percent = 1
     elif location == 'OT':
         total_chapters = progress.objects.filter(user=user, book__location='OT').values('chapter').annotate(num_chapters=Count('chapter')).aggregate(total=Count('chapter'))
-        percent = (total_chapters['total'] / 39) * 100
+        percent = (total_chapters['total'] / 22000) * 100
+        print(percent)
         if percent < 1 and percent > 0:
             percent = 1
     else:
