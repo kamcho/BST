@@ -10,43 +10,43 @@
 <br>
 <div class="content-container">
 
-    <div class="donate-btn" style="padding-left: 83%;display: flex;">
-        <a class="btn btn-warning" href="{% url 'manage-charity' charity.id %}">Manage</a>
-        <a class="btn btn-danger" href="{% url 'donate' 'Charity' charity.id %}" style="margin-left: 20px;">Donate</a>
-        
-        
+    
+  <br><br>
 
-    </div>
-
-
-    <div class="todays-word">
+    <div class="container" style="color: white;">
       
         <h5>{{ charity.title|title }}</h5>
-        <small><strong>closes in</strong></small><h3 >{{ charity.closes_on|timeuntil }}</h3>
-
+        <small><strong>closes in</strong>{{ charity.closes_on|timeuntil }}</small>
+        <br>
         <div>
-            {{ charity.description }}
+            <p>{{ charity.description }}</p>
         </div>
 
-
-        <div style="padding: 20px;">
+        <br>
+        <div style="padding-top: 20px;">
             <p >Target  <strong style="padding-left: 70px;">{{ charity.target }}</strong></p>
    
-            <p>Contributions  {{ totals }}</p>
+            <p>Contributions <strong style="padding-left: 27px;"> {{ totals }}</strong></p>
             <hr style="width: 330px;">
-            <p>Balance <strong style="padding-left: 70px;">{{ balance }}</strong></p>
+            <p>Balance <strong style="padding-left: 62px;">{{ balance }}</strong></p>
         </div>
         
 
         <div class="progress" style="width: 60%;color: black;" >
             <div class="progress-bar bg-info" role="progressbar" style="width: {{ charity.target|divide:totals }}%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{ charity.target|divide:totals }}%</div>
           </div>
-     
+          <div class="donate-btn" >
+            <a class="btn btn-warning" href="{% url 'manage-charity' charity.id %}">Manage</a>
+            <a class="btn btn-danger" href="{% url 'donate' 'Charity' charity.id %}" style="margin-left: 20px;">Donate</a>
+            
+            
+    
+        </div>
     </div>
 
 
-    <br>
-    <div class=''>
+    <br><br><br>
+    <div class='container'>
 
 
        {% if not contributions %}
@@ -54,10 +54,12 @@
   
   
         {% else %}
+        <br><br>
         <div style="background-color: white;" class="container ">
+          
 
         <h5 class="text-center">Contributions</h5>
-        <br>
+        <br><br>
   
       <table class="table" >
         <caption>Target {{ charity.target }} - Contributions {{ totals }}</caption>

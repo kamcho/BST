@@ -460,6 +460,12 @@
     text-align:center;
     color:purple;
 }
+.controls{
+  display: grid;
+  grid-template-columns: auto auto;
+
+
+}
 
 
 
@@ -883,10 +889,16 @@ border-width: 13px solid green;
 
 
 }
+.description{
+  min-width: 60%;
+  max-width:800px ;
+}
 .donate-btn{
-  position: sticky;
-  top: 90px;
-  right: 50px;
+  position: absolute;
+  top: 30px;
+  right: 5%;
+  display: flex;
+  column-gap: 5px;
 }
 
 .charities-view{
@@ -1342,6 +1354,16 @@ border-width: 13px solid green;
     }
     .members-view{
       display: inline;
+    }
+    .donate-btn{
+      position: relative;
+      padding-left: 20px;
+    
+      
+    }
+    
+    .body-txt{
+      margin-top: 30px;
     }
 
 

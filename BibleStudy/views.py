@@ -332,6 +332,9 @@ class Read(TemplateView):
         context = super().get_context_data(**kwargs)
         bible_id = self.kwargs['bible_id']
         chapter = self.kwargs['chapter']
+        
+        if chapter != 1:
+            context['previous_chapter'] = int(chapter)-1
         bible_id = BibleVersions.objects.get(name=bible_id)
         context['versions'] = BibleVersions.objects.all().order_by('name')
         context['books'] = Books.objects.all().order_by('-order')
@@ -340,6 +343,13 @@ class Read(TemplateView):
         book_count = Books.objects.get(name=book)
         book_name = book_count.book_id
         context['data'] = get_verses(bible_id.bible_id, book_name,chapter)
+        chapters = int(book_count.chapters)+1
+        # print(chapters)
+        chapter_list = [i for i in range(1, chapters)]
+        context['chapters'] = chapter_list
+        print(chapter_list)
+        if int(chapter_list[-1]) >= int(chapter)+1:
+            context['next_chapter'] = int(chapter)+1
         
         
         # verse = get_bible_verse_by_id(book_count.order, chapter)
