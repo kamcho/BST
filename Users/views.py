@@ -2,7 +2,6 @@ from allauth.socialaccount.models import SocialAccount
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
-from bs4 import BeautifulSoup
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.conf import settings

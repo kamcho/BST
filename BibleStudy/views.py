@@ -9,9 +9,6 @@ from django.db import models, connection
 from operator import attrgetter
 from django.db.models import F, Window
 import requests
-from bs4 import BeautifulSoup
-from django.utils.safestring import mark_safe
-from django.db.models.functions import DenseRank
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
