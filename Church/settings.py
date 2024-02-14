@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'Charities',
     'Payments',
     'Communication',
+    'corsheaders',
+
     # 'custom_filters',
 ]
 
@@ -67,7 +69,7 @@ SOCIALACCOUNT_PROVIDERS = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-  
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,7 +79,10 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 
 ]
-
+CORS_ALLOWED_ORIGINS = [
+    "https://bst-production.up.railway.app",
+    # Add other trusted origins if needed
+]
 ROOT_URLCONF = 'Church.urls'
 
 TEMPLATES = [
