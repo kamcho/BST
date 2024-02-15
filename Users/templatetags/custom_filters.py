@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from django import template
 from django.db.models import Sum, Count
 import requests
-from BibleStudy.models import KingJamesVersionI, Books, progress, Chapters
+from BibleStudy.models import BibleVersesKJV, KingJamesVersionI, Books, progress, Chapters
 from Users.models import MyUser
 from Payments.models import CharityPayments, ProjectPayments
 register = template.Library()
@@ -186,7 +186,7 @@ def get_book_verse(book, chapter):
     
 @register.filter
 def get_verses(book,chapter):
-    verses = bible_verses_kjv.objects.filter(book=book, chapter=chapter)
+    verses = BibleVersesKJV.objects.filter(book=book, chapter=chapter)
 
     return verses
 
