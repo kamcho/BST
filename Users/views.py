@@ -511,6 +511,7 @@ class Settings(LoginRequiredMixin, TemplateView):
     
     def post(self,*args, **kwargs):
         if self.request.method == 'POST':
+            user = self.request.user
             if 'verify' in self.request.POST:
                 book = self.request.POST.get('book')
                 chapter = self.request.POST.get('chapter')
@@ -537,7 +538,7 @@ class Settings(LoginRequiredMixin, TemplateView):
             
             elif 'biblia' in self.request.POST:
                 bible = self.request.POST.get('bible')
-                user = self.request.user
+                
                 try:
                     bible = BibleVersions.objects.get(bible_id=bible)
                     preference = self.get_context_data().get('preference')
@@ -559,6 +560,7 @@ class Settings(LoginRequiredMixin, TemplateView):
                     messages.success(self.request, 'Success!')
                     
                 except AttributeError:
+                    user = self.request.user
                     preference = UserPreference.objects.create(user=user, daily_target=target)
                     messages.success(self.request, 'Success!')
 

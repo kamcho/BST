@@ -186,7 +186,7 @@ def get_book_verse(book, chapter):
     
 @register.filter
 def get_verses(book,chapter):
-    verses = KingJamesVersionI.objects.filter(book=book, chapter=chapter)
+    verses = bible_verses_kjv.objects.filter(book=book, chapter=chapter)
 
     return verses
 
