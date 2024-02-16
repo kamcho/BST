@@ -16,3 +16,4 @@ urllib3==1.26.18
 uuid==1.30
 whitenoise==6.6.0
 django-cors-headers==4.3.1
+mysqlclient==2.2.1

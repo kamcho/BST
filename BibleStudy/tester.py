@@ -1,4 +1,6 @@
 import requests
+
+from BibleStudy.models import BibleVersesKJV
 def get_verses(bible_id, book, chapter):
     base_url = 'https://api.scripture.api.bible/v1/bibles'
     endpoint = f'{base_url}/06125adad2d5898a-01/chapters/{book}.{chapter}'
@@ -21,8 +23,9 @@ def get_verses(bible_id, book, chapter):
         return books_data['data']['content']
 
     except requests.exceptions.RequestException as e:
+        verses = BibleVersesKJV.objects.filter(book=book,chapter=chapter)
         
-        return str(e)
+        return verses
 bible_books = [
     {'name': 'Genesis', 'chapters': 50, 'order': 1},
     {'name': 'Exodus', 'chapters': 40, 'order': 2},

@@ -1104,6 +1104,7 @@ border-width: 13px solid green;
 .progress-template{
   display: grid;
   grid-template-columns: repeat(3,1fr);
+  font-family: cursive;
   height: 350px;
   width: 80% !important;
   margin: 60px auto;
