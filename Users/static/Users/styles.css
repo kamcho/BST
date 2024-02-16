@@ -1120,7 +1120,9 @@ border-width: 13px solid green;
   height: 260px;
   margin: auto auto;
 }
-
+.res-pointer{
+  display: none ;
+}
 
 .progress-card:hover{
   background-color: orangered;
@@ -1195,6 +1197,9 @@ border-width: 13px solid green;
       }
       .pointer{
         display: none;
+      }
+      .res-pointer{
+        display: inline !important;
       }
       .profile-card{
         grid-template-columns: 60% 40%;
@@ -1292,6 +1297,16 @@ border-width: 13px solid green;
  }
 }
 
+@media (max-width: 700px) {
+  .profile-pic{
+    width: 150px;
+    height: 150px;
+    border: none;
+  }
+
+
+}
+
 @media (max-width: 650px) {
 
   
@@ -1329,6 +1344,7 @@ border-width: 13px solid green;
     .progress-template{
       display: inline;
       height: auto;
+      border: none;
       width: auto;
     }
     .edit{
@@ -1369,7 +1385,15 @@ border-width: 13px solid green;
 
 }
 @media (max-width: 560px) {
-
+  .profile-pic{
+    display: none;
+  }
+  .pointer{
+    display: inline;
+  }
+  .res-pointer{
+    display: none !important;
+  }
   .group-card{
     width: 85% !important;
     background-color: white;
@@ -1380,16 +1404,17 @@ border-width: 13px solid green;
     display: inline;
   }
   .profile-card{
-    width: 430px;
+    width:99%;
     margin: 0 auto;
   }
-  .profile-pic{
-    width: 150px !important;
-    height: 150px !important;
-  }
+ 
   .progress-template{
     display: inline;
-    margin: 50px ;
+    padding: 50px ;
+    border: none;
+  }
+  .progress-template-card{
+    margin: 30px auto;
   }
   .progress-canvas{
     width: 200px;
@@ -1413,8 +1438,6 @@ border-width: 13px solid green;
     max-width: 300px;
     min-width: 200px;
   }
-  .profile-card{
-    display: inline;
-  }
+ 
 
     }

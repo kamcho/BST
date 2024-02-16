@@ -1,5 +1,6 @@
 {% extends 'Users/base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% load custom_filters %}
 
 {% block content %}
@@ -12,8 +13,17 @@
         <br>
         <div class="profile-card">
           <div>
-            <h5>{{ user.personalprofile.f_name|title }} {{ user.personalprofile.l_name|title }} {{ user.personalprofile.surname|title }}</h5>
+            {% if user.personalprofile.f_name %}
+            <h5>{{ user.personalprofile.f_name|title }} {{ user.personalprofile.l_name.0|title }} {{ user.personalprofile.surname|title }}</h5>
+            {% else %}
+            <h5>{{ user }}</h5>
+            {% endif %}
             <button class="btn btn-info">{{ user.role }}</button>
+            <div class="res-pointer">
+              <div>
+                <small>POINTS</small><h1 style="font-size: 60px;">{{ user.personalprofile.points }}</h1>
+              </div>
+            </div>
           </div>
 
           <div class="pointer">
@@ -29,9 +39,13 @@
               <img src="{{ user.personalprofile.profile_pic.url }}" class="profile-pic">
             </div>
               
-            {% else %}
+            {% elif user.personalprofile.google_pic %}
             <div class="profile-pic">
               <img src="{{ user.personalprofile.google_pic }}" class="profile-pic">
+            </div>
+            {% else %}
+            <div class="profile-pic">
+              <img src="{% static 'Users/istockphoto-1337144146-612x612.jpg' %}" class="profile-pic">
             </div>
               
             {% endif %}

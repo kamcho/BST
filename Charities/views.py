@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 from django.db.models import Sum
-
+from django.contrib import messages
 from Payments.models import CharityPayments, ProjectPayments
 from .models import Charity, ChurchProjects
 # Create your views here.
@@ -29,11 +29,17 @@ class CreateCharity(TemplateView):
             target = self.request.POST.get('target')
             title = self.request.POST.get('title')
             description = self.request.POST.get('description')
+            try:
 
-            charity = Charity.objects.create(target=target, title=title,
+                charity = Charity.objects.create(target=target, title=title,
                                               description=description, closes_on=ends_on, totals=0)
+                messages.success(self.request, 'Charity created successfully')
+                
             
-            return redirect('charity-id', charity.id)
+                return redirect('charity-id', charity.id)
+            except Exception:
+                messages.error(self.request, 'We could not create this object at the moment. Try again!')
+                return redirect(self.request.get_full_path())
 
 class CharityDetail(TemplateView):
     template_name = 'Charities/charity_detail.html'
@@ -41,8 +47,12 @@ class CharityDetail(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         charity = self.kwargs['id']
-        charity = Charity.objects.get(id=charity)
-        context['charity'] = charity
+        try:
+            charity = Charity.objects.get(id=charity)
+            context['charity'] = charity
+        except:
+            messages.error(self.request, 'We could not find the requested charity!')
+    
         contributions = CharityPayments.objects.filter(charity=charity)
         totals = contributions.aggregate(totals=Sum('amount'))['totals']
         if not totals:
@@ -57,9 +67,12 @@ class ManageCharity(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        charity = self.kwargs['charity_id']
-        charity = Charity.objects.get(id=charity)
-        context['charity'] = charity
+        try:
+            charity = self.kwargs['charity_id']
+            charity = Charity.objects.get(id=charity)
+            context['charity'] = charity
+        except Exception:
+            messages.error(self.request, 'We could not find the requested charity activity')
 
         return context
     
@@ -111,20 +124,27 @@ class CreateProject(TemplateView):
             target = self.request.POST.get('target')
             title = self.request.POST.get('title')
             description = self.request.POST.get('description')
-
-            project = ChurchProjects.objects.create(target=target, title=title,
-                                              description=description, closes_on=ends_on)
-            
-            return redirect('project-id', project.id)
+            try:
+                project = ChurchProjects.objects.create(target=target, title=title,
+                                                description=description, closes_on=ends_on)
+                messages.success(self.request, 'Success')
+                
+                return redirect('project-id', project.id)
+            except:
+                messages.error(self.request, 'We could not find the requested charity activity')
+                return redirect(self.request.get_full_path())
 
 class ProjectDetail(TemplateView):
     template_name = 'Charities/project_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        project = self.kwargs['id']
-        project = ChurchProjects.objects.get(id=project)
-        context['project'] = project
+        try:
+            project = self.kwargs['id']
+            project = ChurchProjects.objects.get(id=project)
+            context['project'] = project
+        except:
+            messages.error(self.request, 'We could not find the requested object!')
         contributions = ProjectPayments.objects.filter(project=project)
         totals = contributions.aggregate(totals=Sum('amount'))['totals']
         if not totals:
@@ -139,9 +159,12 @@ class ManageProject(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        project = self.kwargs['project_id']
-        project = ChurchProjects.objects.get(id=project)
-        context['project'] = project
+        try:
+            project = self.kwargs['project_id']
+            project = ChurchProjects.objects.get(id=project)
+            context['project'] = project
+        except:
+            messages.error(self.request, 'We could not find the requested object!')
 
         return context
     
