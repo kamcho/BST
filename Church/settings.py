@@ -121,7 +121,7 @@ DATABASES = {
         'HOST': 'monorail.proxy.rlwy.net',
         'PORT': '11876',
     },
-    'default2': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kevinnjoroge$biblia',
         'USER': 'kevinnjoroge',
