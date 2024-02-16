@@ -11,7 +11,7 @@ from Charities.models import Charity, ChurchProjects
 from .models import CharityPayments, InitiatedPayments, ProjectPayments
 # Create your views here.
 stk_push_url = 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest'
-access_token_url = 'https://api.safaricom.co.ke/oauth/v1/generate'
+access_token_url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
 transaction_status_url = 'https://api.safaricom.co.ke/mpesa/transactionstatus/v1/query'
 def process_number(input_str):
     if input_str.startswith('0'):
@@ -35,16 +35,16 @@ def generate_access_token():
 
     # return access_token from response
     if response.status_code == 200:
-        access_token = response.json()['access_token'] 
+        access_token = response.json()['access_token']
         
         return access_token
-    else:
-        return JsonResponse({'error': 'Token generation failed'}, status=response.status_code)
     
+    else:
+        return None
 
 
 def generate_mpesa_password(timestamp):
-    paybill = "174379"
+    paybill = "4161900"
 
     consumer_key = 'fa0e41448ce844d1a7a37553cee8bf22b61fec894e1ce3e9c0e32b1c6953b6d9'
     concatenated_string = f"{paybill}{consumer_key}{timestamp}"
@@ -70,9 +70,9 @@ def initiate_payment(phone, amount, user, object_id, purpose):
         "Password": password,
         "Timestamp": timestamp,
         "TransactionType": "CustomerPayBillOnline",
-        "Amount": 1,
+        "Amount": amount,
         "PartyA": phone,
-        "PartyB": 174379,
+        "PartyB": 4161900,
         "PhoneNumber": phone,
         "CallBackURL": "https://mydomain.com/path",
         "AccountReference": "Word.Saves",
@@ -84,9 +84,13 @@ def initiate_payment(phone, amount, user, object_id, purpose):
     
     if response.status_code == 200:
         data = json.loads(response.text)
+        print(data)
         checkout_id = data['CheckoutRequestID']
     
         payment = InitiatedPayments.objects.create(user=user, amount=amount, checkout_id=checkout_id,purpose=purpose, object_id=object_id)
+    else:
+        data = json.loads(response.text)
+        print(data)
     
     
 
