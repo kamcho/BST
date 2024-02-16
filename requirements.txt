@@ -8,7 +8,6 @@ djangorestframework==3.14.0
 oauthlib==3.2.2
 Pillow==10.1.0
 psycopg2-binary==2.9.9
-# PyJWT==2.8.0
 pymemcache==4.0.0
 redis==5.0.0
 requests==2.31.0
@@ -16,4 +15,4 @@ urllib3==1.26.18
 uuid==1.30
 whitenoise==6.6.0
 django-cors-headers==4.3.1
-mysqlclient==2.2.1
+# mysqlclient==2.2.1
