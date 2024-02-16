@@ -113,21 +113,21 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # },
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'railway',    # Replace with your actual database name
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'BcDF-C*1eAdd3bEGGAAB-1gfc-b2Bf2e',
-    #     'HOST': 'monorail.proxy.rlwy.net',
-    #     'PORT': '11876',
-    # },
-    'default2': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kevinnjoroge$biblia',
-        'USER': 'kevinnjoroge',
-        'PASSWORD': '141778215aA!',
-        'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
-        'PORT': ''},
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',    # Replace with your actual database name
+        'USER': 'postgres',
+        'PASSWORD': 'BcDF-C*1eAdd3bEGGAAB-1gfc-b2Bf2e',
+        'HOST': 'monorail.proxy.rlwy.net',
+        'PORT': '11876',
+    },
+    # 'default2': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'kevinnjoroge$biblia',
+    #     'USER': 'kevinnjoroge',
+    #     'PASSWORD': '141778215aA!',
+    #     'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
+    #     'PORT': ''},
 }
 
 # Password validation
