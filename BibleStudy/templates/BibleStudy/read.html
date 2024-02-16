@@ -90,8 +90,16 @@
   
 </div>
 <br><br>
-
+    {% if data %}
     <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ data|safe }}</p>
+    {% else %}
+      {% for verse in verses %}
+      <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ verse.text }}</p>
+
+      {% endfor %}
+
+
+    {% endif %}
   
   
 

@@ -19,7 +19,7 @@ from django.db.models import Count
 from django.contrib import messages
 from Communication.models import Inbox
 from Users.models import MyUser, PersonalProfile
-from .models import CBR, Achievements, KingJamesVersionI, JoinRequests, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
+from .models import CBR, Achievements, BibleVersesKJV, KingJamesVersionI, JoinRequests, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
 # Create your views here.
 
 uskey = 'd6ce6236fb09203ed8356c4b04c6bd78'
@@ -429,7 +429,12 @@ class Read(TemplateView):
         book = self.kwargs['book']
         book_count = Books.objects.get(name=book)
         book_name = book_count.book_id
-        context['data'] = get_verses(bible_id.bible_id, book_name,chapter)
+        try:
+            context['data'] = get_verses(bible_id.bible_id, book_name,chapter)
+        except AttributeError:
+            context['verses'] = BibleVersesKJV.objects.filter(book=book,chapter=chapter)
+            messages.info(self.request, 'We could not find the requested bible. Using default')
+
         chapters = int(book_count.chapters)+1
         # print(chapters)
         chapter_list = [i for i in range(1, chapters)]

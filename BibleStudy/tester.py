@@ -6,7 +6,7 @@ def get_verses(bible_id, book, chapter):
     endpoint = f'{base_url}/06125adad2d5898a-01/chapters/{book}.{chapter}'
 
     headers = {
-        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
+        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6',
     }
     print(bible_id, book, chapter)
     
@@ -23,9 +23,9 @@ def get_verses(bible_id, book, chapter):
         return books_data['data']['content']
 
     except requests.exceptions.RequestException as e:
-        verses = BibleVersesKJV.objects.filter(book=book,chapter=chapter)
         
-        return verses
+        
+        raise AttributeError
 bible_books = [
     {'name': 'Genesis', 'chapters': 50, 'order': 1},
     {'name': 'Exodus', 'chapters': 40, 'order': 2},
