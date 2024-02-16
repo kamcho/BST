@@ -190,6 +190,11 @@ def get_verses(book,chapter):
 
     return verses
 
+
+@register.simple_tag
+def get_text(book, chapter, verse):
+    text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
+    return text.text
 @register.simple_tag
 def save_passes_test(user, book, chapter):
     try:

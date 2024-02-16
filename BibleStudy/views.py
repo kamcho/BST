@@ -672,8 +672,9 @@ def create_bookmark(request):
         user = request.user
         bookmark = BookMarks.objects.create(
             user=user,
-            verse=f"{book} {chapter}:{verse}",
-            word='text',
+            book=book,
+            chapter=chapter,
+            verse=verse,
         )
 
         # Optionally, return additional data in the JSON response
@@ -692,10 +693,31 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
         user = self.request.user
         verses = BookMarks.objects.filter(user=user).order_by('-id')
         context['verses'] = verses
+        try:
+            bible_id = UserPreference.objects.get(user=user)
+            if bible_id.default_bible:
+                context['bible_id'] = bible_id
+            else:
+                raise ValueError
+        except:
+            context['bible_id'] = 'default'
+        # context['versions'] = BibleVersions.objects.all()
         if not verses:
             messages.info(self.request, 'You do not have any bookmarked verses.')
 
         return context
+    
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            bible = self.request.POST.get('bible')
+            context = {
+                'verses':self.get_context_data().get('verses'),
+                'bible_id':bible,
+
+            }
+
+            return render(self.request, self.template_name, context)
+
 
 
 class GroupRequests(TemplateView):

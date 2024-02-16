@@ -85,6 +85,8 @@ class TopicalBookMarks(models.Model):
 
 class BookMarks(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    book = models.CharField(max_length=30, null=True)
+    chapter = models.CharField(max_length=30, null=True)
     verse = models.CharField(max_length=30)
     word = models.TextField(max_length=1000, default='None')
 

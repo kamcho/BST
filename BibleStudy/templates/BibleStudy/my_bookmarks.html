@@ -1,13 +1,27 @@
 {% extends 'Users/base.html' %}
-
+{% load custom_filters %}
 {% block content %}
 
 <div class="content-container" style="background-color:rgba(29, 25, 46, .8)!important;">
     <div class="container">
+        <form method="post">
+        {% csrf_token %}
+        <div class="dropdown" style="color: white;">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="max-width: 300px;overflow: hidden;">
+              {{ bible_id }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-dark">
+              {% for version in versions %}
+                <li ><a class="dropdown-item" >{{ version }}</a></li>
+              {% endfor %}
+              
+            </ul>
+          </div>
+        </form>
         <br><br><br>
         {% for verse in verses %}
-        <h6 style="color: coral;">{{ verse.verse }}</h6>
-        <p style="color:white;">{{ verse.word }}</p>
+        <h6 style="color: coral;">{{ verse.book }} {{ verse.chapter }} :{{ verse.verse }}</h6>
+        <p style="color:white;">{% get_text verse.book verse.chapter verse.verse %}</p>
 
 
     {% endfor %}
