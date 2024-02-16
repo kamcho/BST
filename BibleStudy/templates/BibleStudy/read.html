@@ -94,7 +94,7 @@
     <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ data|safe }}</p>
     {% else %}
       {% for verse in verses %}
-      <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ verse.text }}</p>
+      <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ verse.verse }} {{ verse.text }}</p>
 
       {% endfor %}
 
