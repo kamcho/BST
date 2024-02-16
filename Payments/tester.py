@@ -38,7 +38,7 @@ def get_status():
     lnmo_query_url =  "https://api.safaricom.co.ke/mpesa/stkpushquery/v1/query"
 
     # Replace 'your_checkout_id' with the actual CheckoutRequestID you want to query
-    checkout_id = "ws_CO_16022024034321465742134431"
+    checkout_id = "ws_CO_16022024034747715742134431"
     access_token = generate_access_token()
     # Set the request headers
     headers = {
