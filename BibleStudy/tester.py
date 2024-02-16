@@ -6,7 +6,7 @@ def get_verses(bible_id, book, chapter):
     endpoint = f'{base_url}/06125adad2d5898a-01/chapters/{book}.{chapter}'
 
     headers = {
-        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
+        'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6',
     }
     print(bible_id, book, chapter)
     
