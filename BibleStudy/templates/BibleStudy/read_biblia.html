@@ -15,7 +15,7 @@
                 <h4 style="font-family: cursive;">{{ chapter.order }}</h4>
                 {% with book|get_verses:chapter.order as verses %}</p>
                     {% for verse in verses %}
-                    <p class="p" onclick="showPopup('{{ verse.verse }}')" > {{ verse.text }}</p>
+                    <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ verse.verse }} {{ verse.text }}</p>
                     {% endfor %}
                 {% endwith %}
               
@@ -33,8 +33,8 @@
         function showPopup(verseId) {
             // ... your existing code
             // Assuming you have the following context variables
-            var book = "{{ book }}";
-            var chapter = "{{ chapter }}";
+            var book = "{{ chapters.0.book }}";
+            var chapter = "{{ chapters.0 }}";
       
             // Set the value of the hidden input for the verse ID
             $('#clickedVerse').val(verseId);
