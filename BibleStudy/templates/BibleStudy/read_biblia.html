@@ -15,7 +15,7 @@
                 <h4 style="font-family: cursive;">{{ chapter.order }}</h4>
                 {% with book|get_verses:chapter.order as verses %}</p>
                     {% for verse in verses %}
-                    <p class="p" onclick="showPopup('{{ verse.verse }}')" >{{ verse.verse }} {{ verse.text }}</p>
+                    <p class="p" onclick="showPopup('{{ verse.verse }}')" > {{ verse.text }}</p>
                     {% endfor %}
                 {% endwith %}
               
