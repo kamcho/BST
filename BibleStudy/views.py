@@ -380,7 +380,7 @@ class BookSelect(TemplateView):
         books = Books.objects.all().order_by('order')
         context['books'] = books
         
-        create_books_db()
+        # create_books_db()
         
 
         return context
