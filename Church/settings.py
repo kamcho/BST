@@ -121,13 +121,14 @@ DATABASES = {
         'HOST': 'monorail.proxy.rlwy.net',
         'PORT': '11876',
     },
-    # 'default2': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'kevinnjoroge$biblia',
-    #     'USER': 'kevinnjoroge',
-    #     'PASSWORD': '141778215aA!',
-    #     'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
-    #     'PORT': ''},
+    'default2': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kevinnjoroge$biblia',
+        'USER': 'kevinnjoroge',
+        'PASSWORD': '141778215aA!',
+        'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
+        'PORT': ''
+        },
 }
 
 # Password validation
