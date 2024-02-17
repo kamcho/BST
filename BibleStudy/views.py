@@ -368,12 +368,14 @@ def create_books_db():
                 bid = Books.objects.create(name=book['name'], abbreviation=book['abbreviation'],
                                             book_id=book['id'], chapters=0, order=counter, location='OT')
                 counter = counter+1
+
+            return None
         except:
             pass
 
 
         # Assuming the API returns data in JSON format
-        books_data = response.json()
+        # books_data = response.json()
         
 
             
