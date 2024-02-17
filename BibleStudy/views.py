@@ -351,10 +351,10 @@ def create_books_db():
 
         counter = 1
         books = Books.objects.all().order_by('order')
-        for book in bible_books:
-            bid = books.get(order=book['order'])
-            bid.chapters = book['chapters']
-            bid.save()
+        for book in books:
+            for i in range(1,book.chapters+1):
+                chapters = Chapters.objects.create(book=book, order=i)
+            
        
 
 
