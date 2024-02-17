@@ -355,7 +355,7 @@ def create_books_db():
         endpoint = f'{base_url}/06125adad2d5898a-01/books'
 
         headers = {
-            'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6s',
+            'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
         }
         # print(bible_id, book, chapter)
         
