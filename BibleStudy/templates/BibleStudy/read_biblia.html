@@ -29,12 +29,29 @@
 
         
     </div>
+
+    <div class="bookmark-card" id="bookmark" style="display: none;">
+        <div class="spinner-grow text-danger top-right" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <h6 style="color:fuchsia;"><i class="bi bi-bookmark"> </i>BookMark</h6>
+        
+          <input name="verse" id ='verse' style="display: none;">
+          <p>Add <strong style="color: coral;">{{ book }} {{ chapter }}:<span id="clickedVerse"></span></strong> to bookmark.</p>
+          <div class="bookmark-btn">
+            <button  class="btn btn-info" id="saveBookmarkBtn">Save</button>
+            <button class="btn btn-danger" id="cancel">Cancel</button>
+          </div>
+      
+        <!-- Use a span to display the clicked verse ID dynamically -->
+        
+      </div>
     <script>
         function showPopup(verseId) {
             // ... your existing code
             // Assuming you have the following context variables
-            var book = "Genesis";
-            var chapter = "3";
+            var book = "{{ chapters.0.book }}";
+            var chapter = "{{ chapters.0 }}";
       
             // Set the value of the hidden input for the verse ID
             $('#clickedVerse').val(verseId);
