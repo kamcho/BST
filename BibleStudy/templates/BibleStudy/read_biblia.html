@@ -36,7 +36,8 @@
               <p>Add <strong style="color: coral;">{{ book }} {{ chapter }}:<span id="clickedVerse"></span></strong> to bookmark.</p>
               <div class="bookmark-btn">
                 <button  class="btn btn-info" id="saveBookmarkBtn">Save</button>
-                <button class="btn btn-danger" id="cancel">Cancel</button>
+                <button class="btn btn-danger" id="cancel" onclick="hideBookmarkDiv()">Cancel</button>
+
               </div>
           
             <!-- Use a span to display the clicked verse ID dynamically -->
@@ -45,12 +46,20 @@
         
     </div>
 
-    
+    <script>
+        function hideBookmarkDiv() {
+          // Get the reference to the div with id 'bookmarkDiv'
+          var bookmarkDiv = document.getElementById('bookmark');
+      
+          // Set the display property to 'none'
+          bookmarkDiv.style.display = 'none';
+        }
+      </script>
     <script>
         function showPopup(verseId) {
             // ... your existing code
             // Assuming you have the following context variables
-            var book = "{{ chapters.0.book }}";
+            var book = "{{ chapters.0.book.name }}";
             var chapter = "{{ chapters.0 }}";
       
             // Set the value of the hidden input for the verse ID
