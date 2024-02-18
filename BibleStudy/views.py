@@ -580,7 +580,7 @@ class StudyProgress(LoginRequiredMixin,TemplateView):
             bible = UserPreference.objects.get(user=self.request.user)
             context['bible'] = bible
         except UserPreference.DoesNotExist:
-            bible = BibleVersions.objects.filter(language='English').first()
+            bible = BibleVersions.objects.all().last()
             context['default_bible'] = bible
             
         context['books'] = books
