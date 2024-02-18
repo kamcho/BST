@@ -1236,9 +1236,9 @@ border-width: 13px solid green;
 
     }
     @media (max-width: 850px) {
-      #bookmark{
+      /* #bookmark{
         left: 30% !important;
-      }
+      } */
 
 
 
@@ -1393,9 +1393,9 @@ border-width: 13px solid green;
 
 }
 @media (max-width: 560px) {
-  #bookmark{
+  /* #bookmark{
     left: 20% !important;
-  }
+  } */
   .profile-pic{
     display: none;
   }
