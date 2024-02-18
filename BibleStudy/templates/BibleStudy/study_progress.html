@@ -27,9 +27,9 @@
         {% with user|get_next_chapter:book.order as next_chapter %}
             {%  if next_chapter == 'True' %}
                 {% if bible.default_bible %}
-                    <a href="{% url 'read' bible.default_bible book 1  %}" class="no-style" >
+                    <a href="{% url 'read' bible.default_bible.bible_id book 1  %}" class="no-style" >
                 {% else %}
-                    <a href="{% url 'read' default_bible book 1  %}" class="no-style" >
+                    <a href="{% url 'read' default_bible.bible_id book 1  %}" class="no-style" >
                 {% endif %}
                         <div class="progress-card" style="background-color: orangered !important; color: white !important;">
                             <h5>{{ book }}</h5>
@@ -65,9 +65,9 @@
 
             {% else %}
             {% if bible.default_bible %}
-                <a href="{% url 'read' bible.default_bible book user|get_next_chapter:book.order  %}" class="no-style">
+                <a href="{% url 'read' bible.default_bible.bible_id book user|get_next_chapter:book.order  %}" class="no-style">
             {% else %}
-                <a href="{% url 'read' default_bible book user|get_next_chapter:book.order  %}" class="no-style">
+                <a href="{% url 'read' default_bible.bible_id book user|get_next_chapter:book.order  %}" class="no-style">
             {% endif %}
                 <div class="progress-card">
                     <h5>{{ book }}</h5>
