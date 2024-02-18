@@ -64,7 +64,7 @@
         </a>
 
             {% else %}
-            {% if bible %}
+            {% if bible.default_bible %}
                 <a href="{% url 'read' bible.default_bible book user|get_next_chapter:book.order  %}" class="no-style">
             {% else %}
                 <a href="{% url 'read' default_bible book user|get_next_chapter:book.order  %}" class="no-style">
