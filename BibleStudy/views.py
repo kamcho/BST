@@ -578,10 +578,15 @@ class StudyProgress(LoginRequiredMixin,TemplateView):
         books = Books.objects.all().order_by('order')
         try:
             bible = UserPreference.objects.get(user=self.request.user)
+
             context['bible'] = bible
-        except UserPreference.DoesNotExist:
+            if not bible.default_bible:
+                raise ValueError
+
+        except :
             bible = BibleVersions.objects.all().last()
             context['default_bible'] = bible
+
             
         context['books'] = books
 
