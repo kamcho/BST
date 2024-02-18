@@ -1401,6 +1401,10 @@ border-width: 13px solid green;
   .read-container{
     width: 99% !important;
   }
+  .read-view{
+    margin: 10px 10px !important;
+    padding: 10px !important;
+  }
 
 
 
