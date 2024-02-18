@@ -193,7 +193,10 @@ def get_verses(book,chapter):
 
 @register.simple_tag
 def get_text(book, chapter, verse):
-    text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
+    try:
+        text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
+    except:
+        return None
     return text.text
 @register.simple_tag
 def save_passes_test(user, book, chapter):

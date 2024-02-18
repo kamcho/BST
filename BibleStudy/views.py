@@ -433,9 +433,11 @@ class Read(TemplateView):
             context['previous_chapter'] = int(chapter)-1
         bible_id = BibleVersions.objects.get(name=bible_id)
         context['versions'] = BibleVersions.objects.all().order_by('name')
-        context['books'] = Books.objects.all().order_by('-order')
+        books = Books.objects.all().order_by('-order')
+        context['books'] = books
         context['bible_uid'] = bible_id
         book = self.kwargs['book']
+        context['book'] = books.get(name=book)
         book_count = Books.objects.get(name=book)
         book_name = book_count.book_id
         try:
