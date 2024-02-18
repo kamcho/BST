@@ -432,7 +432,9 @@ class Read(TemplateView):
         if chapter != 1:
             context['previous_chapter'] = int(chapter)-1
         bible_id = BibleVersions.objects.get(bible_id=bible_id)
-        context['versions'] = BibleVersions.objects.all().order_by('name')
+        versions = BibleVersions.objects.all().order_by('name')
+        context['versions'] = versions
+        context['current_book'] = versions.get(bible_id=bible_id)
         books = Books.objects.all().order_by('-order')
         context['books'] = books
         context['bible_uid'] = bible_id
