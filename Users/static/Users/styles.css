@@ -1445,7 +1445,8 @@ border-width: 13px solid green;
     width: 85%;
   }
   .bookmark-card{
-    width: 60% !important;
+    width: 75% !important;
+    height: 130px;
   }
   .books-view{
     display: inline;
