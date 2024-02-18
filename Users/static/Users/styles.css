@@ -1235,7 +1235,14 @@ border-width: 13px solid green;
       
 
     }
+    @media (max-width: 850px) {
+      #bookmark{
+        left: 30%;
+      }
 
+
+
+    }
     @media (max-width: 800px) {
       .books-view{
         grid-template-columns: repeat(2,.7fr);
