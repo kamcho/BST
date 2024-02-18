@@ -1444,6 +1444,9 @@ border-width: 13px solid green;
   .charity-card{
     width: 85%;
   }
+  .bookmark-card{
+    width: 60% !important;
+  }
   .books-view{
     display: inline;
 
