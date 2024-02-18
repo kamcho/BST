@@ -1237,7 +1237,7 @@ border-width: 13px solid green;
     }
     @media (max-width: 850px) {
       #bookmark{
-        left: 30%;
+        left: 30% !important;
       }
 
 
