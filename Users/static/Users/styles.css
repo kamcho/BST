@@ -540,6 +540,10 @@
 
   
 }
+.verse-id{
+  color: coral;
+  font-family: cursive;
+}
 .verse{
   margin: auto auto;
   font-family: Dekko;
