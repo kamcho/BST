@@ -1396,6 +1396,15 @@ border-width: 13px solid green;
 
 
 }
+
+@media (max-width: 650px) {
+  .read-container{
+    width: 99% !important;
+  }
+
+
+
+}
 @media (max-width: 560px) {
   /* #bookmark{
     left: 20% !important;
