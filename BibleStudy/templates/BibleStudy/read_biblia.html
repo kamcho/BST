@@ -70,16 +70,23 @@
             var y = event.pageY;
     
             // Set the position of the bookmark card
+            updateBookmarkPosition();
+            
+            // Show the bookmark form
+            $('#bookmark').show();
+        }
+    
+        function updateBookmarkPosition() {
+            var y = event.pageY;
+    
+            // Set the position of the bookmark card
             $('#bookmark').css({
                 position: 'absolute',
-                top:  y-100+ 'px',
+                top: y - 100 + 'px',
                 left: (window.innerWidth / 2) - ($('#bookmark').outerWidth() / 2) + 'px',
                 margin: 'auto',
                 display: 'block',
             });
-    
-            // Show the bookmark form
-            $('#bookmark').show();
         }
     
         $(document).ready(function () {
@@ -120,8 +127,14 @@
                     }
                 });
             });
+    
+            // Update bookmark position when window is resized
+            $(window).on('resize', function () {
+                updateBookmarkPosition();
+            });
         });
     </script>
+    
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
