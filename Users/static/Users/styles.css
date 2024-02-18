@@ -451,6 +451,9 @@
 
 
 }
+#bookmark{
+  margin: 0 auto !important;
+}
 .login-card form{
     padding:30px;
 }
