@@ -26,7 +26,7 @@
       </button>
       <ul class="dropdown-menu dropdown-menu-dark">
         {% for book_name in books %}
-          <li ><a class="dropdown-item" href="{% url 'read' bible_uid book_name chapter %}">{{ book_name }}</a></li>
+          <li ><a class="dropdown-item" href="{% url 'read' current_book.bible_id book_name chapter %}">{{ book_name }}</a></li>
         {% endfor %}
         f
       </ul>
@@ -38,7 +38,7 @@
       </button>
       <ul class="dropdown-menu dropdown-menu-dark">
         {% for chapter in chapters %}
-          <li ><a class="dropdown-item" href="{% url 'read' bible_uid book chapter %}">{{ chapter }}</a></li>
+          <li ><a class="dropdown-item" href="{% url 'read' current_book.bible_id book chapter %}">{{ chapter }}</a></li>
         {% endfor %}
         
       </ul>
@@ -57,7 +57,7 @@
 <div class="controls">
   {% if previous_chapter %}
     <div class="d-flex justify-content-start">
-      <a class="btn btn-secondary" href="{% url 'read' bible_uid book previous_chapter %}"><i class="bi bi-chevron-double-left"></i>Previous</a>
+      <a class="btn btn-secondary" href="{% url 'read' current_book.bible_id book previous_chapter %}"><i class="bi bi-chevron-double-left"></i>Previous</a>
     </div>
   {% else %}
     <div class="d-flex justify-content-start">
@@ -66,7 +66,7 @@
   {% endif %}
   {% if  next_chapter %}
     <div class="d-flex justify-content-end">
-      <a class="btn btn-success" href="{% url 'read' bible_uid book next_chapter %}">Next<i class="bi bi-chevron-double-right" ></i></a>
+      <a class="btn btn-success" href="{% url 'read' current_book.bible_id book next_chapter %}">Next<i class="bi bi-chevron-double-right" ></i></a>
     </div>
   {% else %}
     <div class="d-flex justify-content-end">
@@ -110,7 +110,7 @@
     <div class="controls">
       {% if previous_chapter %}
         <div class="d-flex justify-content-start">
-          <a class="btn btn-secondary" href="{% url 'read' bible_uid book previous_chapter %}"><i class="bi bi-chevron-double-left"></i>Previous</a>
+          <a class="btn btn-secondary" href="{% url 'read' current_book.bible_id book previous_chapter %}"><i class="bi bi-chevron-double-left"></i>Previous</a>
         </div>
       {% else %}
         <div class="d-flex justify-content-start">
@@ -119,7 +119,7 @@
       {% endif %}
       {% if  next_chapter %}
         <div class="d-flex justify-content-end">
-          <a class="btn btn-success" href="{% url 'read' bible_uid book next_chapter %}">Next<i class="bi bi-chevron-double-right" ></i></a>
+          <a class="btn btn-success" href="{% url 'read' current_book.bible_id book next_chapter %}">Next<i class="bi bi-chevron-double-right" ></i></a>
         </div>
       {% else %}
         <div class="d-flex justify-content-end">
