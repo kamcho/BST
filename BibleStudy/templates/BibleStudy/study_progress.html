@@ -26,7 +26,7 @@
         {% for book in books %}
         {% with user|get_next_chapter:book.order as next_chapter %}
             {%  if next_chapter == 'True' %}
-                {% if bible %}
+                {% if bible.default_bible %}
                     <a href="{% url 'read' bible.default_bible book 1  %}" class="no-style" >
                 {% else %}
                     <a href="{% url 'read' default_bible book 1  %}" class="no-style" >
