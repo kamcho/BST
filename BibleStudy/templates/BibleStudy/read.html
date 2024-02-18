@@ -187,11 +187,12 @@
   function updateBookmarkPosition(x, y) {
       // Set the position of the bookmark card
       $('#bookmark').css({
-          position: 'absolute',
-          top: y - 50 + 'px',
-          left: x + 'px',
-          display: 'block',
-      });
+                position: 'absolute',
+                top: y - 100 + 'px',
+                left: (window.innerWidth / 2) - ($('#bookmark').outerWidth() / 2) + 'px',
+                margin: 'auto',
+                display: 'block',
+            });
   }
 
   $(document).ready(function () {
