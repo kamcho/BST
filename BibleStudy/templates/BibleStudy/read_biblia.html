@@ -61,14 +61,14 @@
             // Assuming you have the following context variables
             var book = "{{ chapters.0.book.name }}";
             var chapter = "{{ chapters.0 }}";
-      
+    
             // Set the value of the hidden input for the verse ID
             $('#clickedVerse').val(verseId);
             $('#clickedVerse').text(verseId);
             $('#verse').val(verseId);
             var x = event.pageX;
             var y = event.pageY;
-      
+    
             // Set the position of the bookmark card
             $('#bookmark').css({
                 position: 'absolute',
@@ -77,52 +77,52 @@
                 margin: 'auto',
                 display: 'block',
             });
-      
+    
             // Show the bookmark form
             $('#bookmark').show();
         }
-      
+    
         $(document).ready(function () {
-              // Get the CSRF token using Django's template tag
-              var csrftoken = "{{ csrf_token }}";
-      
-              $('#saveBookmarkBtn').on('click', function () {
-                  // Get the values you want to send
-                  var verseId = $('#clickedVerse').val();
-                  var book = "{{ book }}";
-                  var chapter = "{{ chapter }}";
-                  var user = "{{ user }}";
-                  $('#bookmark').hide();
-      
-                  // AJAX request
-                  $.ajax({
-                      url: '{% url "bookmark" %}',  // Replace with your actual URL
-                      method: 'POST',
-                      data: {
-                          'book': book,
-                          'chapter': chapter,
-                          'verse_id': verseId,
-                          'user': user,
-                          // Add more variables if needed
-                      },
-                      headers: {
-                          'X-CSRFToken': csrftoken
-                      },
-                      success: function (data) {
-                          // Handle success response
-                          console.log('Bookmark saved successfully');
-                          // Optionally, you can perform additional actions here
-                      },
-                      error: function (error) {
-                          // Handle error response
-                          console.error('Error saving bookmark:', error);
-                          // Optionally, you can display an error message or perform other actions
-                      }
-                  });
-              });
-          });
-      </script>
-
+            // Get the CSRF token using Django's template tag
+            var csrftoken = "{{ csrf_token }}";
+    
+            $('#saveBookmarkBtn').on('click', function () {
+                // Get the values you want to send
+                var verseId = $('#clickedVerse').val();
+                var book = "{{ book }}";
+                var chapter = "{{ chapter }}";
+                var user = "{{ user }}";
+                $('#bookmark').hide();
+    
+                // AJAX request
+                $.ajax({
+                    url: '{% url "bookmark" %}',  // Replace with your actual URL
+                    method: 'POST',
+                    data: {
+                        'book': book,
+                        'chapter': chapter,
+                        'verse_id': verseId,
+                        'user': user,
+                        // Add more variables if needed
+                    },
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    success: function (data) {
+                        // Handle success response
+                        console.log('Bookmark saved successfully');
+                        // Optionally, you can perform additional actions here
+                    },
+                    error: function (error) {
+                        // Handle error response
+                        console.error('Error saving bookmark:', error);
+                        // Optionally, you can display an error message or perform other actions
+                    }
+                });
+            });
+        });
+    </script>
+    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Replace "20" with the actual id of your div
