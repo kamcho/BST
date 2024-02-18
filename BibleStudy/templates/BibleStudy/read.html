@@ -178,15 +178,20 @@
       var y = event.pageY;
 
       // Set the position of the bookmark card
-      $('#bookmark').css({
-          position: 'absolute',
-          top: y -50+ 'px',
-          left: x + 'px',
-          display: 'block',
-      });
+      updateBookmarkPosition(x, y);
 
       // Show the bookmark form
       $('#bookmark').show();
+  }
+
+  function updateBookmarkPosition(x, y) {
+      // Set the position of the bookmark card
+      $('#bookmark').css({
+          position: 'absolute',
+          top: y - 50 + 'px',
+          left: x + 'px',
+          display: 'block',
+      });
   }
 
   $(document).ready(function () {
@@ -227,8 +232,16 @@
                 }
             });
         });
+
+        // Update bookmark position when window is resized
+        $(window).on('resize', function () {
+            var x = event.pageX;
+            var y = event.pageY;
+            updateBookmarkPosition(x, y);
+        });
     });
 </script>
+
 
 <script>
   // Get all elements with class 'v'

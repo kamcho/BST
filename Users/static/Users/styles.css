@@ -541,8 +541,8 @@
   
 }
 .verse-id{
-  color: coral;
-  font-family: cursive;
+  color: coral !important;
+  font-family: cursive !important;
 }
 .verse{
   margin: auto auto;
