@@ -1447,6 +1447,7 @@ border-width: 13px solid green;
   .bookmark-card{
     width: 75% !important;
     height: 130px;
+    font-size: 20px !important;
   }
   .books-view{
     display: inline;
