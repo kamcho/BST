@@ -10,11 +10,11 @@
     <div class="group-button">
     <div class="dropdown">
       <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="max-width: 300px;overflow: hidden;">
-        {{ bible_id }}
+        
       </button>
       <ul class="dropdown-menu dropdown-menu-dark">
         {% for version in versions %}
-          <li ><a class="dropdown-item" href="{% url 'read' version book chapter %}">{{ version }}</a></li>
+          <li ><a class="dropdown-item" href="{% url 'read' version.bible_id book chapter %}">{{ version }}</a></li>
         {% endfor %}
         
       </ul>
