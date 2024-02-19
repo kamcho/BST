@@ -19,7 +19,7 @@ from django.db.models import Count
 from django.contrib import messages
 from Communication.models import Inbox
 from Users.models import MyUser, PersonalProfile
-from .models import CBR, Achievements, BibleVersesKJV, KingJamesVersionI, JoinRequests, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
+from .models import CBR, Achievements, BibleVersesKJV, KingJamesVersionI, JoinRequests, LocalBibleVersions, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
 # Create your views here.
 
 uskey = 'd6ce6236fb09203ed8356c4b04c6bd78'
@@ -711,29 +711,30 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         verses = BookMarks.objects.filter(user=user).order_by('-id')
+        context['versions'] = LocalBibleVersions.objects.all()
         context['verses'] = verses
-        try:
-            bible_id = UserPreference.objects.get(user=user)
-            if bible_id.default_bible:
-                context['bible_id'] = bible_id
-            else:
-                raise ValueError
-        except:
-            context['bible_id'] = 'default'
-        # context['versions'] = BibleVersions.objects.all()
+        
+        context['bible_id'] = '	American Standard Version'
         if not verses:
             messages.info(self.request, 'You do not have any bookmarked verses.')
 
         return context
     
+
+            
+    
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
-            bible = self.request.POST.get('bible')
-            context = {
-                'verses':self.get_context_data().get('verses'),
-                'bible_id':bible,
+            if 'filter' in self.request.POST:
+                
+                bible = self.request.POST.get('bible')
+                bible_id = LocalBibleVersions.objects.get(name=bible)
+                context = {
+                    'verses':self.get_context_data().get('verses'),
+                    'bible_id':bible_id,
+                    'versions':self.get_context_data().get('versions')
 
-            }
+                }
 
             return render(self.request, self.template_name, context)
 

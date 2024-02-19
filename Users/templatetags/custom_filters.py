@@ -192,9 +192,22 @@ def get_verses(book,chapter):
 
 
 @register.simple_tag
-def get_text(book, chapter, verse):
+def get_text(bible_id, book, chapter, verse):
+    
     try:
-        text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
+        if bible_id == 'American Standard Version':
+            return None
+        elif bible_id == 'King James Version':
+            text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
+
+        elif bible_id == 'Kiswahili (Neno)':
+            return None
+        elif bible_id == 'Kiugo Kikuyu Bible':
+            return None
+        elif bible_id == 'Luo Bible':
+            return None
+        else:
+            text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
     except:
         return None
     return text.text

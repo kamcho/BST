@@ -13,7 +13,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-dark">
               {% for version in versions %}
-                <li ><a class="dropdown-item" >{{ version }}</a></li>
+                <li ><button class="dropdown-item" name="bible" value="{{ version }}">{{ version }}</button></li>
               {% endfor %}
               
             </ul>
@@ -22,7 +22,7 @@
         <br><br><br>
         {% for verse in verses %}
         <h6 style="color: coral;">{{ verse.book }} {{ verse.chapter }} :{{ verse.verse }}</h6>
-        <p style="color:white;">{% get_text verse.book verse.chapter verse.verse %}</p>
+        <p style="color:white;">{% get_text bible_id verse.book verse.chapter verse.verse %}</p>
 
 
     {% endfor %}
