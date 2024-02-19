@@ -725,7 +725,7 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
     
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
-            if 'filter' in self.request.POST:
+            if 'bible' in self.request.POST:
                 
                 bible = self.request.POST.get('bible')
                 bible_id = LocalBibleVersions.objects.get(name=bible)
@@ -736,7 +736,7 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
 
                 }
 
-            return render(self.request, self.template_name, context)
+        return render(self.request, self.template_name, context)
 
 
 
