@@ -195,18 +195,18 @@ def get_verses(book,chapter):
 def get_text(bible_id, book, chapter, verse):
     
     try:
-        if bible_id == 'American Standard Version':
+        if bible_id == '0001':
             return None
-        elif bible_id == 'King James Version':
+        elif bible_id == '0002':
             text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
 
             return text.text
 
-        elif bible_id == 'Kiswahili (Neno)':
+        elif bible_id == '0003':
             return None
-        elif bible_id == 'Kiugo Kikuyu Bible':
+        elif bible_id == '0004':
             return None
-        elif bible_id == 'Luo Bible':
+        elif bible_id == '0005':
             return None
         else:
             return bible_id

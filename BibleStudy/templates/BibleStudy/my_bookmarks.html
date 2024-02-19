@@ -9,7 +9,7 @@
         {% csrf_token %}
         <div class="dropdown" style="color: white;">
             <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="max-width: 300px;overflow: hidden;">
-              {{ bible_id }}
+              {{ bible_id.name }}
             </button>
             <ul class="dropdown-menu dropdown-menu-dark">
               {% for version in versions %}
@@ -22,7 +22,7 @@
         <br><br><br>
         {% for verse in verses %}
         <h6 style="color: coral;">{{ verse.book }} {{ verse.chapter }} :{{ verse.verse }}</h6>
-        <p style="color:white;">{% get_text bible_id verse.book verse.chapter verse.verse %}</p>
+        <p style="color:white;">{% get_text bible_id.bible_id verse.book verse.chapter verse.verse %}</p>
 
 
     {% endfor %}
