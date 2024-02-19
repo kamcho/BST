@@ -736,7 +736,7 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
 
                 }
 
-        return render(self.request, self.template_name, context)
+            return render(self.request, self.template_name, context)
 
 
 
