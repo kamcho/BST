@@ -97,6 +97,19 @@ class BookMarks(models.Model):
 
 
 
+class LocalBibleVersions(models.Model):
+    choices = (
+        ('English','English'),
+        ('Kikuyu', 'Kikuyu'),
+        ('Swahili', 'Swahili'),
+        ('Luo', 'Luo'), 
+    )
+    name = models.CharField(max_length=100)
+    language = models.CharField(max_length=100)
+    bible_id = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.name)
 
 
 
