@@ -714,7 +714,7 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
         context['versions'] = LocalBibleVersions.objects.all()
         context['verses'] = verses
         
-        context['bible_id'] = '	American Standard Version'
+        context['bible_id'] = 'King James Version'
         if not verses:
             messages.info(self.request, 'You do not have any bookmarked verses.')
 
