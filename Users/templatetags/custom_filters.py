@@ -209,7 +209,7 @@ def get_text(bible_id, book, chapter, verse):
         elif bible_id == 'Luo Bible':
             return None
         else:
-            return None
+            return bible_id
     except:
         return None
     return text.text
