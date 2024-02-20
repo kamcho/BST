@@ -13,6 +13,28 @@ class BibleVersesKJV(models.Model):
     class Meta:
         db_table = 'bible_verses_kjv'
         managed = False
+
+class BibleVersesASV(models.Model):
+    id = models.AutoField(primary_key=True)
+    book = models.PositiveSmallIntegerField()
+    chapter = models.PositiveSmallIntegerField()
+    verse = models.PositiveSmallIntegerField()
+    text = models.TextField()
+
+    class Meta:
+        db_table = 'bible_verses_asv'
+        managed = False
+
+class BibleVersesSwahili(models.Model):
+    id = models.AutoField(primary_key=True)
+    book = models.PositiveSmallIntegerField()
+    chapter = models.PositiveSmallIntegerField()
+    verse = models.PositiveSmallIntegerField()
+    text = models.TextField()
+
+    class Meta:
+        db_table = 'bible_verses_swahili'
+        managed = False
 # Create your models here.
 class KingJamesVersionI(models.Model):
 

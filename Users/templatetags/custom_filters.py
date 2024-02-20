@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from django import template
 from django.db.models import Sum, Count
 import requests
-from BibleStudy.models import BibleVersesKJV, KingJamesVersionI, Books, progress, Chapters
+from BibleStudy.models import BibleVersesASV, BibleVersesKJV, BibleVersesSwahili, KingJamesVersionI, Books, progress, Chapters
 from Users.models import MyUser
 from Payments.models import CharityPayments, ProjectPayments
 register = template.Library()
@@ -196,20 +196,19 @@ def get_text(bible_id, book, chapter, verse):
     
     try:
         if bible_id == '0001':
-            return None
+            text = BibleVersesASV.objects.get(book=book, chapter=chapter, verse=verse)
         elif bible_id == '0002':
             text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
 
-            return text.text
-
         elif bible_id == '0003':
-            return None
+            text = BibleVersesSwahili.objects.get(book=book, chapter=chapter, verse=verse)
+            
         elif bible_id == '0004':
-            return None
+            pass
         elif bible_id == '0005':
-            return None
+            pass
         else:
-            return bible_id
+            return text.text
     except:
         return None
     return text.text
