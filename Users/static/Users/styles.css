@@ -744,7 +744,7 @@ nav{
 }
 .table-container{
     
-    margin: 10px auto;
+    margin: 10px auto !important;
     min-width: 85%;
     
     bottom: 50px;
