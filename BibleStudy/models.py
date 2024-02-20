@@ -186,7 +186,7 @@ class JoinRequests(models.Model):
 class Achievements(models.Model):
     identifier = models.PositiveIntegerField(default=12)
     name = models.CharField(max_length=100)
-    description = models.TextField(max_length=300)
+    description = models.TextField(max_length=1000)
     points = models.PositiveIntegerField()
 
     def __str__(self):
