@@ -544,7 +544,8 @@
   color: coral !important;
   font-family: cursive !important;
 }
-.verse{
+.verse{  
+
   margin: auto auto;
   font-family: Dekko;
   font-size: 23px;
@@ -935,7 +936,7 @@ border-width: 13px solid green;
 
 .charity-card img{
   width: 100%;
-  height: 60%;
+  height: 55%;
  
   object-fit: contain;
 }
