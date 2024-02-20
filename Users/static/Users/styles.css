@@ -753,6 +753,8 @@ nav{
 }
 .table{
     padding:30px;
+    width: 85%;
+    max-width: 100px;
 
 }
 
