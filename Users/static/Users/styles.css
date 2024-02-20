@@ -745,15 +745,17 @@ nav{
 .table-container{
     
     margin: 10px auto !important;
-    min-width: 85%;
     
     bottom: 50px;
-    max-width: 1000px;
 
 }
 .table{
     padding:30px;
-    margin: 10px auto;
+    margin: 10px auto !important;
+    min-width: 85%;
+
+    max-width: 1000px;
+
 
 
 }
