@@ -744,8 +744,8 @@ nav{
 }
 .table-container{
     
-    width: 90%;
     margin: 10px auto;
+    min-width: 85%;
     
     bottom: 50px;
     max-width: 1000px;
@@ -753,8 +753,7 @@ nav{
 }
 .table{
     padding:30px;
-    width: 85%;
-    max-width: 100px;
+    
 
 }
 
