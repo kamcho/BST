@@ -539,7 +539,7 @@ def award_points(user):
 def create_achievement(user):
     print('Myuser',user)
     total_chapters = progress.objects.filter(user=user).values('chapter').annotate(num_chapters=Count('chapter')).aggregate(total=Count('chapter'))
-    raw_percent = (total_chapters['total'] / 10) * 100
+    raw_percent = (total_chapters['total'] / 1189) * 100
     try:
         percent = round(raw_percent)
         print(percent)
