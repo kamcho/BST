@@ -190,7 +190,7 @@ class Achievements(models.Model):
     points = models.PositiveIntegerField()
 
     def __str__(self):
-        return str(self.name)
+        return str(self.identifier)
     
 class MyAchievements(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
