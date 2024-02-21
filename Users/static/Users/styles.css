@@ -5,6 +5,9 @@
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+.p{
+  font-size: 23px !important;
+}
 .group-button{
   display: flex;
   /* grid-template-columns: auto auto auto; */
