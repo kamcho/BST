@@ -54,13 +54,7 @@
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
             <div class="offcanvas-title" id="offcanvasNavbarLabel" style="margin: 5px auto;">
-              {% if user.personalprofile.profile_pic %}
-                <img src="{{ user.personalprofile.profile_pic.url }}" width="100" height="100" style="border-radius: 50%;">
-              {% elif user.personalprofile.google_pic %}
-                <img src="{{ user.personalprofile.google_pic }}" width="100" height="100" style="border-radius: 50%;">
-              {% else %}
-              <img src="{% static 'Users/istockphoto-1337144146-612x612.jpg' %}" width="100" height="100" >
-              {% endif %}
+              {{ user.role }}
             </div>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
@@ -141,11 +135,7 @@
         <li>
           <a class="nav-link" href="{% url 'settings' %}" ><i class="bi bi-gear" > </i>Settings</a>
       </li>
-      <li>
-        <a class="nav-link" href="{% url 'charities'  %}" ><i class="bi bi-bookmark-plus" > </i>Charities</a>
-      </li><li>
-        <a class="nav-link" href="{% url 'projects'  %}" ><i class="bi bi-hammer" > </i>Projects</a>
-      </li>
+      
       <li>
         <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
       </li>
@@ -164,11 +154,7 @@
             </a>
           </li>
         {% else %}
-        <li>
-          <a class="nav-link" href="{% url 'charities'  %}" ><i class="bi bi-bookmark-plus" > </i>Charities</a>
-        </li><li>
-          <a class="nav-link" href="{% url 'projects' %}" ><i class="bi bi-hammer" > </i>Projects</a>
-        </li>
+       
         <li>
           <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
         </li>
