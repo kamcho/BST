@@ -167,8 +167,8 @@
   function showPopup(verseId) {
       // ... your existing code
       // Assuming you have the following context variables
-      var book = "{{ book }}";
-      var chapter = "{{ chapter }}";
+      var book = "{{ chapters.0.book.name }}";
+      var chapter = "{{ chapters.0 }}";
 
       // Set the value of the hidden input for the verse ID
       $('#clickedVerse').val(verseId);
@@ -178,70 +178,69 @@
       var y = event.pageY;
 
       // Set the position of the bookmark card
-      updateBookmarkPosition(x, y);
-
+      updateBookmarkPosition();
+      
       // Show the bookmark form
       $('#bookmark').show();
   }
 
-  function updateBookmarkPosition(x, y) {
+  function updateBookmarkPosition() {
+      var y = event.pageY;
+
       // Set the position of the bookmark card
       $('#bookmark').css({
-                position: 'absolute',
-                top: y - 100 + 'px',
-                left: (window.innerWidth / 2) - ($('#bookmark').outerWidth() / 2) + 'px',
-                margin: 'auto',
-                display: 'block',
-            });
-     
+          position: 'absolute',
+          top: y - 130 + 'px',
+          left: (window.innerWidth / 2) - ($('#bookmark').outerWidth() / 2) + 'px',
+          margin: 'auto',
+          display: 'block',
+      });
   }
 
   $(document).ready(function () {
-        // Get the CSRF token using Django's template tag
-        var csrftoken = "{{ csrf_token }}";
+      // Get the CSRF token using Django's template tag
+      var csrftoken = "{{ csrf_token }}";
 
-        $('#saveBookmarkBtn').on('click', function () {
-            // Get the values you want to send
-            var verseId = $('#clickedVerse').val();
-            var book = "{{ book.order }}";
-            var chapter = "{{ chapter }}";
-            var user = "{{ user }}";
-            $('#bookmark').hide();
+      $('#saveBookmarkBtn').on('click', function () {
+          // Get the values you want to send
+          var verseId = $('#clickedVerse').val();
+          var book = "{{ book }}";
+          var chapter = "{{ chapter }}";
+          var user = "{{ user }}";
+          $('#bookmark').hide();
 
-            // AJAX request
-            $.ajax({
-                url: '{% url "bookmark" %}',  // Replace with your actual URL
-                method: 'POST',
-                data: {
-                    'book': book,
-                    'chapter': chapter,
-                    'verse_id': verseId,
-                    'user': user,
-                    // Add more variables if needed
-                },
-                headers: {
-                    'X-CSRFToken': csrftoken
-                },
-                success: function (data) {
-                    // Handle success response
-                    console.log('Bookmark saved successfully');
-                    // Optionally, you can perform additional actions here
-                },
-                error: function (error) {
-                    // Handle error response
-                    console.error('Error saving bookmark:', error);
-                    // Optionally, you can display an error message or perform other actions
-                }
-            });
-        });
+          // AJAX request
+          $.ajax({
+              url: '{% url "bookmark" %}',  // Replace with your actual URL
+              method: 'POST',
+              data: {
+                  'book': book,
+                  'chapter': chapter,
+                  'verse_id': verseId,
+                  'user': user,
+                  // Add more variables if needed
+              },
+              headers: {
+                  'X-CSRFToken': csrftoken
+              },
+              success: function (data) {
+                  // Handle success response
+                  console.log('Bookmark saved successfully');
+                  // Optionally, you can perform additional actions here
+              },
+              error: function (error) {
+                  // Handle error response
+                  console.error('Error saving bookmark:', error);
+                  // Optionally, you can display an error message or perform other actions
+              }
+          });
+      });
 
-        // Update bookmark position when window is resized
-        $(window).on('resize', function () {
-            var x = event.pageX;
-            var y = event.pageY;
-            updateBookmarkPosition(x, y);
-        });
-    });
+      // Update bookmark position when window is resized
+      $(window).on('resize', function () {
+          updateBookmarkPosition();
+      });
+  });
 </script>
 
 
