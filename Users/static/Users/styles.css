@@ -1344,7 +1344,9 @@ border-width: 13px solid green;
       display: inline !important;
       
     }
-   
+    .group-button div{
+      padding-top: 10px;
+    }
     .comment-sec{
       display: none;
     }
