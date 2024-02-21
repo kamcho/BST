@@ -12,7 +12,7 @@ p{
 .fixed-bottom {
   position: fixed;
   background-color: #132743;
-  bottom: 0;
+  bottom: 10px;
   left: 50%; /* You can adjust this value to horizontally center the div */
   transform: translateX(-50%);
   /* Additional styling for the div */
