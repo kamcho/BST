@@ -4,19 +4,24 @@
 {% block content %}
 
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
 <div class="content-container" style="background-color: rgb(25,22 ,32)!important; color: white;">
 
 
 <div class="table-container">
+  <br><br>
     {% if rank %}
     <button class="btn btn-secondary">My Rank - {{ rank }}</button>
     {% else %}
     <a href="{% url 'login' %}"><button class="btn btn-secondary">Login To See Your Rank</button></a>
     {% endif %}
     <br><br>
-    
-    <table class="table" style="margin: 0 auto !important;">
+
+    <table class="table">
         <thead>
           <tr>
             <th><h6>Rank</h6></th>
