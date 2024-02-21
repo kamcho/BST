@@ -1132,8 +1132,10 @@ border-width: 13px solid green;
 .progress-template-card{
   width: 95%;
   height: 260px;
-  margin: auto auto;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .res-pointer{
   display: none ;
