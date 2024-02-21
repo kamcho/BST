@@ -91,7 +91,7 @@
 </div>
 <br><br>
     {% if data %}
-    <p class="p" id="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px; !important">{{ data|safe }}</p>
+    <p class="p" id="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px !important;">{{ data|safe }}</p>
     {% else %}
       {% for verse in verses %}
       <p class="p" id="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px;">{{ verse.verse }} {{ verse.text }}</p>
