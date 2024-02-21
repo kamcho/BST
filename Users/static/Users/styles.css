@@ -16,7 +16,7 @@ p{
   left: 50%; /* You can adjust this value to horizontally center the div */
   transform: translateX(-50%);
   /* Additional styling for the div */
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
   padding: 10px;
   text-align: center;
   display: flex;
