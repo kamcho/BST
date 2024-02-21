@@ -11,12 +11,17 @@ p{
 
 .fixed-bottom {
   position: fixed;
+  background-color: #132743;
   bottom: 0;
   left: 50%; /* You can adjust this value to horizontally center the div */
   transform: translateX(-50%);
   /* Additional styling for the div */
   background-color: #f0f0f0;
   padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
 }
 .group-button{
   display: flex;
