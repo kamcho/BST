@@ -1430,7 +1430,7 @@ border-width: 13px solid green;
 
 @media (max-width: 650px) {
   .read-container{
-    width: 99% !important;
+    width: 100% !important;
   }
   .read-view{
     margin: 10px 10px !important;
