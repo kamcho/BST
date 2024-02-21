@@ -28,7 +28,7 @@
         {% for book_name in books %}
           <li ><a class="dropdown-item" href="{% url 'read' current_book.bible_id book_name chapter %}">{{ book_name }}</a></li>
         {% endfor %}
-        f
+        
       </ul>
     </div>
 
@@ -91,10 +91,10 @@
 </div>
 <br><br>
     {% if data %}
-    <p class="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px; !important">{{ data|safe }}</p>
+    <p class="p" id="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px; !important">{{ data|safe }}</p>
     {% else %}
       {% for verse in verses %}
-      <p class="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px;">{{ verse.verse }} {{ verse.text }}</p>
+      <p class="p" id="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px;">{{ verse.verse }} {{ verse.text }}</p>
 
       {% endfor %}
 
@@ -193,6 +193,11 @@
                 margin: 'auto',
                 display: 'block',
             });
+      $('#p').css(
+        {
+          font-size:22+'px',
+        }
+      );
   }
 
   $(document).ready(function () {
