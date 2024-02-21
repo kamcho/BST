@@ -655,7 +655,7 @@ class BooksAnalytics(TemplateView):
 
         return context
     
-@method_decorator(cache_page(60 * 500), name='dispatch')
+# @method_decorator(cache_page(60 * 500), name='dispatch')
 class TopicalBookMark(TemplateView):
     template_name = 'BibleStudy/bookmarks.html'
 
