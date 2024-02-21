@@ -1420,9 +1420,7 @@ border-width: 13px solid green;
 
 }
 @media (max-width: 560px) {
-  /* #bookmark{
-    left: 20% !important;
-  } */
+
   .profile-pic{
     display: none;
   }
@@ -1446,10 +1444,7 @@ border-width: 13px solid green;
     margin: 0 auto;
   }
  
-  .progress-template{
-    padding: 50px ;
-    border: none;
-  }
+ 
   .progress-template-card{
     margin: 30px auto;
   }
