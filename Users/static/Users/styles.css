@@ -8,6 +8,16 @@
 p{
   font-size: 23px !important;
 }
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 50%; /* You can adjust this value to horizontally center the div */
+  transform: translateX(-50%);
+  /* Additional styling for the div */
+  background-color: #f0f0f0;
+  padding: 10px;
+}
 .group-button{
   display: flex;
   /* grid-template-columns: auto auto auto; */
