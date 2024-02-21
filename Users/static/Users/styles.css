@@ -1146,7 +1146,7 @@ border-width: 13px solid green;
 .progress-canvas{
   width:150px;
   height: 70%;
-  margin: auto auto;
+  margin: 1px auto !important;
 }
 .read-view{
   background-color:rgba(29, 25, 46, .8);
@@ -1451,6 +1451,7 @@ border-width: 13px solid green;
   .progress-canvas{
     width: 200px;
     height: 60%;
+    margin: 1px auto;
   }
 
 
