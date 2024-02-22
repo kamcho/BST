@@ -25,6 +25,9 @@ p{
   width: 500px;
   color: coral;
 }
+.bottom-bar i{
+  font-size: 20px !important;
+}
 
 .fixed-bottom {
   position: fixed;
@@ -1369,7 +1372,7 @@ border-width: 13px solid green;
 @media (max-width: 650px) {
 
     .bottom-bar{
-      width: 85% !important;
+      width: 95% !important;
       display: grid;
     }
     .quiz-form{
