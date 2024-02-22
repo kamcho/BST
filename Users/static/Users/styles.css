@@ -19,7 +19,7 @@ p{
   padding: 10px;
   text-align: center;
   
-  grid-template-columns: repeat(3, .7fr);
+  grid-template-columns: repeat(4, .5fr);
   font-size: 30px;
   border-radius: 30px;
   width: 500px;
