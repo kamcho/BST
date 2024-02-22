@@ -25,12 +25,20 @@ def generate_access_token():
         return None
     
 
+
+import base64
+import datetime
+import json
+import requests
+from requests.auth import HTTPBasicAuth
+
 def generate_mpesa_password(timestamp):
-    paybill = "174379" # This is the deafult test number
+    # This is the deafult test number
+    paybill = "174379" 
     timestamp = timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     
     # this is the default test passkey
-    pass_key = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919' 
+    pass_key = 'pass_key_goes_here' 
     concatenated_string = f"{paybill}{pass_key}{timestamp}"
     base64_encoded = base64.b64encode(concatenated_string.encode()).decode('utf-8')
     password = str(base64_encoded)

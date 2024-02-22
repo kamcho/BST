@@ -8,6 +8,23 @@
 p{
   font-size: 23px !important;
 }
+.bottom-bar{
+  position: fixed;
+  background-color: #132743;
+  bottom: 10px;
+  display: none;
+  left: 50%; /* You can adjust this value to horizontally center the div */
+  transform: translateX(-50%);
+  /* Additional styling for the div */
+  padding: 10px;
+  text-align: center;
+  
+  grid-template-columns: repeat(3, .7fr);
+  font-size: 30px;
+  border-radius: 30px;
+  width: 500px;
+  color: coral;
+}
 
 .fixed-bottom {
   position: fixed;
@@ -1351,7 +1368,10 @@ border-width: 13px solid green;
 
 @media (max-width: 650px) {
 
-  
+    .bottom-bar{
+      width: 85% !important;
+      display: grid;
+    }
     .quiz-form{
         margin:60px auto;
     }

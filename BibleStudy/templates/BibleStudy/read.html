@@ -91,10 +91,10 @@
 </div>
 <br><br>
     {% if data %}
-    <p onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px !important;">{{ data|safe }}</p>
+    <p class="p" id="p" onclick="showPopup('{{ verse.verse }}', event)" style="font-size: 22px !important;">{{ data|safe }}</p>
     {% else %}
       {% for verse in verses %}
-      <p class="p" id="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px;">{{ verse.verse }} {{ verse.text }}</p>
+      <p  onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px;">{{ verse.verse }} {{ verse.text }}</p>
 
       {% endfor %}
 
@@ -164,84 +164,71 @@
 </script>
 
 <script>
-  function showPopup(verseId) {
-      // ... your existing code
-      // Assuming you have the following context variables
-      var book = "{{ chapters.0.book.name }}";
-      var chapter = "{{ chapters.0 }}";
+  function showPopup(verseId, event) {
+    // ... your existing code
 
-      // Set the value of the hidden input for the verse ID
-      $('#clickedVerse').val(verseId);
-      $('#clickedVerse').text(verseId);
-      $('#verse').val(verseId);
-      var x = event.pageX;
-      var y = event.pageY;
+    // Set the position of the bookmark card
+    updateBookmarkPosition(event);
 
-      // Set the position of the bookmark card
-      updateBookmarkPosition();
-      
-      // Show the bookmark form
-      $('#bookmark').show();
-  }
+    // Show the bookmark form
+    $('#bookmark').show();
+}
 
-  function updateBookmarkPosition() {
-      var y = event.pageY;
+function updateBookmarkPosition(event) {
+    var y = event.pageY;
 
-      // Set the position of the bookmark card
-      $('#bookmark').css({
-          position: 'absolute',
-          top: y - 130 + 'px',
-          left: (window.innerWidth / 2) - ($('#bookmark').outerWidth() / 2) + 'px',
-          margin: 'auto',
-          display: 'block',
-      });
-  }
+    // Set the position of the bookmark card
+    $('#bookmark').css({
+        position: 'absolute',
+        top: y - 130 + 'px',
+        left: (window.innerWidth / 2) - ($('#bookmark').outerWidth() / 2) + 'px',
+        margin: 'auto',
+        display: 'block',
+    });
+}
 
-  $(document).ready(function () {
-      // Get the CSRF token using Django's template tag
-      var csrftoken = "{{ csrf_token }}";
+$(document).ready(function () {
+    // Get the CSRF token using Django's template tag
+    var csrftoken = "{{ csrf_token }}";
 
-      $('#saveBookmarkBtn').on('click', function () {
-          // Get the values you want to send
-          var verseId = $('#clickedVerse').val();
-          var book = "{{ book }}";
-          var chapter = "{{ chapter }}";
-          var user = "{{ user }}";
-          $('#bookmark').hide();
+    $('#saveBookmarkBtn').on('click', function () {
+        // Get the values you want to send
+        var verseId = $('#clickedVerse').val();
+        var book = "{{ book.order }}";
+        var chapter = "{{ chapter }}";
+        var user = "{{ user }}";
+        $('#bookmark').hide();
 
-          // AJAX request
-          $.ajax({
-              url: '{% url "bookmark" %}',  // Replace with your actual URL
-              method: 'POST',
-              data: {
-                  'book': book,
-                  'chapter': chapter,
-                  'verse_id': verseId,
-                  'user': user,
-                  // Add more variables if needed
-              },
-              headers: {
-                  'X-CSRFToken': csrftoken
-              },
-              success: function (data) {
-                  // Handle success response
-                  console.log('Bookmark saved successfully');
-                  // Optionally, you can perform additional actions here
-              },
-              error: function (error) {
-                  // Handle error response
-                  console.error('Error saving bookmark:', error);
-                  // Optionally, you can display an error message or perform other actions
-              }
-          });
-      });
+        // AJAX request
+        $.ajax({
+            url: '{% url "bookmark" %}',  // Replace with your actual URL
+            method: 'POST',
+            data: {
+                'book': book,
+                'chapter': chapter,
+                'verse_id': verseId,
+                'user': user,
+                // Add more variables if needed
+            },
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            success: function (data) {
+                // Handle success response
+                console.log('Bookmark saved successfully');
+                // Optionally, you can perform additional actions here
+            },
+            error: function (error) {
+                // Handle error response
+                console.error('Error saving bookmark:', error);
+                // Optionally, you can display an error message or perform other actions
+            }
+        });
+    });
+});
 
-      // Update bookmark position when window is resized
-      $(window).on('resize', function () {
-          updateBookmarkPosition();
-      });
-  });
 </script>
+
 
 
 <script>
@@ -261,8 +248,7 @@
 
   // Function to show a browser alert
   function showAlert(content) {
-      var book = `Add {{ book }} {{ chapter }}  ${content}  to bookmarks`
-      alert(book);
+      alert('AddVerse: ' + content);
   }
 
   // Function to send an AJAX request

@@ -455,7 +455,8 @@ class Home(TemplateView):
                 context['group'] = group
             except StudyGroups.DoesNotExist:
                 if user.is_authenticated:
-                    messages.error(self.request, 'You have not yet been assigned a bible study group yet!')
+                    # messages.error(self.request, 'You have not yet been assigned a bible study group yet!')
+                    pass
                 else:
                     messages.error(self.request, 'Sign In/Up to join a bible study group')
             read_percentage = progress.objects.filter(user=user)

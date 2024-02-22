@@ -2,3 +2,167 @@
 api_key = "kJGaG8755wTqQ9oGsOG8"
 
 api_secret = "RCgR1f7S1K7q0hrmW344hJd2xZ8f5O8DyAKcNTUi"
+
+
+<script>
+  // Get all elements with class 'v'
+  var verses = document.querySelectorAll('.v');
+
+  // Add click event listener to each element
+  verses.forEach(function (verse) {
+      verse.addEventListener('click', function () {
+          // Show a browser alert with data-number content
+          showAlert(verse.getAttribute('data-number'));
+
+          // Send AJAX request
+          sendAjaxRequest(verse.getAttribute('data-number'));
+      });
+  });
+
+  // Function to show a browser alert
+  function showAlert(content) {
+      var book = `Add {{ book }} {{ chapter }}  ${content}  to bookmarks`
+      alert(book);
+  }
+
+  // Function to send an AJAX request
+  function sendAjaxRequest(dataNumber) {
+      // URL for creating a bookmark
+      var url =  '{% url "bookmark" %}';
+
+      // Data to be sent in the request
+      var data = {
+          verse_id: dataNumber,
+          user:'{{ user }}',
+          book:'{{ book }}',
+          chapter:'{{ chapter }}',
+          user:'{{ user }}',
+          // Add more variables as needed
+      };
+
+      // Send a POST request with the data using jQuery
+      $.ajax({
+          url: url,
+          type: 'POST',
+          headers: {
+              'X-CSRFToken': getCookie('csrftoken'),  // Include CSRF token in the header
+          },
+          data: data,
+          success: function(response) {
+              console.log('Bookmark created:', response);
+          },
+          error: function(error) {
+              console.error('Error creating bookmark:', error);
+          }
+      });
+  }
+
+  // Function to get CSRF token from cookies
+  function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+              var cookie = cookies[i].trim();
+              // Check if the cookie name matches with the provided name
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+</script>
+
+
+
+{% if not data %}
+<script>
+  function showPopup(verseId) {
+      // ... your existing code
+      // Assuming you have the following context variables
+      var book = "{{ chapters.0.book.name }}";
+      var chapter = "{{ chapters.0 }}";
+
+      // Set the value of the hidden input for the verse ID
+      $('#clickedVerse').val(verseId);
+      $('#clickedVerse').text(verseId);
+      $('#verse').val(verseId);
+      var x = event.pageX;
+      var y = event.pageY;
+
+      // Set the position of the bookmark card
+      updateBookmarkPosition();
+      
+      // Show the bookmark form
+      $('#bookmark').show();
+  }
+
+  function updateBookmarkPosition() {
+      var y = event.pageY;
+
+      // Set the position of the bookmark card
+      $('#bookmark').css({
+          position: 'absolute',
+          top: y - 130 + 'px',
+          left: (window.innerWidth / 2) - ($('#bookmark').outerWidth() / 2) + 'px',
+          margin: 'auto',
+          display: 'block',
+      });
+  }
+
+  $(document).ready(function () {
+      // Get the CSRF token using Django's template tag
+      var csrftoken = "{{ csrf_token }}";
+
+      $('#saveBookmarkBtn').on('click', function () {
+          // Get the values you want to send
+          var verseId = $('#clickedVerse').val();
+          var book = "{{ book }}";
+          var chapter = "{{ chapter }}";
+          var user = "{{ user }}";
+          $('#bookmark').hide();
+
+          // AJAX request
+          $.ajax({
+              url: '{% url "bookmark" %}',  // Replace with your actual URL
+              method: 'POST',
+              data: {
+                  'book': book,
+                  'chapter': chapter,
+                  'verse_id': verseId,
+                  'user': user,
+                  // Add more variables if needed
+              },
+              headers: {
+                  'X-CSRFToken': csrftoken
+              },
+              success: function (data) {
+                  // Handle success response
+                  console.log('Bookmark saved successfully');
+                  // Optionally, you can perform additional actions here
+              },
+              error: function (error) {
+                  // Handle error response
+                  console.error('Error saving bookmark:', error);
+                  // Optionally, you can display an error message or perform other actions
+              }
+          });
+      });
+
+      // Update bookmark position when window is resized
+      $(window).on('resize', function () {
+          updateBookmarkPosition();
+      });
+  });
+</script>
+
+{% endif %}
+
+
+
+
+In the vibrant business ecosystem of East and Central Africa, the significance of M-Pesa as a payment solution cannot be overstated. Specifically, M-Pesa's STK (Sim Toolkit) Push integration has emerged as a pivotal tool for businesses.
+
+By seamlessly integrating M-Pesa STK Push into your application, you unlock a world of benefits. This includes a streamlined and secure payment process, fostering customer satisfaction and loyalty. The familiarity and trust associated with M-Pesa contribute to increased sales, making it a game-changer for businesses.
