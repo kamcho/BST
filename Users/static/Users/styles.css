@@ -561,6 +561,7 @@ p{
 
   ::-webkit-scrollbar-thumb {
     background-color: rgba(29, 25, 46, .8);
+    padding: -10px;
     height: 10px;
     border-radius: 10px;
   }

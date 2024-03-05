@@ -81,6 +81,7 @@ MIDDLEWARE = [
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://bst-production.up.railway.app",
+    "https://189c-41-81-190-96.ngrok-free.app",
     # Add other trusted origins if needed
 ]
 ROOT_URLCONF = 'Church.urls'
@@ -109,10 +110,10 @@ WSGI_APPLICATION = 'Church.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # },
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'railway',    # Replace with your actual database name
@@ -121,14 +122,14 @@ DATABASES = {
     #     'HOST': 'monorail.proxy.rlwy.net',
     #     'PORT': '11876',
     # },
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'kevinnjoroge$biblia',
-    #     'USER': 'kevinnjoroge',
-    #     'PASSWORD': '141778215aA!',
-    #     'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
-    #     'PORT': ''
-    #     },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kevinnjoroge$biblia',
+        'USER': 'kevinnjoroge',
+        'PASSWORD': '141778215aA!',
+        'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
+        'PORT': ''
+        },
 }
 
 # Password validation
