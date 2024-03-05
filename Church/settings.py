@@ -80,8 +80,8 @@ MIDDLEWARE = [
 
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "https://bst-production.up.railway.app",
-    "https://189c-41-81-190-96.ngrok-free.app",
+    "https://knowedge.online",
+    # "https://189c-41-81-190-96.ngrok-free.app",
     # Add other trusted origins if needed
 ]
 ROOT_URLCONF = 'Church.urls'
