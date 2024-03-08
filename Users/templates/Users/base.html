@@ -54,21 +54,37 @@
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
             <div class="offcanvas-title" id="offcanvasNavbarLabel" style="margin: 5px auto;">
-              {{ user.role }}
+              zara
             </div>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" style="color:black;">
+
+
+              {% if user.is_authenticated %}
+              <li>
+                <a class="nav-link" href="{% url 'study-progress' %}" style="">
+                  
+                 <i class="bi bi-bar-chart-steps"></i> Bible Study(C.B.R)
+                </a>
+            </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}" ><i class="bi bi-box-arrow-right" > </i>Sign In</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}" ><i class="bi bi-pen" > </i>Sign Up</a>
+              </li>
+
+              {% endif %}
               
 
                 
                 
 
 
-                <li>
-                  <a class="nav-link" href="{% url 'leadersboard' %}" ><i class="bi bi-123" > </i>Leaders Board</a>
-                </li>
+                
               
        
 
@@ -76,8 +92,12 @@
           <li>
               <a class="nav-link" href="{% url 'student-home' %}" ><i class="bi bi-house" > </i>Home</a>
           </li>
+
           <li>
             <a class="nav-link" href="{% url 'biblia' %}" ><i class="bi bi-book" > </i>Bible</a>
+        </li>
+        <li>
+          <a class="nav-link" href="{% url 'leadersboard' %}" ><i class="bi bi-123" > </i>Leaders Board</a>
         </li>
         
 
@@ -108,13 +128,9 @@
 
   {% endif %}
 
+
           {% if user.is_authenticated %}
-          <li>
-            <a class="nav-link btn btn-secondary" href="{% url 'study-progress' %}" style="color: white;">
-              
-              C.B.R
-            </a>
-        </li>
+          
           <li>
             <a class="nav-link" href="{% url 'update-profile' %}" ><i class="bi bi-person" > </i>Profile</a>
         </li>
@@ -136,11 +152,12 @@
           <a class="nav-link" href="{% url 'settings' %}" ><i class="bi bi-gear" > </i>Settings</a>
       </li>
       
-      <li>
-        <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
-      </li>
+      
       <li>
         <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headset" > </i>Contact-Us</a>
+    </li>
+    <li>
+      <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
     </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}" ><button class="Btn">
@@ -162,12 +179,7 @@
           <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headset" > </i>Contact-Us</a>
       </li>
        
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}" ><i class="bi bi-box-arrow-right" > </i>Sign In</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}" ><i class="bi bi-pen" > </i>Sign Up</a>
-        </li>
+       
         <li class="nav-item">
           <a class="nav-link" href="{% url 'password-reset' %}"><i class="bi bi-x-octagon" > </i>Reset Password</a>
         </li>
@@ -213,7 +225,7 @@
     {% if messages %}
 
 
-  <div class="text-center" style="position:sticky;margin-top:59px;">
+  <div class="text-center" style="position:sticky;margin-top:59px;" id="message">
     {% for message in messages %}
       {% if message.tags ==  'error' %}
         <h6 class="alert alert-danger">{{ message }}</h6>
@@ -231,11 +243,17 @@
 {% endif %}
 
 <script>
-    window.addEventListener('popstate', function(event) {
-        // This function is called when the user navigates back
-        location.reload(); // Reload the current page
-    });
-</script>
+  // Function to remove the element by ID
+  function removeElement() {
+      var element = document.getElementById('message');
+      if (element) {
+          element.parentNode.removeChild(element);
+      }
+  }
+  
+  // Set a timeout to call the removeElement function after 10 seconds
+  setTimeout(removeElement, 10000); // 10000 milliseconds = 10 seconds
+  </script>
 
 
 </body>

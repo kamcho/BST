@@ -211,7 +211,7 @@ def get_text(bible_id, book, chapter, verse):
             return text.text
     except:
         return None
-    return text.text
+    return None
 @register.simple_tag
 def save_passes_test(user, book, chapter):
     try:
@@ -221,24 +221,29 @@ def save_passes_test(user, book, chapter):
 
             return "Saved"
         except:
+            try:
             
-            prog = progress.objects.get(user=user, book__name=book)
-            last_chapter = prog.chapter
-            is_complete = prog.book.chapters
-            
-            
-            if is_complete == last_chapter.count():
+                prog = progress.objects.get(user=user, book__name=book)
+                last_chapter = prog.chapter
+                is_complete = prog.book.chapters
+        
+                
+                if is_complete == last_chapter.count():
 
-                return None
-            
-            
-            elif True:
-                if (last_chapter.count() + 1) == int(chapter):
-                    print('True')
-                    return True
+                    return None
+                
+                
                 else:
-                    print('False')
-                    return False
+                    if (last_chapter.count() + 1) == int(chapter):
+                        print('True')
+                        return True
+                    else:
+                        print('False')
+                        return False    
+            except:
+                return False
+                
+        
                 
         
             

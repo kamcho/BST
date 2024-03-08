@@ -5,13 +5,12 @@ from django.views.decorators.cache import cache_page
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.db.models import Count
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import TemplateView
-import requests
 from BibleStudy.models import BibleVersions, KingJamesVersionI, Books, Chapters, StudyGroups, UserPreference, progress, Chapters
 from Communication.models import MessagingSettings
 from DailyWord.models import DailyMessage
@@ -188,52 +187,6 @@ class MyProfile(LoginRequiredMixin, TemplateView):
                     error_message = str(e)  # Get the error message as a string
                     error_type = type(e).__name__
 
-                #     logger.critical(
-                #         error_message,
-                #         exc_info=True,  # Include exception info in the log message
-                #         extra={
-                #             'app_name': __name__,
-                #             'url': self.request.get_full_path(),
-                #             'school': settings.SCHOOL_ID,
-                #             'error_type': 'DatabaseError',
-                #             'user': self.request.user,
-                #             'level': 'Critical',
-                #             'model': 'Database Error',
-                #         }
-                #     )
-
-                # # Add a learner to a guardians watch list
-            elif 'attachment' in self.request.POST:
-                try:
-                    if self.request.user.role == 'Guardian':
-                        mail = self.request.POST.get('mail')
-                        name = self.request.POST.get('name').lower()
-
-                        learner = PersonalProfile.objects.get(user__email=mail)  # get users profile
-                        # Ensure users first name matches the value of first name and ensure that the user is a student.
-                        if learner.f_name.lower() == name and learner.user.role == 'Student':
-                            ref_id = self.request.user.uuid
-                            learner.ref_id = ref_id
-                            learner.save()
-                            messages.success(self.request, f'Succesfully added {mail} to your watch list')
-                        
-                        else:
-                            messages.error(self.request, 'Sorry, we could not find a User matching your search!!.\
-                                            Ensure that the user is a student and has updated his/her names.')
-
-                    else:
-                        messages.error(self.request, 'Sorry, You are not authorised to perform this action.')
-
-                except PersonalProfile.DoesNotExist as e:
-                    # Create personal profile if none is found
-                    messages.error(self.request, 'OOOps that did not work, Please try again!!')
-                    personal_profile = PersonalProfile.objects.create(user__email=mail)
-                except Exception as e:
-                    # Handle any exceptions
-                    messages.error(self.request, 'Sorry, An error occurred. Please try again later !!')
-                    error_message = str(e)  # Get the error message as a string
-                    error_type = type(e).__name__
-
                     logger.critical(
                         error_message,
                         exc_info=True,  # Include exception info in the log message
@@ -241,13 +194,15 @@ class MyProfile(LoginRequiredMixin, TemplateView):
                             'app_name': __name__,
                             'url': self.request.get_full_path(),
                             'school': settings.SCHOOL_ID,
-                            'error_type': 'DatabaseError',
+                            'error_type': error_type,
                             'user': self.request.user,
                             'level': 'Critical',
-                            'model': 'DatabaseError',
+                            'model': 'Database Error',
                         }
                     )
 
+                # # Add a learner to a guardians watch list
+            
         return redirect(self.request.get_full_path())
 
 
@@ -447,24 +402,25 @@ class Home(TemplateView):
         Populate the context with data for the template.
         """
         context = super().get_context_data(**kwargs)
-        user = self.request.user
-        if user.is_authenticated:
+        if self.request.user.is_authenticated:
             try:
-                
+                user = self.request.user
                 group = StudyGroups.objects.get(members=user)
                 context['group'] = group
             except StudyGroups.DoesNotExist:
                 if user.is_authenticated:
-                    # messages.error(self.request, 'You have not yet been assigned a bible study group yet!')
-                    pass
-                else:
-                    messages.error(self.request, 'Sign In/Up to join a bible study group')
+                    
+                    messages.info(self.request, 'You have not yet been assigned a bible study group yet!')
+                          
             read_percentage = progress.objects.filter(user=user)
             chapters_count = read_percentage.aggregate(total=Count('chapter'))['total']
             if chapters_count:
                 chapters = Chapters.objects.all().count()
                 prog = (chapters_count / chapters) * 100
                 context['progress'] = round(prog)
+
+        else:
+            messages.info(self.request, 'Sign In/Up to join a bible study group')
         word = DailyMessage.objects.filter().last()
         context['word'] = word
         

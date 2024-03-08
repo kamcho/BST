@@ -765,7 +765,7 @@ class GroupRequests(TemplateView):
 
 
 
-class RequestStudyGroup(TemplateView):
+class RequestStudyGroup(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/request_group.html'
 
     def get_context_data(self, **kwargs):
