@@ -210,8 +210,8 @@ def get_text(bible_id, book, chapter, verse):
         else:
             return text.text
     except:
-        return None
-    return None
+        return bible_id, 'bible_id'
+    return bible_id
 @register.simple_tag
 def save_passes_test(user, book, chapter):
     try:
