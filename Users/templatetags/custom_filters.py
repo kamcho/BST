@@ -211,7 +211,7 @@ def get_text(bible_id, book, chapter, verse):
             return text.text
     except:
         return bible_id, 'bible_id'
-    return bible_id
+    return text.text
 @register.simple_tag
 def save_passes_test(user, book, chapter):
     try:
