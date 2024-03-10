@@ -393,6 +393,7 @@ class Biblia(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book = self.kwargs['book']
+        chapter = self.kwargs['chapter']
         
         # context['data'] = get_verses()
         book = Books.objects.get(name=book)
@@ -400,8 +401,8 @@ class Biblia(TemplateView):
         context['name'] = book
 
         chapter = self.kwargs['chapter']
-        chapters = Chapters.objects.filter(book__name=book)
-        context['chapters'] = chapters
+        chapters = Chapters.objects.get(book__name=book, order=chapter)
+        context['chapter'] = chapters
         context['focus'] = chapter
         
         

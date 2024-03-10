@@ -5,15 +5,15 @@
 <br><br><br><br>
     <div class="content-container" style="background-color: rgb(25,22 ,32)!important; color: white;">
         <div class="container">
-            {% for chapter in chapters %}
+            
             
             <div  id="{{ chapter.order }}" class="chapter-section">
                 
-                <h6 style="font-family: Dekko;font-size: 30px;" >{{ chapter.book }}<div class="spinner-grow" role="status">
+                <h6 style="font-family: Dekko;font-size: 30px;" >{{ chapters.book }}<div class="spinner-grow" role="status">
                     <span class="visually-hidden">Loading...</span>
                   </div></h6>
-                <h4 style="font-family: cursive;">{{ chapter.order }}</h4>
-                {% with book|get_verses:chapter.order as verses %}</p>
+                <h4 style="font-family: cursive;">{{ chapters.order }}</h4>
+                {% with book|get_verses:chapters.order as verses %}</p>
                     {% for verse in verses %}
                     <p class="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px;"><span class="verse-id">{{ verse.verse }}</span> {{ verse.text }}</p>
                     {% endfor %}
@@ -22,7 +22,7 @@
                 
             </div>
 
-        {% endfor %}
+       
 
 
         </div>
@@ -59,7 +59,7 @@
         function showPopup(verseId) {
             // ... your existing code
             // Assuming you have the following context variables
-            var book = "{{ chapters.0.book.name }}";
+            var book = "{{ chapters.book.name }}";
             var chapter = "{{ chapters.0 }}";
     
             // Set the value of the hidden input for the verse ID
