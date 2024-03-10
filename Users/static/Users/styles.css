@@ -29,6 +29,10 @@ a{
   text-decoration: none;
   color: black;
 }
+.tabs{
+  text-decoration: none !important;
+  color: coral !important;
+}
 .bottom-bar i{
   font-size: 20px !important;
   color: coral !important;
