@@ -197,6 +197,7 @@ $(document).ready(function () {
         var book = "{{ book.order }}";
         var chapter = "{{ chapter }}";
         var user = "{{ user }}";
+        var name = "{{ book.name }}"
         $('#bookmark').hide();
 
         // AJAX request
@@ -208,6 +209,7 @@ $(document).ready(function () {
                 'chapter': chapter,
                 'verse_id': verseId,
                 'user': user,
+                'name':name,
                 // Add more variables if needed
             },
             headers: {

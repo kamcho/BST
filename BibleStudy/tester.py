@@ -23,10 +23,10 @@ def get_verses(bible_id, book, chapter):
         
         return books_data['data']['content']
 
-    except requests.exceptions.RequestException as e:
+    except Exception as e:
         
         
-        raise AttributeError
+        return str(e)
 bible_books = [
     {'name': 'Genesis', 'chapters': 50, 'order': 1},
     {'name': 'Exodus', 'chapters': 40, 'order': 2},

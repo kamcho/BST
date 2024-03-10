@@ -7,52 +7,7 @@
 
 <div class="container" >
     <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Set Theme Verse
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-               
-                {% if theme %}
-                {{ theme.book }} {{ theme.chapter }}:{{ theme.verse }}
-                {% endif %}
-                
-                <div>
-                    {{ theme.word }}
-                </div>
-                <br>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="input- mb-3">
-                        <select class="form-select" aria-label="Default select example" name="book">
-                            {% for book in books %}
-                                <option >{{book}}</option>
-                            {% endfor %}
-                            
-                        </select>
-                        <br>
-                        <input type="number" class="form-control" placeholder="1" aria-label="Server" name="chapter">
-                        <br>
-                        <input type="number" class="form-control" placeholder="1" aria-label="Server" name="verse">
-                    </div>
-                    {% if verse %}
-                    
-                    {% else %}
-                    
-                    {% endif %}
-                    <div>
-                        <button class="btn btn-warning" name="verify" style="color: white;">Set</button>
-            
-                    </div>
-                    <br><br>
-                </form>
-            
-            </div>
-          </div>
-        </div>
+        
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">

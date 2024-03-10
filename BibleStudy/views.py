@@ -397,6 +397,8 @@ class Biblia(TemplateView):
         # context['data'] = get_verses()
         book = Books.objects.get(name=book)
         context['book'] = book.order
+        context['name'] = book
+
         chapter = self.kwargs['chapter']
         chapters = Chapters.objects.filter(book__name=book)
         context['chapters'] = chapters
@@ -682,6 +684,7 @@ def create_bookmark(request):
     chapter = request.POST.get('chapter')
     verse = request.POST.get('verse_id')
     user = request.POST.get('user')
+    name = request.POST.get('name')
     print(verse)
     # text = KingJamesVersionI.objects.get(book)
 
@@ -695,6 +698,7 @@ def create_bookmark(request):
         user = request.user
         bookmark = BookMarks.objects.create(
             user=user,
+            name=name,
             book=book,
             chapter=chapter,
             verse=verse,
