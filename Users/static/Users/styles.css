@@ -25,6 +25,9 @@ p{
   color: coral !important;
   text-decoration: none;
 }
+a{
+  text-decoration: none;
+}
 .bottom-bar i{
   font-size: 20px !important;
   color: coral !important;
