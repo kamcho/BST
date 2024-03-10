@@ -99,7 +99,7 @@
                 var book = "{{ book }}";
                 var chapter = "{{ chapter }}";
                 var user = "{{ user }}";
-                var name = "{{ name }}"
+                var book_name = "{{ book_name }}"
                 $('#bookmark').hide();
     
                 // AJAX request
@@ -111,7 +111,7 @@
                         'chapter': chapter,
                         'verse_id': verseId,
                         'user': user,
-                        'name':name,
+                        'name':book_name,
                         // Add more variables if needed
                     },
                     headers: {

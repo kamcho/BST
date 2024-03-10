@@ -397,7 +397,7 @@ class Biblia(TemplateView):
         # context['data'] = get_verses()
         book = Books.objects.get(name=book)
         context['book'] = book.order
-        context['name'] = book
+        context['book_name'] = book
 
         chapter = self.kwargs['chapter']
         chapter = Chapters.objects.get(book__name=book, order=chapter)
