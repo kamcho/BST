@@ -27,6 +27,7 @@ p{
 }
 a{
   text-decoration: none;
+  color: black;
 }
 .bottom-bar i{
   font-size: 20px !important;

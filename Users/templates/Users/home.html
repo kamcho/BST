@@ -2,7 +2,36 @@
 {% load static %}
 {% block content %}
 <!-- background-image: url('{% static 'Users\5137843.jpg' %}'); -->
+<div class="bottom-bar">
+  <a href="{% url 'study-progress' %}" >
+    <div>
+      <i class="bi bi-book"></i><br>
+      <small>C.B.R</small>
+    </div>
+  </a>
+  <a href="{% url 'biblia' %}" >
+    <div>
+      <i class="bi bi-bootstrap"></i>
+      <br>
+      <small>Read</small>
+    </div>
+  </a>
+  <a href="{% url 'settings' %}">
+  <div>
+    <i class="bi bi-gear"></i>
+    <br>
+    <small>Account</small>
+  </div>
+  </a>
+  <a href="{% url 'achievements' %}">
+  <div>
+    <i class="bi bi-trophy"></i>
+    <br>
+    <small>Honours</small>
+  </div>
+</a>
 
+</div>
   <div class="content-container" >
     {% if progress %}
       <div class="read-progress">
@@ -11,36 +40,7 @@
         </div>
       </div>
     {% endif %}
-    <div class="bottom-bar">
-      <a href="{% url 'study-progress' %}" >
-        <div>
-          <i class="bi bi-book"></i><br>
-          <small>C.B.R</small>
-        </div>
-      </a>
-      <a href="{% url 'biblia' %}" >
-        <div>
-          <i class="bi bi-bootstrap"></i>
-          <br>
-          <small>Read</small>
-        </div>
-      </a>
-      <a href="{% url 'settings' %}">
-      <div>
-        <i class="bi bi-gear"></i>
-        <br>
-        <small>Account</small>
-      </div>
-      </a>
-      <a href="{% url 'achievements' %}">
-      <div>
-        <i class="bi bi-trophy"></i>
-        <br>
-        <small>Honours</small>
-      </div>
-    </a>
-
-    </div>
+    
     
     
 
