@@ -22,13 +22,15 @@ p{
   grid-template-columns: repeat(4, .5fr);
   border-radius: 30px;
   width: 500px;
-  color: coral;
+  color: coral !important;
 }
 .bottom-bar i{
   font-size: 20px !important;
+  color: coral !important;
 }
 .bottom-bar small{
-  font-size: 18px !important;
+  font-size: 15px !important;
+  color: coral !important;
 }
 
 .fixed-bottom {

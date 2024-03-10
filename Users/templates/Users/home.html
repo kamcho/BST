@@ -12,25 +12,33 @@
       </div>
     {% endif %}
     <div class="bottom-bar">
-      <div>
-        <i class="bi bi-book"></i><br>
-        <small>C.B.R</small>
-      </div>
-      <div>
-        <i class="bi bi-bootstrap"></i>
-        <br>
-        <small>Read</small>
-      </div>
+      <a href="{% url 'study-progress' %}" class="no-style">
+        <div>
+          <i class="bi bi-book"></i><br>
+          <small>C.B.R</small>
+        </div>
+      </a>
+      <a href="{% url 'biblia' %}" class="no-style">
+        <div>
+          <i class="bi bi-bootstrap"></i>
+          <br>
+          <small>Read</small>
+        </div>
+      </a>
+      <a href="{% url 'settings' %}" class="no-style">
       <div>
         <i class="bi bi-gear"></i>
         <br>
         <small>Account</small>
       </div>
+      </a>
+      <a href="{% url 'achievements' %}" class="no-style">
       <div>
         <i class="bi bi-trophy"></i>
         <br>
         <small>Honours</small>
       </div>
+    </a>
 
     </div>
     
