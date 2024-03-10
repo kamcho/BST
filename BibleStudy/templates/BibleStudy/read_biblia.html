@@ -7,13 +7,13 @@
         <div class="container">
             
             
-            <div  id="{{ chapter.order }}" class="chapter-section">
+            <div   class="chapter-section">
                 
-                <h6 style="font-family: Dekko;font-size: 30px;" >{{ chapters.book }}<div class="spinner-grow" role="status">
+                <h6 style="font-family: Dekko;font-size: 30px;" >{{ chapter.book }}<div class="spinner-grow" role="status">
                     <span class="visually-hidden">Loading...</span>
                   </div></h6>
-                <h4 style="font-family: cursive;">{{ chapters.order }}</h4>
-                {% with book|get_verses:chapters.order as verses %}</p>
+                <h4 style="font-family: cursive;">{{ chapter.order }}</h4>
+                {% with book|get_verses:chapter.order as verses %}</p>
                     {% for verse in verses %}
                     <p class="p" onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px;"><span class="verse-id">{{ verse.verse }}</span> {{ verse.text }}</p>
                     {% endfor %}
