@@ -23,6 +23,7 @@ p{
   border-radius: 30px;
   width: 500px;
   color: coral !important;
+  text-decoration: none;
 }
 .bottom-bar i{
   font-size: 20px !important;
