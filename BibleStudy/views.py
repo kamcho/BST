@@ -685,7 +685,7 @@ def create_bookmark(request):
     verse = request.POST.get('verse_id')
     user = request.POST.get('user')
     name = request.POST.get('name')
-    print(verse)
+    
     # text = KingJamesVersionI.objects.get(book)
 
     if verse:
