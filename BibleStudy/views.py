@@ -401,7 +401,7 @@ class Biblia(TemplateView):
         context['name'] = book
 
         chapter = self.kwargs['chapter']
-        # chapter = Chapters.objects.get(book__name=book, order=chapter)
+        chapter = Chapters.objects.get(book__name=book, order=chapter)
         context['chapter'] = chapter
         # context['focus'] = chapter
         
