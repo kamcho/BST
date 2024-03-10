@@ -33,7 +33,7 @@
             <h6 style="color:fuchsia;"><i class="bi bi-bookmark"> </i>BookMark</h6>
             
               <input name="verse" id ='verse' style="display: none;">
-              <small>Add <strong style="color: coral;font-size: 15px !important;"> {{ chapter }}:<span id="clickedVerse"></span></strong> to bookmark.</small>
+              <small>Add <strong style="color: coral;font-size: 15px !important;">{{ book }} {{ chapter }}:<span id="clickedVerse"></span></strong> to bookmark.</small>
               <div class="bookmark-btn">
                 <button  class="btn btn-info" id="saveBookmarkBtn" >Save</button>
                 <button class="btn btn-danger" id="cancel"  onclick="hideBookmarkDiv()">Cancel</button>
@@ -99,7 +99,7 @@
                 var book = "{{ book }}";
                 var chapter = "{{ chapter }}";
                 var user = "{{ user }}";
-                var book_name = "{{ book_name }}"
+                var name = "{{ name }}"
                 $('#bookmark').hide();
     
                 // AJAX request
@@ -111,7 +111,7 @@
                         'chapter': chapter,
                         'verse_id': verseId,
                         'user': user,
-                        'name':book_name,
+                        'name':name,
                         // Add more variables if needed
                     },
                     headers: {
