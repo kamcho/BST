@@ -719,7 +719,7 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         verses = BookMarks.objects.filter(user=user).order_by('-id')
-        context['versions'] = LocalBibleVersions.objects.all()
+        context['versions'] = LocalBibleVersions.objects.filter(language='English')
         context['verses'] = verses
         
         context['bible_id'] = {'name':'King James Version','bible_id':'0002'}

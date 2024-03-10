@@ -524,7 +524,6 @@ p{
 
 .profile-card{
   background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
-
   border: 1px solid #ccc;
   color: #F7F7F8;
   border-radius: 10px;
@@ -1488,6 +1487,7 @@ border-width: 13px solid green;
   .profile-card{
     width:99%;
     margin: 0 auto;
+    display: inline !important;
   }
  
  
