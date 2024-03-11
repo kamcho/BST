@@ -5,6 +5,7 @@
 <br><br><br><br>
     <div class="content-container" style="background-color: rgb(25,22 ,32)!important; color: white;">
         <div class="container">
+            <br>
             <div class="controls">
                 {% if previous_chapter %}
                   <div class="d-flex justify-content-start">
@@ -42,6 +43,29 @@
               
                 
             </div>
+            <br>
+
+            <div class="controls">
+                {% if previous_chapter %}
+                  <div class="d-flex justify-content-start">
+                    <a class="btn btn-secondary" href="{% url 'read-biblia'  book previous_chapter %}"><i class="bi bi-chevron-double-left"></i>Previous</a>
+                  </div>
+                {% else %}
+                  <div class="d-flex justify-content-start">
+                    <button class="btn btn-secondary" disabled><i class="bi bi-chevron-double-left"></i>Previous</button>
+                  </div>
+                {% endif %}
+                {% if  next_chapter %}
+                  <div class="d-flex justify-content-end">
+                    <a class="btn btn-success" href="{% url 'read-biblia'  book next_chapter %}">Next<i class="bi bi-chevron-double-right" ></i></a>
+                  </div>
+                {% else %}
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-success" disabled>Next<i class="bi bi-chevron-double-right" ></i></button>
+                  </div>
+                {% endif %}
+                
+              </div>
 
        
 
