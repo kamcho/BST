@@ -386,16 +386,26 @@ class BookSelect(TemplateView):
         return context
     
 
-# @method_decorator(cache_page(60 * 500), name='dispatch')
+@method_decorator(cache_page(60 * 60 * 24), name='dispatch')
 class Biblia(TemplateView):
     template_name = 'BibleStudy/read_biblia.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         book = self.kwargs['book']
+        chapter = self.kwargs['chapter']
+        if chapter != 1:
+            context['previous_chapter'] = int(chapter)-1
         
         # context['data'] = get_verses()
         book = Books.objects.get(name=book)
+        chapters = int(book.chapters)+1
+        # print(chapters)
+        chapter_list = [i for i in range(1, chapters)]
+        context['chapters'] = chapter_list
+        print(chapter_list)
+        if int(chapter_list[-1]) >= int(chapter)+1:
+            context['next_chapter'] = int(chapter)+1
         
         context['book'] = book.order
         context['name'] = book
@@ -403,9 +413,7 @@ class Biblia(TemplateView):
         chapter = self.kwargs['chapter']
         chapter = Chapters.objects.get(book__name=book, order=chapter)
         context['chapter'] = chapter
-        # context['focus'] = chapter
-        
-        
+
         return context
 
 def get_book_verse(book, chapter):
