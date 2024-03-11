@@ -88,7 +88,7 @@ class RegisterView(TemplateView):
 
 
 
-@method_decorator(cache_page(60 * 500), name='dispatch')
+# @method_decorator(cache_page(60 * 500), name='dispatch')
 class Login(TemplateView):
     template_name = 'Users/login.html'
 

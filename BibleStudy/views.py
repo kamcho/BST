@@ -371,7 +371,7 @@ def create_books_db():
     except requests.exceptions.RequestException as e:
         
         return str(e)
-@method_decorator(cache_page(60 * 500), name='dispatch')
+# @method_decorator(cache_page(60 * 500), name='dispatch')
 class BookSelect(TemplateView):
     template_name = 'BibleStudy/biblia.html'
   
@@ -382,7 +382,6 @@ class BookSelect(TemplateView):
         
         # create_books_db()
         
-
         return context
     
 
@@ -417,6 +416,7 @@ class Biblia(TemplateView):
         return context
 
 def get_book_verse(book, chapter):
+
     try:
         verses = KingJamesVersionI.objects.filter(book=book,chapter=chapter)
         return verses

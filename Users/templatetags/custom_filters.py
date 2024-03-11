@@ -241,7 +241,7 @@ def save_passes_test(user, book, chapter):
                         print('False')
                         return False    
             except:
-                return False
+                return True
                 
         
                 

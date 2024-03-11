@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'Charities',
     'Payments',
     'Communication',
+    'crispy_bootstrap4',
     # 'corsheaders',
 
     # 'custom_filters',
@@ -186,7 +187,12 @@ LOGIN_REDIRECT_URL = 'redirect'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_URL = '/Sign-In/'
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000  # Set it to a value that suits your needs
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "njokevin999@gmail.com"
+EMAIL_HOST_PASSWORD = "zjlnawmazkfsehid"
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
