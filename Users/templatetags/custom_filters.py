@@ -200,17 +200,13 @@ def get_text(bible_id, book, chapter, verse):
         elif bible_id == '0002':
             text = BibleVersesKJV.objects.get(book=book, chapter=chapter, verse=verse)
 
-        elif bible_id == '0003':
-            text = BibleVersesSwahili.objects.get(book=book, chapter=chapter, verse=verse)
-            
-        elif bible_id == '0004':
-            pass
-        elif bible_id == '0005':
-            pass
+        # elif bible_id == '0003':
+        #     text = BibleVersesSwahili.objects.get(book=book, chapter=chapter, verse=verse)
         else:
+            text = BibleVersesASV.objects.get(book=book, chapter=chapter, verse=verse)
             return text.text
     except:
-        return bible_id, 'bible_id'
+        return 'Not Found'
     return text.text
 @register.simple_tag
 def save_passes_test(user, book, chapter):

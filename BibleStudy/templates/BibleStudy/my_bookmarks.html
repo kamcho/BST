@@ -22,7 +22,7 @@
         <br><br><br>
         {% for verse in verses %}
         <h6 style="color: coral;">{{ verse.name }} {{ verse.chapter }} :{{ verse.verse }}</h6>
-        <p style="color:white;">{% get_text bible_id.bible_id verse.book verse.chapter verse.verse %}</p>
+        <h6 style="color:white;">{% get_text bible_id.bible_id verse.book verse.chapter verse.verse %}</h6>
 
 
     {% endfor %}
