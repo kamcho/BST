@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'Charities',
     'Payments',
     'Communication',
-    'crispy_bootstrap4',
+    # 'crispy_bootstrap4',
     # 'corsheaders',
 
     # 'custom_filters',
