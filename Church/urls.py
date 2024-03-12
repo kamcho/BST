@@ -22,12 +22,12 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-        path('', include('Users.urls')),
-        path('BibleStudy/', include('BibleStudy.urls')),
-        path('DailyWord/', include('DailyWord.urls')),
-        path('accounts/', include('allauth.urls')),
-        path('Charity/', include('Charities.urls')),
-        path('Payments/', include('Payments.urls')),
+    path('', include('Users.urls')),
+    path('BibleStudy/', include('BibleStudy.urls')),
+    path('DailyWord/', include('DailyWord.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('Charity/', include('Charities.urls')),
+    path('Payments/', include('Payments.urls')),
 path('password-reset/', auth_views.PasswordResetView.as_view(template_name='Users/password_reset.html'),
          name='password-reset'),
     path('password-reset-confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.

@@ -78,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    
 
 ]
 CSRF_TRUSTED_ORIGINS = [
@@ -200,7 +201,8 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
 )
 # CACHES = {
 #     "default": {

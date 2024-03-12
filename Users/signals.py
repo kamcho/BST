@@ -1,13 +1,10 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-# from SubjectList.models import MySubjects, Course
 from .models import MyUser, PersonalProfile, UserTheme
 from BibleStudy.models import UserPreference
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
-# from allauth.account.signals import s
 from allauth.socialaccount.signals import social_account_added
-# from allauth.account.models import SocialAccounts
 
 import json
 
