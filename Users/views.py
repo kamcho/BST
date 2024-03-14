@@ -420,7 +420,7 @@ class Home(TemplateView):
                 context['progress'] = round(prog)
 
         else:
-            messages.info(self.request, 'Sign In/Up to join a bible study group')
+            messages.info(self.request, 'Sign In to join a bible study group')
         word = DailyMessage.objects.filter().last()
         context['word'] = word
         

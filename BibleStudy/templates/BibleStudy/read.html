@@ -241,12 +241,24 @@ $(document).ready(function () {
   verses.forEach(function (verse) {
       verse.addEventListener('click', function () {
           // Show a browser alert with data-number content
-          showAlert(verse.getAttribute('data-number'));
+          updateBookmarkPosition(event);
 
           // Send AJAX request
           sendAjaxRequest(verse.getAttribute('data-number'));
       });
   });
+  function updateBookmarkPosition(event) {
+    var y = event.pageY;
+
+    // Set the position of the bookmark card
+    $('#bookmark').css({
+        position: 'absolute',
+        top: y - 130 + 'px',
+        left: (window.innerWidth / 2) - ($('#bookmark').outerWidth() / 2) + 'px',
+        margin: 'auto',
+        display: 'block',
+    });
+}
 
   // Function to show a browser alert
   function showAlert(content) {
