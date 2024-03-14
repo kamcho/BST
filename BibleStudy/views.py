@@ -685,7 +685,6 @@ class TopicalBookMark(TemplateView):
 
 def create_bookmark(request):
     
-    print('hello wrld \n\n\n\n\n')
     book = request.POST.get('book')
     chapter = request.POST.get('chapter')
     verse = request.POST.get('verse_id')

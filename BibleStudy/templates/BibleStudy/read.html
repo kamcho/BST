@@ -274,9 +274,9 @@ $(document).ready(function () {
       var data = {
           verse_id: dataNumber,
           user:'{{ user }}',
-          book:'{{ book }}',
+          book:'{{ book.order }}',
           chapter:'{{ chapter }}',
-          user:'{{ user }}',
+          name:'{{ book.name }}',
           // Add more variables as needed
       };
 
