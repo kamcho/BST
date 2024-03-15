@@ -75,7 +75,9 @@
   {% endif %}
   
 </div> -->
+
 <div class="read-view">
+  {% if user.is_authenticated %}
   {% if not error %}
   <div class="text-center">
     {% save_passes_test user book chapter as status %}
@@ -93,6 +95,12 @@
   
 </div>
 {% endif %}
+<a href="{% url 'login'  %}"><button class="btn btn-danger"  disabled>Sign in to save progress</button></a>
+{% else %}
+
+{% endif %}
+
+
 <br><br>
   {% if not error %}
     {% if data %}
@@ -128,7 +136,7 @@
       {% endif %}
       {% if  next_chapter %}
         <div class="d-flex justify-content-end">
-          <a class="btn btn-success" href="{% url 'read' current_book.bible_id book next_chapter %}">Next<i class="bi bi-chevron-double-right" ></i></a>
+          <a class="btn btn-success" href="{% url 'read' current_book.bible_id book next_chapter %}">Next CHPT<i class="bi bi-chevron-double-right" ></i></a>
         </div>
       {% else %}
         <div class="d-flex justify-content-end">
