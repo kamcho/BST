@@ -23,19 +23,19 @@
       </ul>
     </div>
 
-    <!-- <div class="dropdown" style="padding-left: 10px;">
+    <div class="dropdown" style="padding-left: 10px;">
       <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         {{ book }}
       </button>
       <ul class="dropdown-menu dropdown-menu-dark">
         {% for book_name in books %}
-          <li ><a class="dropdown-item" href="{% url 'read' current_book.bible_id book_name chapter %}">{{ book_name }}</a></li>
+          <li ><a class="dropdown-item" href="{% url 'read' current_book.bible_id book_name 1 %}">{{ book_name }}</a></li>
         {% endfor %}
         
       </ul>
-    </div> -->
+    </div>
 
-    <!-- <div class="dropdown" style="padding-left: 10px;">
+    <div class="dropdown" style="padding-left: 10px;">
       <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         {{ chapter }}
       </button>
@@ -45,7 +45,7 @@
         {% endfor %}
         
       </ul>
-    </div> -->
+    </div>
     </div>
     <br>
     
