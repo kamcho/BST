@@ -1,6 +1,7 @@
 from allauth.socialaccount.models import SocialAccount
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django.contrib.auth import logout
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -110,7 +111,10 @@ class Login(TemplateView):
                 messages.error(self.request, "Invalid username or password. Try again !")
                 return redirect(self.request.get_full_path())
 
+def logout_view(request):
+    logout(request)
 
+    return render(request, 'Users/logout.html')
 class MyProfile(LoginRequiredMixin, TemplateView):
     """
         view and manipulate a user's profile.

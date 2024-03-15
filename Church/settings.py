@@ -110,6 +110,8 @@ WSGI_APPLICATION = 'Church.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 
 DATABASES = {
     # 'default': {
