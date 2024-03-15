@@ -19,6 +19,6 @@ urlpatterns = [
     path('login-Redirect/', LoginRedirect.as_view(), name='redirect'),
     path('Profile-Set-Up/', FinishSetup.as_view(), name='edit-profile'),
     path('Sign-In/', Login.as_view(), name='login'),
-    path('Logout/', views.logout_view, name='logout'),
+    path('Sign-Out/', views.logout_view, name='log-out'),
 
 ]
