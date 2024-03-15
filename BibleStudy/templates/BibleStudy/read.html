@@ -93,14 +93,14 @@
         {% endwith %}
       {% endif %}
   
-</div>
+
 {% endif %}
-<a href="{% url 'login'  %}"><button class="btn btn-danger"  disabled>Sign in to save progress</button></a>
+
 {% else %}
-
+<a href="{% url 'login'  %}"><button class="btn btn-danger"  disabled>Sign in to save progress</button></a>
 {% endif %}
 
-
+</div>
 <br><br>
   {% if not error %}
     {% if data %}
