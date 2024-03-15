@@ -92,6 +92,7 @@
           <a href="{% url 'read' bible_id book.name next_chapter %}"><button class="btn btn-danger"  disabled>To Save Progress Follow Order <small>click me {{ next_chapter }}</small></button></a>
         {% endwith %}
       {% endif %}
+      </div>
   
 
 {% endif %}
@@ -100,7 +101,7 @@
 <a href="{% url 'login'  %}"><button class="btn btn-danger"  disabled>Sign in to save progress</button></a>
 {% endif %}
 
-</div>
+
 <br><br>
   {% if not error %}
     {% if data %}
