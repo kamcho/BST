@@ -1,6 +1,6 @@
 import requests
 
-from BibleStudy.models import BibleVersesKJV
+# from BibleStudy.models import BibleVersesKJV
 def get_verses(bible_id, book, chapter):
     # 06125adad2d5898a-01
     base_url = 'https://api.scripture.api.bible/v1/bibles'
@@ -23,10 +23,10 @@ def get_verses(bible_id, book, chapter):
         
         return books_data['data']['content']
 
-    except Exception as e:
+    except:
         
         
-        return str(e)
+        raise AttributeError
 bible_books = [
     {'name': 'Genesis', 'chapters': 50, 'order': 1},
     {'name': 'Exodus', 'chapters': 40, 'order': 2},

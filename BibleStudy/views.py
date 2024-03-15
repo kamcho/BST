@@ -452,10 +452,16 @@ class Read(TemplateView):
         book_count = Books.objects.get(name=book)
         book_name = book_count.book_id
         try:
-            context['data'] = get_verses(bible_id.bible_id, book_name,chapter)
+            data = get_verses(bible_id.bible_id, book_name,chapter)
+            context['data'] = data
         except AttributeError:
-            context['verses'] = BibleVersesKJV.objects.filter(book=book_count.order,chapter=chapter)
-            messages.info(self.request, 'We could not find the requested bible. Using default')
+            try:
+                verses = BibleVersesKJV.objects.filter(book=book_count.order,chapter=chapter)
+                context['verses'] = verses
+                messages.info(self.request, 'We could not find the requested bible. Using default')
+            except:
+                messages.error(self.request, 'We could not open the bible. Please wait as we fix it.')
+                context['error'] = True
 
         chapters = int(book_count.chapters)+1
         # print(chapters)
