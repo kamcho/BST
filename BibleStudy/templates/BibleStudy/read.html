@@ -86,7 +86,9 @@
       {% elif status == "Saved" %}
         <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">Already Saved</a>
       {% else %}
-        <button class="btn btn-danger" href="#" disabled>To Save Progress Follow Order</button>
+        {% with user|get_next_chapter:book.order as next_chapter %}
+          <a href="{% url 'read' bible_id book.name next_chapter %}"><button class="btn btn-danger"  disabled>To Save Progress Follow Order <small>click me {{ next_chapter }}</small></button></a>
+        {% endwith %}
       {% endif %}
   
 </div>
@@ -104,6 +106,9 @@
 
     {% endif %}
     {% endif %}
+    <div style="padding-top: 30px;">
+
+    </div>
   
   
 

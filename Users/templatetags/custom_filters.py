@@ -223,7 +223,6 @@ def save_passes_test(user, book, chapter):
                 last_chapter = prog.chapter
                 is_complete = prog.book.chapters
         
-                
                 if is_complete == last_chapter.count():
 
                     return None
