@@ -21,7 +21,7 @@
                                 <div class="chapter-select">
                                     {% with book|get_chapters as chapters %}
                                         {% for chapter in chapters %}
-                                        <a href="{% url 'read' 'de4e12af7f28f599-02' book.name chapter %}" class="no-style">
+                                        <a href="{% url 'read' '01b29f4b342acc35-01' book.name chapter %}" class="no-style">
                                             <div class="chapter-button">
                                                 <div class="chapter-text" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
                                                     {{ chapter }}
