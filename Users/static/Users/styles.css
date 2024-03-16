@@ -1446,6 +1446,7 @@ border-width: 13px solid green;
     }
     .profile-card{
       width: 500px;
+      border: none;
     }
     .members-view{
       display: inline;
