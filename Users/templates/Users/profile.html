@@ -16,7 +16,7 @@
             {% if user.personalprofile.f_name %}
             <h5>{{ user.personalprofile.f_name|title }} {{ user.personalprofile.l_name.0|title }} {{ user.personalprofile.surname|title }}</h5>
             {% else %}
-            <6>{{ user }}</h6>
+            <h6>{{ user }}</h6>
             {% endif %}
             <button class="btn btn-info">{{ user.role }}</button>
             <div class="res-pointer">
