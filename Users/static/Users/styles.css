@@ -1362,7 +1362,6 @@ border-width: 13px solid green;
   }
   .profile-card{
     width: 600px;
-    background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%);
   }
  .progress-template{
   width: 600px !important;
@@ -1447,7 +1446,8 @@ border-width: 13px solid green;
     }
     .profile-card{
       width: 500px;
-      border: none;
+      border: none ;
+      
     }
     .members-view{
       display: inline;
@@ -1464,9 +1464,7 @@ border-width: 13px solid green;
     }
 
 
-}
 
-@media (max-width: 650px) {
   .read-container{
     width: 99% !important;
   }
@@ -1500,7 +1498,8 @@ border-width: 13px solid green;
   .profile-card{
     width:99%;
     margin: 0 auto;
-    display: inline !important;
+    /* display: inline !important; */
+    border: none;
   }
  
  
