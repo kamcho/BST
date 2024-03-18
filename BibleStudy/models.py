@@ -216,3 +216,12 @@ class CBR(models.Model):
     class Meta:
         unique_together = ('user','date')
     
+
+class GroupAssignment(models.Model):
+    group = models.ForeignKey(StudyGroups)
+    chapters = models.ManyToManyField(Chapters)
+    created_on = models.DateField(auto_now=True)
+    expiry = models.DateField()
+
+    def __str__(self):
+        return str(self.group)
