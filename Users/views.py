@@ -425,11 +425,11 @@ class Home(TemplateView):
 
         else:
             messages.info(self.request, 'Sign In to join a bible study group')
-        # word = cache.get('cached_daily_message')  # Check if the data is already cached
-        # if not word:
-        #     word = DailyMessage.objects.order_by('-id').first()  # Retrieve the latest DailyMessage
-        #     cache.set('cached_daily_message', word, timeout=82800)  # Cache the data for 1 hour
-        # context['word'] = word
+        word = cache.get('cached_daily_message')  # Check if the data is already cached
+        if not word:
+            word = DailyMessage.objects.order_by('-id').first()  # Retrieve the latest DailyMessage
+            cache.set('cached_daily_message', word, timeout=82800)  # Cache the data for 1 hour
+        context['word'] = word
         
 
 
