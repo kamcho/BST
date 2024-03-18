@@ -557,29 +557,29 @@ def create_achievement(user):
     try:
         percent = round(raw_percent)
         print(percent)
-        if raw_percent < 1:
+        if raw_percent >= 0 and percent <= 1:
             achievement = Achievements.objects.get(identifier=1)
-            achievements, created = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
 
         
         elif percent > 12 and percent < 25:            
             achievement = Achievements.objects.get(identifier__gte=12, identifier__lt=25)
-            achievements = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
         elif percent > 24 and percent < 50:
             achievement = Achievements.objects.get(identifier__gte=24, identifier__lt=50)
-            achievements = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
         elif percent > 49 and percent < 75:
             achievement = Achievements.objects.get(identifier__gte=49, identifier__lt=75)
-            achievements = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
         elif percent > 74 and percent < 90:
             achievement = Achievements.objects.get(identifier__gte=74, identifier__lt=90)
-            achievements = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
         elif percent > 89 and percent < 100:
             achievement = Achievements.objects.get(identifier__gte=89, identifier__lt=100)
-            achievements = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
         elif raw_percent == 100:
             achievement = Achievements.objects.get(identifier=raw_percent)
-            achievements = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
+            achievements = MyAchievements.objects.create(user=user, achievement=achievement)
         
         try:
             points = PersonalProfile.objects.get(user=user)

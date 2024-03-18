@@ -5,9 +5,30 @@
 <br><br><br><br>
 
 <div class="content-container" >
-  <div class="fixed-bottom" >
-      <h5 style="color: coral;padding-top: 7px;">{{ book }}  {{ chapter }}</h5>
-  </div>
+
+  
+  
+      {% save_passes_test user book chapter as status %}
+      
+        
+        {% if status == True %}
+          <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">
+            <div class="fixed-bottom" >
+              <div class="text-center">
+                <h5 style="color: coral;padding-top: 7px;">{{ book }}  {{ chapter }} <i class="bi bi-floppy">save</i></h5>
+              </div>
+           </div>
+          </a>
+          {% else %}
+          <a class="btn btn-info">
+            <div class="fixed-bottom" >
+              <div class="text-center">
+                <h5 style="color: coral;padding-top: 7px;">{{ book }}  {{ chapter }} </h5>
+              </div>
+           </div>
+          </a>
+        {% endif %}
+      
   <div class="read-container">
     <br>
     <div class="input-group mb-3" >
