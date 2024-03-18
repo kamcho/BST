@@ -218,7 +218,7 @@ class CBR(models.Model):
     
 
 class GroupAssignment(models.Model):
-    group = models.ForeignKey(StudyGroups)
+    group = models.ForeignKey(StudyGroups, on_delete=models.CASCADE)
     chapters = models.ManyToManyField(Chapters)
     created_on = models.DateField(auto_now=True)
     expiry = models.DateField()
