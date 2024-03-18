@@ -114,10 +114,10 @@ WSGI_APPLICATION = 'Church.wsgi.application'
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # },
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'railway',    # Replace with your actual database name
@@ -126,14 +126,14 @@ DATABASES = {
     #     'HOST': 'monorail.proxy.rlwy.net',
     #     'PORT': '11876',
     # },
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'kevinnjoroge$biblia',
-    #     'USER': 'kevinnjoroge',
-    #     'PASSWORD': '141778215aA!',
-    #     'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
-    #     'PORT': ''
-    #     },
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'kevinnjoroge$biblia',
+        'USER': 'kevinnjoroge',
+        'PASSWORD': '141778215aA!',
+        'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
+        'PORT': ''
+        },
 }
 
 # Password validation
