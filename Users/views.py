@@ -2,6 +2,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from django.contrib.auth import logout
+from django.core.cache import cache
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -393,7 +394,6 @@ def rout(request):
     except:
         return redirect('logout')
 
-
 class Home(TemplateView):
     """
     Home view for the Student's dashboard.
@@ -425,7 +425,10 @@ class Home(TemplateView):
 
         else:
             messages.info(self.request, 'Sign In to join a bible study group')
-        word = DailyMessage.objects.filter().last()
+        word = cache.get('cached_daily_message')  # Check if the data is already cached
+        if not word:
+            word = DailyMessage.objects.order_by('-id').first()  # Retrieve the latest DailyMessage
+            cache.set('cached_daily_message', word, timeout=82800)  # Cache the data for 1 hour
         context['word'] = word
         
 
