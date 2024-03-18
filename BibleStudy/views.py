@@ -557,9 +557,9 @@ def create_achievement(user):
     try:
         percent = round(raw_percent)
         print(percent)
-        if raw_percent >= 0 and percent <= 1:
+        if raw_percent < 1:
             achievement = Achievements.objects.get(identifier=1)
-            achievements = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
+            achievements, created = MyAchievements.objects.get_or_create(user=user, achievement=achievement)
 
         
         elif percent > 12 and percent < 25:            
