@@ -12,7 +12,7 @@
       
         
         {% if status == True %}
-          <a class="btn btn-info" href="{% url 'save-progress' chapter_id %}">
+          <a href="{% url 'save-progress' chapter_id %}">
             <div class="fixed-bottom" >
               <div class="text-center">
                 <h5 style="color: coral;padding-top: 7px;">{{ book }}  {{ chapter }} <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
@@ -23,7 +23,7 @@
            </div>
           </a>
           {% else %}
-          <a class="btn btn-info">
+          <a >
             <div class="fixed-bottom" >
               <div class="text-center">
                 <h5 style="color: coral;padding-top: 7px;">{{ book }}  {{ chapter }} </h5>
