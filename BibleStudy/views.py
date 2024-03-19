@@ -19,7 +19,7 @@ from django.db.models import Count
 from django.contrib import messages
 from Communication.models import Inbox
 from Users.models import MyUser, PersonalProfile
-from .models import CBR, Achievements, BibleVersesKJV, KingJamesVersionI, JoinRequests, LocalBibleVersions, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
+from .models import CBR, Achievements, AssignmentTaskProgress, BibleVersesKJV, GroupAssignment, KingJamesVersionI, JoinRequests, LocalBibleVersions, StudyGroups, TopicalBookMarks, UserPreference, BibleVersions, Books, Chapters, progress, MyAchievements, BookMarks
 # Create your views here.
 
 uskey = 'd6ce6236fb09203ed8356c4b04c6bd78'
@@ -68,6 +68,153 @@ class BibleStudyGroups(TemplateView):
 
         return context
 
+class AddExpiry(TemplateView):
+    template_name = 'BibleStudy/finish_up.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            group = StudyGroups.objects.get(group_leader=self.request.user)
+            context['group'] = group
+            chapters = self.request.session.get('chapter', None)
+            if chapters:
+                chapters = Chapters.objects.filter(id__in=chapters)
+                context['chapters'] = chapters
+        except Exception as e:
+            messages.error(self.request, str(e))
+        return context
+    
+
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            date = self.request.POST.get('date')
+            group = self.get_context_data().get('group')
+            chapters = self.get_context_data().get('chapters')
+            task = GroupAssignment.objects.create(group=group, expiry=date)
+            task = task.chapters.add(*chapters)
+
+
+
+            return redirect('group-id', group.group_id)
+class CreateGroupAssignment(LoginRequiredMixin, TemplateView):
+    template_name = 'BibleStudy/create_assignment.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        
+        try:
+            group = StudyGroups.objects.get(group_leader=user)
+            context['group'] = group
+            books = Books.objects.all().order_by('order')
+            context['books'] = books     
+            
+        except:
+            messages.error(self.request, 'You are not authorised to access this page')
+
+        return context
+    
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            chapter = self.request.POST.get('chapter')
+            
+            
+            existing_students = self.request.session.get('chapter', ())
+            if not existing_students:
+                existing_students = ()
+    
+            new_students = existing_students.append(chapter)
+            existing_students = set(existing_students)
+            
+            # Append new values to the existing list
+            
+            # Update the session key with the combined list
+            self.request.session['chapter'] = list(existing_students)
+            self.request.session.modified = True
+            print(self.request.session.get('chapter', None), chapter)
+
+            # del self.request.session['chapter']
+            return redirect(self.request.get_full_path())
+    
+
+class GroupAssignments(TemplateView):
+    template_name = 'BibleStudy/assignments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        tests = GroupAssignment.objects.filter(group__group_id=self.kwargs['group_id'])
+        context['tests'] = tests
+        if not tests:
+            messages.info(self.request, 'You do not have any weekly assignments.')
+
+
+
+        return context
+    
+class DoAssignments(TemplateView):
+    template_name = 'BibleStudy/do_assignment.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        assignment = GroupAssignment.objects.get(id=self.kwargs['id'])
+        context['id'] = self.kwargs['id']
+        context['test'] = assignment
+        return context
+    
+    def post(self, *args, **kwargs):
+        if self.request.method == 'POST':
+            user = self.request.user
+            test = self.get_context_data().get('test')
+            if 'save' in self.request.POST:
+                chapter_id = self.request.POST.get('save')
+                chapter = Chapters.objects.get(id=chapter_id)
+                progress, task = AssignmentTaskProgress.objects.get_or_create(user=user,task=test)
+                progress.chapters.add(chapter)
+
+
+                return redirect(self.request.get_full_path())
+            else:
+                bible = self.kwargs['bible']
+                chapter_id = self.request.POST.get('chapter')
+                chapter = Chapters.objects.get(id=chapter_id)
+                
+                id = self.get_context_data().get('id')
+                bible_versions = BibleVersions.objects.all()
+                try:
+                    data = get_verses(bible, chapter.book.book_id,chapter.order)
+                    context = {
+                        'data':data,
+                        'test':test,
+                        'chapter':chapter.order,
+                        'book':chapter.book,
+                        'versions':bible_versions,
+                        'id':id,
+                        'raw':chapter_id
+
+                    }
+                    
+                except AttributeError:
+                    try:
+                        verses = BibleVersesKJV.objects.filter(book=chapter.book.order,chapter=chapter.order)
+                        context = {
+                            'verses':verses,
+                            'test':test,
+                            'versions':bible_versions,
+                            'chapter':chapter.order,
+                            'book':chapter.book,
+                            'id':id,
+                            'raw':chapter_id
+                            
+                        }
+                        messages.info(self.request, 'We could not find the requested bible. Using default')
+                    except:
+                        messages.error(self.request, 'We could not open the bible. Please wait as we fix it.')
+                        context = {}
+
+
+
+                return render(self.request, self.template_name, context)
+
 class AddToGroup(TemplateView):
     template_name = 'BibleStudy/add_to_studygroup.html'
 
@@ -114,6 +261,10 @@ class GroupDetails(TemplateView):
         group_id = self.kwargs['group_id']
         group = StudyGroups.objects.get(group_id=group_id)
         context['group'] = group
+        test = GroupAssignment.objects.all().last()
+        if not test:
+            test = 0
+        context['test'] = test
         return context
 
 class SetBiblePreference(TemplateView):
@@ -379,9 +530,7 @@ class BookSelect(TemplateView):
         context = super().get_context_data(**kwargs)
         books = Books.objects.all().order_by('order')
         context['books'] = books
-        
-        # create_books_db()
-        
+                
         return context
     
 

@@ -9,7 +9,6 @@ def get_verses(bible_id, book, chapter):
     headers = {
         'api-key': '1cfeb0d5fb47d89b7bb6cef9e8427f6a',
     }
-    print(bible_id, book, chapter)
     
     try:
         response = requests.get(endpoint, headers=headers)
@@ -23,7 +22,7 @@ def get_verses(bible_id, book, chapter):
         
         return books_data['data']['content']
 
-    except:
+    except Exception as e:
         
         
         raise AttributeError

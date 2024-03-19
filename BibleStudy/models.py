@@ -225,3 +225,12 @@ class GroupAssignment(models.Model):
 
     def __str__(self):
         return str(self.group)
+    
+class AssignmentTaskProgress(models.Model):
+    task = models.ForeignKey(GroupAssignment, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    chapters = models.ManyToManyField(Chapters)
+
+    def __str__(self):
+        return str(self.user)
+

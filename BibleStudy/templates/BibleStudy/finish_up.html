@@ -1,0 +1,38 @@
+{% extends 'Users/base.html' %}
+
+{% block content %}
+
+<div class="content-container" style="background-color: rgb(25,22 ,32)!important;">
+    <div class="container">
+        <br><br>
+        <p style="color: white;">Chapters to read</p>
+        <div style="display: grid; grid-template-columns: repeat(3, .4fr);color: white;">
+            
+            {% for chapter in chapters %}
+                <h6>{{ chapter.book }} - {{ chapter.order }}</h6>
+
+            {% endfor %}
+        </div>
+        <br><br>
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label" style="color: white;">Expiry* <small style="color: crimson;">Close on</small></label>
+                <input type="date" class="form-control" name="date"  required>
+            </div>
+
+
+          <button class="btn btn-danger">Save</button>
+
+        </form>
+
+
+
+
+    </div>
+
+
+</div>
+
+{% endblock %}

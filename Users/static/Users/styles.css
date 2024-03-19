@@ -923,7 +923,7 @@ tr:nth-child(even) {
 .user-card{
   border-radius: 25px 5px 25px 5px;
     width: 85%;
-    height: 250px;
+    height: 270px;
     padding: 10px;
     margin: 30px auto;
     background: radial-gradient(780px at 37.8% 100.3%, rgb(19, 55, 115) 2.2%, rgb(32, 7, 80) 20.2%, rgb(27, 88, 111) 58.6%, rgb(115, 88, 44) 75%, rgb(99, 19, 90) 89.6%, rgb(12, 51, 76) 96.1%);

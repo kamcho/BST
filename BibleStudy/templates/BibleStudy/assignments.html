@@ -1,0 +1,52 @@
+{% extends 'Users/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="content-container" style="background-color: rgb(25,22 ,32)!important;">
+    <div class="container">
+        <br><br>
+        {% if tests %}
+
+
+        <table class="table">
+            <thead>
+              <tr>
+                <th><h6>ID</h6></th>
+                 <th><h6>Date</h6></th>
+                <th><h6>Expiry</h6></th>
+              </tr>
+            </thead>
+            <tbody>
+    
+            
+                
+            {% for test in tests %}
+              <tr>
+                  <td><a href="{% url 'do-assignment' '01b29f4b342acc35-01' test.id %} "><h6>{{ forloop.counter }}</h6></a></td>
+                  <td><h6>{{test.created_on }}</h6></td>
+                  <td><h6>{{test.expiry }}</h6></td>
+                  
+                  
+              </tr>
+            {% endfor %}
+            
+            
+            </tbody>
+         </table>
+
+         {% endif %}
+    
+
+
+
+
+
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

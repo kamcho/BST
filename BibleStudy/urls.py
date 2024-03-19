@@ -1,13 +1,17 @@
 from django.urls import path
-from .views import Biblia, BookSelect, ContactUs, CreateStudyGroups, GroupDetails, GroupRequests, LeadersBoard, RequestStudyGroup, create_bookmark, TopicalBookMark, SetBiblePreference, Read, BooksAnalytics, MyBookMarks, StudyProgress, AddToGroup, SaveProgress, UsersAchievements, BibleStudyGroups
+from .views import AddExpiry, Biblia, BookSelect, ContactUs, CreateGroupAssignment, CreateStudyGroups, DoAssignments, GroupAssignments, GroupDetails, GroupRequests, LeadersBoard, RequestStudyGroup, create_bookmark, TopicalBookMark, SetBiblePreference, Read, BooksAnalytics, MyBookMarks, StudyProgress, AddToGroup, SaveProgress, UsersAchievements, BibleStudyGroups
 from . import views
 from django.views.decorators.cache import cache_page
 
 urlpatterns = [
 
     path('<str:group_id>/Info/', GroupDetails.as_view(), name='group-id'),
+    path('Assignments/<str:group_id>/', GroupAssignments.as_view(), name='assignments'),
+    path('Assignment/<str:bible>/<str:id>/', DoAssignments.as_view(), name='do-assignment'),
     path('StudyGroups/', BibleStudyGroups.as_view(), name='study-groups'),
     path('Book-Analytics', BooksAnalytics.as_view(), name='book-analytics' ),
+    path('CreateAssignment/', CreateGroupAssignment.as_view(), name='create-assignment'),
+    path('Finish-Set-Up/', AddExpiry.as_view(), name='add-expiry'),
     path('Group/<str:group_id>/Add-Member', AddToGroup.as_view(), name='add-member'),
     path('Set-Bible-Preference/', SetBiblePreference.as_view(), name='set-bible-preference'),
     path('Study-Progress/', StudyProgress.as_view(), name='study-progress'),

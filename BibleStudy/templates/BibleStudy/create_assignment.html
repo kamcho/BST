@@ -1,0 +1,63 @@
+{% extends 'Users/base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<br><br><br><br>
+<div class="content-container" style="background: #132743 !important;">
+    <div class="container" style="background: #132743 !important;margin: 30px auto;">
+
+        <a class="btn btn-warning" href="{% url 'add-expiry' %}">Finish</a>
+        <br><br>
+
+        <div style="background-color: white;color: black;">
+            {{ request.session.chapter }}
+        </div>
+
+
+        <div class="accordion" id="accordionFlushExample" style="background: #132743 !important;">
+            {% for book in books %}
+                <div class="accordion-item" style="background: #132743 !important;border: .1px solid #2e78df;">
+                    <h2 class="accordion-header" >
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" style="background: #1f1827ce !important; color: white;" data-bs-target="#flush-collapse{{ book.id }}" aria-expanded="false" aria-controls="flush-collapse{{ book.id }}">
+                            {{ book }}
+                        </button>
+                    </h2>
+                    <div id="flush-collapse{{ book.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="accordion-body">
+                                <div class="chapter-select">
+                                    {% with book|get_chapters as chapters %}
+                                        {% for chapter in chapters %}
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <button  class="btn" name="chapter" value="{{ chapter.id }}">
+                                                <div class="chapter-button">
+                                                    <div class="chapter-text" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                                                        {{ chapter.id }}
+                                                    </div>
+                                                    
+                                                </div>
+                                            </button>
+                                        </form>
+                                        {% endfor %}
+                        
+                                    {% endwith %}
+                        
+                                </div>
+                            </div>                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        
+
+               <div style="display: table-cell;">
+.
+               </div>
+
+    </div>
+
+</div>
+{% endblock %}
+        

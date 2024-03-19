@@ -10,7 +10,7 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import redirect, get_object_or_404, render
 from django.views.generic import TemplateView
 from BibleStudy.models import BibleVersions, KingJamesVersionI, Books, Chapters, StudyGroups, UserPreference, progress, Chapters
@@ -256,7 +256,7 @@ class LoginRedirect(LoginRequiredMixin, TemplateView):
             # If a user has not updated their profile redirect them to profile editing page
             if f_name == '':
                 return redirect('edit-profile')
-            elif f_name is not  '' and not bible:
+            elif f_name !=  '' and not bible:
                 return redirect('set-bible-preference')
             else:
                 if role == 'Member':

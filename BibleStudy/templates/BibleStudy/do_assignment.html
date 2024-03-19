@@ -1,0 +1,80 @@
+{% extends 'Users/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+<div class="content-container" style="background-color: rgb(25,22 ,32)!important;">
+    <div class="container">
+        <br><br>
+
+        <form method="post">
+            {% csrf_token %}
+        <div style="display: grid; grid-template-columns: repeat(3, .4fr);color: white;row-gap: 10px;column-gap: 10px;">
+            
+            {% for chapter in test.chapters.all %}
+                {%  check_task_done  test.id user chapter.id as vals %}
+                {% if vals %}
+                    <button style="color: white;" class="btn btn-danger" name="chapter" value="{{ chapter.id }}" disabled>{{ chapter }} COMPLETE </button>
+                {% else %}
+                <button style="color: white;" class="btn btn-secondary" name="chapter" value="{{ chapter.id }}" >{{ chapter }} </button>
+                {% endif %}
+               
+
+            {% endfor %}
+        </div>
+
+    </form>
+    <form method="post">
+        {% csrf_token %}
+    <div class="dropdown" style="padding-top: 10px;">
+        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="max-width: 300px;overflow: hidden;">
+          Bible
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-dark">
+          {% for version in versions %}
+            <li ><a class="dropdown-item" href="{% url 'do-assignment' version.bible_id id %}"  name="bible">{{ version }}</a></li>
+          {% endfor %}
+          
+        </ul>
+      </div>
+    </form>
+    <br>
+    <div class="read-view">
+        {% if data %}
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" value="{{ raw }}"  name="save">Save</button>
+        </form>
+        
+        <h5 class="text-center">{{ book }}  {{ chapter }}</h5>
+        
+        <p class="p" id="p" onclick="showPopup('{{ verse.verse }}', event)" style="font-size: 22px !important;">{{ data|safe }}</p>
+        {% elif verses %}
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary" value="{{ raw }}"  name="save">Save</button>
+        </form>
+        
+        <h5 class="text-center">{{ book }}  {{ chapter }}</h5>
+        {% for verse in verses %}
+        <p  onclick="showPopup('{{ verse.verse }}')" style="font-size: 22px;">{{ verse.verse }} {{ verse.text }}</p>
+
+      {% endfor %}
+      </div>
+
+
+    {% endif %}
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

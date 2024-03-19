@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from django import template
 from django.db.models import Sum, Count
 import requests
-from BibleStudy.models import BibleVersesASV, BibleVersesKJV, BibleVersesSwahili, KingJamesVersionI, Books, progress, Chapters
+from BibleStudy.models import AssignmentTaskProgress, BibleVersesASV, BibleVersesKJV, BibleVersesSwahili, GroupAssignment, KingJamesVersionI, Books, progress, Chapters
 from Users.models import MyUser
 from Payments.models import CharityPayments, ProjectPayments
 register = template.Library()
@@ -136,8 +136,12 @@ def get_read_count(book_id):
 
 @register.filter
 def get_chapters(book):
-    chapters = Chapters.objects.filter(book__name=book).count()
-    chapters = [i for i in range(1, chapters + 1)]
+    chapters = Chapters.objects.filter(book__name=book)
+    # chapters = [i for i in range(1, chapters + 1)]
+    # chapters = {
+    #     'chapter':chapters,
+    #     'id':book
+    # }
 
     return chapters
 
@@ -246,3 +250,31 @@ def save_passes_test(user, book, chapter):
 
     except progress.DoesNotExist:
         return True
+    
+
+
+
+@register.simple_tag
+def check_task_done(test, user, chapter):
+    print(test, user, chapter)
+    try:
+        is_done = AssignmentTaskProgress.objects.get(user=user, task=test, chapters=chapter)
+        return True
+    except:
+        return False
+    
+@register.simple_tag
+def check_user_task_done(test, user):
+    print(test, user)
+    if test != '0':
+        try:
+            is_done = AssignmentTaskProgress.objects.get(user=user, task=test)
+            done = is_done.chapters.count()
+            totals = GroupAssignment.objects.get(id=test)
+            totals = totals.chapters.count()
+            percentage = (done / totals)*100
+            return round(percentage)
+        except:
+            return 0
+        
+    return ''

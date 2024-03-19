@@ -1,5 +1,5 @@
 {% extends 'Users/base.html' %}
-
+{% load custom_filters %}
 {% block content %}
 
 
@@ -13,9 +13,12 @@
     <h5>Group Pastor - {{ group.group_leader }}</p>
 
     <br>
-    <button type="button" class="btn btn-primary">
-        Members <span class="badge text-bg-secondary">{{ group.members.count }}</span>
-      </button>
+    <a type="button" class="btn btn-primary" href="{% url 'assignments' group.group_id %}">
+        View Assignment <span class="badge text-bg-secondary"></span>
+    </a>
+      {% if user.role == 'Pastor' %}
+      <a class="btn btn-primary" href="{% url 'create-assignment' %}">Create Weekly Assignment</a>
+      {% endif %}
 
     </div>
 
@@ -31,8 +34,14 @@
                 </div>
                 <br>
 
-            <a class="no-style" style="color: rgb(255, 255, 255);">{{ member }}</a>
+                <a class="no-style" style="color: rgb(255, 255, 255);">{% if member.personalprofile.f_name %} {{ member.personalprofile.f_name }} {{ member.personalprofile.l_name }}
+                    {% else %} {{ member }} {% endif %}
+                    </a><br>
+                    {% check_user_task_done test.id member as vals %}
+    
+               <small>{{ vals }}</small>
             </div>
+           
             
 
         </div>
@@ -43,7 +52,13 @@
                         <img src="{{ member.personalprofile.profile_pic.url }}">        
                     </div>
                     <br>
-                <a class="no-style" style="color: rgb(255, 255, 255);">{{ member }}</a>
+                    
+                <a class="no-style" style="color: rgb(255, 255, 255);">{% if member.personalprofile.f_name %} {{ member.personalprofile.f_name }} {{ member.personalprofile.l_name }}
+                {% else %} {{ member }} {% endif %}
+                </a><br>
+                {% check_user_task_done test.id member as vals %}
+
+           <small style="color: white;">{{ vals }}</small>
                 </div>
                 
 
