@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 
 # from BibleStudy.tests import create_books_db
 from .tester import get_verses
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db import models, connection
 # from .tester import add_verse
 from operator import attrgetter
@@ -96,8 +96,11 @@ class AddExpiry(TemplateView):
 
 
             return redirect('group-id', group.group_id)
-class CreateGroupAssignment(LoginRequiredMixin, TemplateView):
+class CreateGroupAssignment(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     template_name = 'BibleStudy/create_assignment.html'
+
+    def test_func(self):
+        return self.request.user.role == 'Pastor'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
@@ -115,24 +118,25 @@ class CreateGroupAssignment(LoginRequiredMixin, TemplateView):
     
     def post(self, *args, **kwargs):
         if self.request.method == 'POST':
-            chapter = self.request.POST.get('chapter')
-            
-            
-            existing_students = self.request.session.get('chapter', ())
-            if not existing_students:
-                existing_students = ()
-    
-            new_students = existing_students.append(chapter)
-            existing_students = set(existing_students)
-            
-            # Append new values to the existing list
-            
-            # Update the session key with the combined list
-            self.request.session['chapter'] = list(existing_students)
-            self.request.session.modified = True
-            print(self.request.session.get('chapter', None), chapter)
 
-            # del self.request.session['chapter']
+            if 'reset' in self.request.POST:
+                del self.request.session['chapter']
+            else:
+                chapter = self.request.POST.get('chapter')
+                existing_students = self.request.session.get('chapter', [])
+               
+        
+                new_students = existing_students.append(chapter)
+                existing_students = set(existing_students)
+                
+                # Append new values to the existing list
+                
+                # Update the session key with the combined list
+                self.request.session['chapter'] = list(existing_students)
+                self.request.session.modified = True
+                print(self.request.session.get('chapter', None), chapter)
+
+            
             return redirect(self.request.get_full_path())
     
 
@@ -170,6 +174,10 @@ class DoAssignments(TemplateView):
                 chapter = Chapters.objects.get(id=chapter_id)
                 progress, task = AssignmentTaskProgress.objects.get_or_create(user=user,task=test)
                 progress.chapters.add(chapter)
+                
+                profile = progress.user.personalprofile.points + 20
+                profile.save()
+
 
 
                 return redirect(self.request.get_full_path())

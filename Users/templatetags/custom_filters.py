@@ -189,6 +189,15 @@ def get_book_verse(book, chapter):
         return None
     
 @register.filter
+def get_chapter(chapter):
+    try:
+        chapter = Chapters.objects.get(id=chapter)
+        return chapter
+    except :
+        return None
+
+
+@register.filter
 def get_verses(book,chapter):
     verses = BibleVersesKJV.objects.filter(book=book, chapter=chapter)
 

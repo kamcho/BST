@@ -6,11 +6,21 @@
 <div class="content-container" style="background: #132743 !important;">
     <div class="container" style="background: #132743 !important;margin: 30px auto;">
 
-        <a class="btn btn-warning" href="{% url 'add-expiry' %}">Finish</a>
+        
+        {% if request.session.chapter %}
+        <a class="btn btn-primary" href="{% url 'add-expiry' %}">Finish</a> 
+        <form method="post" style="position: absolute; right: 110px; top: 30px;">
+            {% csrf_token %}
+            <button class="btn btn-danger" name="reset">Reset</button>
+        </form>
+        {% endif %}
         <br><br>
 
-        <div style="background-color: white;color: black;">
-            {{ request.session.chapter }}
+        <div style="background-color: white;color: black;display: grid;grid-template-columns: repeat(3, .6fr);">
+            {% for chapter in request.session.chapter  %}
+
+                <h6 style="padding: 5px;">{{ chapter|get_chapter }}</h6>
+            {% endfor %}
         </div>
 
 
@@ -33,7 +43,7 @@
                                             <button  class="btn" name="chapter" value="{{ chapter.id }}">
                                                 <div class="chapter-button">
                                                     <div class="chapter-text" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-                                                        {{ chapter.id }}
+                                                        {{ chapter.order }}
                                                     </div>
                                                     
                                                 </div>
