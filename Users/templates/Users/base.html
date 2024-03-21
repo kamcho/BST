@@ -52,6 +52,12 @@
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" style="color:black;">
+              <li>
+                <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headset" > </i>About-Us</a>
+            </li>
+            <li>
+              <a class="nav-link" href="{% url 'student-home' %}" ><i class="bi bi-house" > </i>Home</a>
+          </li>
 
 
               {% if user.is_authenticated %}
@@ -87,9 +93,7 @@
        
 
 
-          <li>
-              <a class="nav-link" href="{% url 'student-home' %}" ><i class="bi bi-house" > </i>Home</a>
-          </li>
+          
 
           <!-- <li>
             <a class="nav-link" href="{% url 'biblia' %}" ><i class="bi bi-book" > </i>Bible</a>
@@ -151,9 +155,7 @@
       </li>
       
       
-      <li>
-        <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headset" > </i>Contact-Us</a>
-    </li>
+     
     <li>
       <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
     </li>
@@ -173,9 +175,7 @@
         <li>
           <a class="nav-link" href="{% url 'bookmarks' 'all' %}" ><i class="bi bi-bookmark-plus" > </i>Topics</a>
         </li>
-        <li>
-          <a class="nav-link" href="{% url 'contact-us' %}" ><i class="bi bi-headset" > </i>Contact-Us</a>
-      </li>
+       
        
        
         <li class="nav-item">

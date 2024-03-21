@@ -1,9 +1,10 @@
 {% extends 'Users/base.html' %}
 {% load custom_filters %}
 {% block content %}
+{% if not error %}
 
-
-<div class="group-container">
+<div class="content-container">
+    
     <div class="todays-word">
         <h4 style="color: coral;">{{ group }}</h5>
         <a class="btn btn-secondary add-member" href="{% url 'add-member' group.group_id %}">Add</a>
@@ -67,9 +68,10 @@
         {% endfor %}
         
     </div>
+   
     
 
 </div>
-
+{% endif %}
 
 {% endblock %}

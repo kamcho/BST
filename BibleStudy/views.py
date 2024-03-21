@@ -140,16 +140,21 @@ class CreateGroupAssignment(LoginRequiredMixin, UserPassesTestMixin, TemplateVie
             return redirect(self.request.get_full_path())
     
 
-class GroupAssignments(TemplateView):
+class GroupAssignments(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/assignments.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
-        tests = GroupAssignment.objects.filter(group__group_id=self.kwargs['group_id'])
-        context['tests'] = tests
-        if not tests:
-            messages.info(self.request, 'You do not have any weekly assignments.')
+        try:
+            user = self.request.user
+            tests = GroupAssignment.objects.filter(group__group_id=self.kwargs['group_id'])
+            context['tests'] = tests
+            if not tests:
+                messages.info(self.request, 'You do not have any weekly assignments.')
+
+        except:
+            messages.error(self.request, 'An error occured, kindly try again later as we fix it')
+            context['error'] = True
 
 
 
@@ -266,13 +271,17 @@ class GroupDetails(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        group_id = self.kwargs['group_id']
-        group = StudyGroups.objects.get(group_id=group_id)
-        context['group'] = group
-        test = GroupAssignment.objects.all().last()
-        if not test:
-            test = 0
-        context['test'] = test
+        try:
+            group_id = self.kwargs['group_id']
+            group = StudyGroups.objects.get(group_id=group_id)
+            context['group'] = group
+            test = GroupAssignment.objects.all().last()
+            if not test:
+                test = 0
+            context['test'] = test
+        except:
+            context['error'] = True
+            messages.error(self.request, 'An error occurred, kindly try again later as we fix the issue.')
         return context
 
 class SetBiblePreference(TemplateView):

@@ -3,6 +3,7 @@
 {% block content %}
 
 <div class="content-container" style="background-color: rgb(25,22 ,32)!important;">
+  {% if not error %}
     <div class="container">
         <br><br>
         {% if tests %}
@@ -22,9 +23,9 @@
                 
             {% for test in tests %}
               <tr>
-                  <td><a href="{% url 'do-assignment' '01b29f4b342acc35-01' test.id %} "><h6>{{ forloop.counter }}</h6></a></td>
-                  <td><h6>{{test.created_on }}</h6></td>
-                  <td><h6>{{test.expiry }}</h6></td>
+                  <td><a href="{% url 'do-assignment' '01b29f4b342acc35-01' test.id %} " style="color: coral;"><h6>{{ forloop.counter }}</h6></a></td>
+                  <td><a href="{% url 'do-assignment' '01b29f4b342acc35-01' test.id %} " style="color: coral;"><h6>{{test.created_on }}</h6></a></td>
+                  <td><a href="{% url 'do-assignment' '01b29f4b342acc35-01' test.id %} " style="color: coral;"><h6>{{test.expiry }}</h6></a></td>
                   
                   
               </tr>
@@ -44,7 +45,7 @@
 
 
     </div>
-
+{% endif %}
 
 </div>
 

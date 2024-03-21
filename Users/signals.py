@@ -1,5 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.mail import send_mail
+from Communication.models import Inbox
 from .models import MyUser, PersonalProfile, UserTheme
 from BibleStudy.models import UserPreference
 from django.dispatch import receiver
@@ -40,3 +42,10 @@ def create_profile(sender, instance, created, **kwargs):
         
 
         
+@receiver(post_save, sender=Inbox)
+def send_email_notification(sender, instance, created, **kwargs):
+    if created:
+        subject = 'New Entry in Inbox'
+        message = f'A new entry from {instance.email} at {instance.phone} has been added to the Inbox model.'
+        recipient_email = ['njokevin999@gmail.com', 'njokevin9@gmail.com']  # Change this to your email address
+        send_mail(subject, message, 'njokevin9@gmail.com', recipient_email)
