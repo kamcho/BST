@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-l*zryyz0g5m1*aqf2y4ggt+m-1cr)1bvwd+kqy+-nk@wsg*pw&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['www.knowedge.online']
 
 
 # Application definition
