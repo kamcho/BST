@@ -43,7 +43,7 @@ class StaticViewSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return ['redirect', 'update-profile', 'register', 'login', 'edit-profile' ]  # Add the names of your static views
+        return ['register', 'student-home', 'login', 'word-detail', 'read', 'bookmarks', 'leadersboard', 'biblia','read-biblia','contact-us' ]  # Add the names of your static views
 
     def location(self, item):
         return reverse(item)
