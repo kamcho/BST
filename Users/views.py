@@ -134,7 +134,8 @@ class MyProfile(LoginRequiredMixin, TemplateView):
         except StudyGroups.DoesNotExist:
             messages.error(self.request, 'You are currently not in any group. Please wait as we find one for you !')
         except UserTheme.DoesNotExist:
-            messages.info(self.request, 'Set your theme verse.')
+            # messages.info(self.request, 'Set your theme verse.')
+            pass
         read_percentage = progress.objects.filter(user=user)
         chapters_count = read_percentage.aggregate(total=Count('chapter'))['total']
         
