@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-l*zryyz0g5m1*aqf2y4ggt+m-1cr)1bvwd+kqy+-nk@wsg*pw&
 DEBUG = True
 
 ALLOWED_HOSTS = ['www.knowedge.online']
+SITE_URL = 'https://www.knowedge.online'
 
 
 # Application definition
