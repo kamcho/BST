@@ -48,9 +48,7 @@ class StaticViewSitemap(Sitemap):
     def location(self, item):
         return reverse(item)
     
-    def get_urls(self, page=1, site=None, protocol=None):
-        protocol = 'https'  # Force protocol to 'https'
-        return super().get_urls(page, site, protocol)
+
     
 @method_decorator(cache_page(60 * 500), name='dispatch')
 class RegisterView(TemplateView):
