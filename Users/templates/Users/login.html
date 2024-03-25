@@ -1,4 +1,9 @@
 {% extends 'Users/base.html' %}
+<head>
+  <title>Sign In</title>
+  <meta name="description" content="knowedge online">
+  <meta charset="utf-8">
+</head>
 {% load crispy_forms_tags %}
 {% load socialaccount %}
 {% load static %}
@@ -11,7 +16,7 @@
         
         <div class="title_container">
           <p class="title">Login to your Account</p>
-          <span class="subtitle">Get started with our app, just login or  create an account and enjoy the experience.</span>
+          <span class="subtitle"><h6>sign in to bible study kenya</h6></span>
         </div>
         <a title="Sign In"  class="sign-in_ggl no-style" href="{% provider_login_url 'google' %}">Sign with Google <i class="bi bi-google"></i></a>
         <br>
