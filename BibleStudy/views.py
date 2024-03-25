@@ -41,7 +41,7 @@ def get_bible_names():
         return None
 
 
-class CreateStudyGroups(TemplateView):
+class CreateStudyGroups(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/create_group.html'
 
     def post(self, *args, **kwargs):
@@ -59,7 +59,7 @@ class CreateStudyGroups(TemplateView):
 
 
 
-class BibleStudyGroups(TemplateView):
+class BibleStudyGroups(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/study_groups.html'
 
     def get_context_data(self, **kwargs):
@@ -68,7 +68,7 @@ class BibleStudyGroups(TemplateView):
 
         return context
 
-class AddExpiry(TemplateView):
+class AddExpiry(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/finish_up.html'
 
     def get_context_data(self, **kwargs):
@@ -160,7 +160,7 @@ class GroupAssignments(LoginRequiredMixin, TemplateView):
 
         return context
     
-class DoAssignments(TemplateView):
+class DoAssignments(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/do_assignment.html'
 
     def get_context_data(self, **kwargs):
@@ -228,7 +228,7 @@ class DoAssignments(TemplateView):
 
                 return render(self.request, self.template_name, context)
 
-class AddToGroup(TemplateView):
+class AddToGroup(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/add_to_studygroup.html'
 
     def get_context_data(self, **kwargs):
@@ -266,7 +266,7 @@ class AddToGroup(TemplateView):
 
 
 
-class GroupDetails(TemplateView):
+class GroupDetails(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/group_id.html'
 
     def get_context_data(self, **kwargs):
@@ -284,7 +284,7 @@ class GroupDetails(TemplateView):
             messages.error(self.request, 'An error occurred, kindly try again later as we fix the issue.')
         return context
 
-class SetBiblePreference(TemplateView):
+class SetBiblePreference(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/set_bible_preference.html'
 
     def get_context_data(self, **kwargs):
@@ -539,7 +539,7 @@ def create_books_db():
     except requests.exceptions.RequestException as e:
         
         return str(e)
-# @method_decorator(cache_page(60 * 500), name='dispatch')
+@method_decorator(cache_page(60 * 500), name='dispatch')
 class BookSelect(TemplateView):
     template_name = 'BibleStudy/biblia.html'
   
@@ -665,7 +665,7 @@ class Read(TemplateView):
 
 
 
-class SaveProgress(TemplateView):
+class SaveProgress(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/save_progress.html'
 
     def get_context_data(self, **kwargs):
@@ -807,7 +807,7 @@ class StudyProgress(LoginRequiredMixin,TemplateView):
 
 
 
-class UsersAchievements(TemplateView):
+class UsersAchievements(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/my_achievements.html'
 
     def get_context_data(self, **kwargs):
@@ -925,7 +925,7 @@ class MyBookMarks(LoginRequiredMixin, TemplateView):
 
 
 
-class GroupRequests(TemplateView):
+class GroupRequests(LoginRequiredMixin, TemplateView):
     template_name = 'BibleStudy/requests_view.html'
 
     def get_context_data(self, **kwargs):

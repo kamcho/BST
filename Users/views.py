@@ -40,7 +40,7 @@ from django.contrib.auth.hashers import make_password
     
 class StaticViewSitemap(Sitemap):
     changefreq = 'daily'
-    priority = 0.5
+    priority = 0.9
 
     def items(self):
         return ['register', 'student-home', 'login', 'leadersboard','contact-us' ]  # Add the names of your static views
@@ -50,7 +50,7 @@ class StaticViewSitemap(Sitemap):
     
 
     
-@method_decorator(cache_page(60 * 500), name='dispatch')
+# @method_decorator(cache_page(60 * 500), name='dispatch')
 class RegisterView(TemplateView):
     template_name = "Users/register.html"
 

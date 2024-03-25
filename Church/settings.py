@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-l*zryyz0g5m1*aqf2y4ggt+m-1cr)1bvwd+kqy+-nk@wsg*pw&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.knowedge.online']
-SITE_URL = 'https://www.knowedge.online'
+ALLOWED_HOSTS = ['www.knowedge.online', '127.0.0.1']
+# SITE_URL = 'https://www.knowedge.online'
 
 
 # Application definition
@@ -116,10 +116,10 @@ WSGI_APPLICATION = 'Church.wsgi.application'
 
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'railway',    # Replace with your actual database name
@@ -128,14 +128,14 @@ DATABASES = {
     #     'HOST': 'monorail.proxy.rlwy.net',
     #     'PORT': '11876',
     # },
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kevinnjoroge$biblia',
-        'USER': 'kevinnjoroge',
-        'PASSWORD': '141778215aA!',
-        'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
-        'PORT': ''
-        },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'kevinnjoroge$biblia',
+    #     'USER': 'kevinnjoroge',
+    #     'PASSWORD': '141778215aA!',
+    #     'HOST': 'kevinnjoroge.mysql.pythonanywhere-services.com',
+    #     'PORT': ''
+    #     },
 }
 
 # Password validation

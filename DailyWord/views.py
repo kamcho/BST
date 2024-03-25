@@ -5,10 +5,12 @@ from django.contrib import messages
 from Users.views import get_theme_verse
 from .models import DailyMessage
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Create your views here.
 
 
-class CreateWord(TemplateView):
+class CreateWord(LoginRequiredMixin,TemplateView):
     template_name = 'DailyWord/create_word.html'
 
     def get_context_data(self, **kwargs):
@@ -57,9 +59,12 @@ class WordDetail(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        word = self.kwargs['word_id']
-        word = DailyMessage.objects.get(id=word)
-        context['word'] = word
+        try:
+            word = self.kwargs['word_id']
+            word = DailyMessage.objects.get(id=word)
+            context['word'] = word
+        except Exception as e:
+            messages.error(self.request, str(e))
         return context
     
     def post(self, *args, **kwargs):
