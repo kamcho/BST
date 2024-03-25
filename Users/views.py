@@ -262,19 +262,12 @@ class LoginRedirect(LoginRequiredMixin, TemplateView):
             elif f_name !=  '' and not bible:
                 return redirect('set-bible-preference')
             else:
-                if role == 'Member':
-                    return redirect('student-home')
-                elif role == 'Guardian':
-                    return redirect('guardian-home')
-                elif role == 'Teacher':
-                    return redirect('teachers-home')
-                elif role in ['Supervisor', 'Finance']:
-                    return redirect('supervisor-home')
                 
-                else:
-
-     
-                    return redirect('logout')
+                return redirect('student-home')
+                
+        
+                
+               
 
 
 def finish_profile_setup(user, f_name, l_name, surname, phone, gender, dob):
